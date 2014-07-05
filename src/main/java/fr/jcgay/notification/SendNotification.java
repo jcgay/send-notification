@@ -1,13 +1,18 @@
 package fr.jcgay.notification;
 
+import fr.jcgay.notification.configuration.ConfigurationReader;
+
 public class SendNotification {
 
+    private ConfigurationReader configuration;
     private Application application;
-    private String choosenNotifier;
-    private String configurationPath;
+    private String chosenNotifier;
 
-    SendNotification() {
+    SendNotification(ConfigurationReader configuration) {
+        this.configuration = configuration;
+    }
 
+    public SendNotification() {
         this(ConfigurationReader.atPath(System.getProperty("user.home") + "/.send-notification"));
     }
 
@@ -20,13 +25,13 @@ public class SendNotification {
         return this;
     }
 
-    SendNotification setChoosenNotifier(String choosenNotifier) {
-        this.choosenNotifier = choosenNotifier;
+    SendNotification setChosenNotifier(String chosenNotifier) {
+        this.chosenNotifier = chosenNotifier;
         return this;
     }
 
     SendNotification setConfigurationPath(String configurationPath) {
-        this.configurationPath = configurationPath;
+        this.configuration = ConfigurationReader.atPath(configurationPath);
         return this;
     }
 }
