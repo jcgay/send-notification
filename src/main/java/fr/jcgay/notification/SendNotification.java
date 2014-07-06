@@ -1,8 +1,13 @@
 package fr.jcgay.notification;
 
 import fr.jcgay.notification.configuration.ConfigurationReader;
+import fr.jcgay.notification.notifier.executor.RuntimeExecutor;
 import fr.jcgay.notification.notifier.growl.GrowlConfiguration;
 import fr.jcgay.notification.notifier.growl.GrowlNotifier;
+import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifier;
+import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifierConfiguration;
+
+import java.util.Properties;
 
 public class SendNotification {
 
@@ -19,8 +24,12 @@ public class SendNotification {
     }
 
     public Notifier chooseNotifier() {
+        Properties properties = configuration.get();
+
         if ("growl".equalsIgnoreCase(chosenNotifier)) {
-            return new GrowlNotifier(application, GrowlConfiguration.create(configuration.get()));
+            return new GrowlNotifier(application, GrowlConfiguration.create(properties));
+        } else if ("notificationcenter".equals(chosenNotifier)) {
+            return new TerminalNotifier(application, TerminalNotifierConfiguration.create(properties), new RuntimeExecutor());
         }
         return null;
     }
