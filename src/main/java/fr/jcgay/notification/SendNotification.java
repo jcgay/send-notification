@@ -1,6 +1,8 @@
 package fr.jcgay.notification;
 
 import fr.jcgay.notification.configuration.ConfigurationReader;
+import fr.jcgay.notification.notifier.growl.GrowlConfiguration;
+import fr.jcgay.notification.notifier.growl.GrowlNotifier;
 
 public class SendNotification {
 
@@ -17,20 +19,23 @@ public class SendNotification {
     }
 
     public Notifier chooseNotifier() {
+        if ("growl".equalsIgnoreCase(chosenNotifier)) {
+            return new GrowlNotifier(application, GrowlConfiguration.create(configuration.get()));
+        }
         return null;
     }
 
-    SendNotification setApplication(Application application) {
+    public SendNotification setApplication(Application application) {
         this.application = application;
         return this;
     }
 
-    SendNotification setChosenNotifier(String chosenNotifier) {
+    public SendNotification setChosenNotifier(String chosenNotifier) {
         this.chosenNotifier = chosenNotifier;
         return this;
     }
 
-    SendNotification setConfigurationPath(String configurationPath) {
+    public SendNotification setConfigurationPath(String configurationPath) {
         this.configuration = ConfigurationReader.atPath(configurationPath);
         return this;
     }
