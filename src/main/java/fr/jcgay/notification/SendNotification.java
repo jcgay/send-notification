@@ -6,6 +6,8 @@ import fr.jcgay.notification.notifier.growl.GrowlConfiguration;
 import fr.jcgay.notification.notifier.growl.GrowlNotifier;
 import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifier;
 import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifierConfiguration;
+import fr.jcgay.notification.notifier.notifysend.NotifySendConfiguration;
+import fr.jcgay.notification.notifier.notifysend.NotifySendNotifier;
 
 import java.util.Properties;
 
@@ -30,6 +32,8 @@ public class SendNotification {
             return new GrowlNotifier(application, GrowlConfiguration.create(properties));
         } else if ("notificationcenter".equals(chosenNotifier)) {
             return new TerminalNotifier(application, TerminalNotifierConfiguration.create(properties), new RuntimeExecutor());
+        } else if ("notifysend".equals(chosenNotifier)) {
+            return new NotifySendNotifier(application, NotifySendConfiguration.create(properties), new RuntimeExecutor());
         }
         return null;
     }
