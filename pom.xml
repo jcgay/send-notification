@@ -62,6 +62,11 @@
             <version>1.1.1</version>
         </dependency>
         <dependency>
+            <groupId>fr.jcgay.snp4j</groupId>
+            <artifactId>snp4j</artifactId>
+            <version>0.2</version>
+        </dependency>
+        <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
             <version>2.3.3</version>

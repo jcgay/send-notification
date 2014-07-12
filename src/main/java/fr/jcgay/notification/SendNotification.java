@@ -10,6 +10,8 @@ import fr.jcgay.notification.notifier.notifysend.NotifySendConfiguration;
 import fr.jcgay.notification.notifier.notifysend.NotifySendNotifier;
 import fr.jcgay.notification.notifier.pushbullet.PushbulletConfiguration;
 import fr.jcgay.notification.notifier.pushbullet.PushbulletNotifier;
+import fr.jcgay.notification.notifier.snarl.SnarlConfiguration;
+import fr.jcgay.notification.notifier.snarl.SnarlNotifier;
 
 import java.util.Properties;
 
@@ -38,6 +40,8 @@ public class SendNotification {
             return new NotifySendNotifier(application, NotifySendConfiguration.create(properties), new RuntimeExecutor());
         } else if ("pushbullet".equals(chosenNotifier)) {
             return new PushbulletNotifier(application, PushbulletConfiguration.create(properties));
+        } else if ("snarl".equals(chosenNotifier)) {
+            return new SnarlNotifier(application, SnarlConfiguration.create(properties));
         }
         return null;
     }
