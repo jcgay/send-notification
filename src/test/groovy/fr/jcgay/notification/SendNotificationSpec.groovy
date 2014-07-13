@@ -1,6 +1,7 @@
 package fr.jcgay.notification
 
 import fr.jcgay.notification.configuration.ConfigurationReader
+import fr.jcgay.notification.notifier.DoNothingNotifier
 import fr.jcgay.notification.notifier.growl.GrowlNotifier
 import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifier
 import fr.jcgay.notification.notifier.notifysend.NotifySendNotifier
@@ -37,6 +38,7 @@ class SendNotificationSpec extends Specification {
         'pushbullet'         | PushbulletNotifier
         'snarl'              | SnarlNotifier
         'systemtray'         | SystemTrayNotifier
+        'unknown'            | DoNothingNotifier
     }
 
     def "should return notifier when setting override notifier"() {
@@ -58,5 +60,6 @@ class SendNotificationSpec extends Specification {
         'pushbullet'         | PushbulletNotifier
         'snarl'              | SnarlNotifier
         'systemtray'         | SystemTrayNotifier
+        'unknown'            | DoNothingNotifier
     }
 }

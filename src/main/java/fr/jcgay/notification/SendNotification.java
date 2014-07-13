@@ -1,6 +1,7 @@
 package fr.jcgay.notification;
 
 import fr.jcgay.notification.configuration.ConfigurationReader;
+import fr.jcgay.notification.notifier.DoNothingNotifier;
 import fr.jcgay.notification.notifier.executor.RuntimeExecutor;
 import fr.jcgay.notification.notifier.growl.GrowlConfiguration;
 import fr.jcgay.notification.notifier.growl.GrowlNotifier;
@@ -50,7 +51,8 @@ public class SendNotification {
         } else if ("systemtray".equals(chosenNotifier)) {
             return new SystemTrayNotifier(application);
         }
-        return null;
+
+        return DoNothingNotifier.doNothing();
     }
 
     public SendNotification setApplication(Application application) {
