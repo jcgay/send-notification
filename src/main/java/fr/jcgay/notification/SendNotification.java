@@ -33,6 +33,10 @@ public class SendNotification {
     public Notifier chooseNotifier() {
         Properties properties = configuration.get();
 
+        if (chosenNotifier == null) {
+            chosenNotifier = (String) properties.get("notifier.implementation");
+        }
+
         if ("growl".equalsIgnoreCase(chosenNotifier)) {
             return new GrowlNotifier(application, GrowlConfiguration.create(properties));
         } else if ("notificationcenter".equals(chosenNotifier)) {
