@@ -11,6 +11,7 @@ import com.squareup.okhttp.Response;
 import fr.jcgay.notification.Application;
 import fr.jcgay.notification.Notification;
 import fr.jcgay.notification.Notifier;
+import fr.jcgay.notification.SendNotificationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,14 +52,9 @@ public class PushbulletNotifier implements Notifier {
 
     @Override
     public void send(Notification notification) {
-        RequestBody body = buildRequestBody(notification);
-        if (body == null) {
-            return;
-        }
-
         Request request = new Request.Builder()
                 .url("https://api.pushbullet.com/v2/pushes")
-                .post(body)
+                .post(buildRequestBody(notification))
                 .build();
 
         try {
@@ -71,7 +67,9 @@ public class PushbulletNotifier implements Notifier {
                 );
             }
         } catch (IOException e) {
-            LOGGER.error("Error while sending pushbullet notification.", e);
+            String message = "Error while sending pushbullet notification.";
+            LOGGER.error(message, e);
+            throw new SendNotificationException(message, e);
         }
     }
 
@@ -89,8 +87,9 @@ public class PushbulletNotifier implements Notifier {
             data = new ByteArrayOutputStream();
             builder.build().writeBodyTo(data);
         } catch (IOException e) {
-            LOGGER.error("Can't build request body.", e);
-            return null;
+            String message = "Can't build request body.";
+            LOGGER.error(message, e);
+            throw new SendNotificationException(message, e);
         }
 
         return RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), data.toByteArray());

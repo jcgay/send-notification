@@ -3,6 +3,7 @@ package fr.jcgay.notification.notifier.systemtray;
 import fr.jcgay.notification.Application;
 import fr.jcgay.notification.Notification;
 import fr.jcgay.notification.Notifier;
+import fr.jcgay.notification.SendNotificationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +36,7 @@ public class SystemTrayNotifier implements Notifier {
         try {
             SystemTray.getSystemTray().add(icon);
         } catch (AWTException e) {
-            throw new RuntimeException("Error initializing SystemTray Icon.", e);
+            throw new SendNotificationException("Error initializing SystemTray Icon.", e);
         }
     }
 
