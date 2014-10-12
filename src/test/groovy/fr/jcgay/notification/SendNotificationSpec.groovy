@@ -62,4 +62,17 @@ class SendNotificationSpec extends Specification {
         'systemtray'         | SystemTrayNotifier
         'unknown'            | DoNothingNotifier
     }
+
+    def "should override configuration when adding properties"() {
+
+        setup:
+        properties << ['notifier.implementation': 'growl', 'notifier.pushbullet.apikey': 'apikey']
+        sendNotification.addConfigurationProperties(['notifier.implementation': 'pushbullet'] as Properties)
+
+        when:
+        def result = sendNotification.chooseNotifier()
+
+        then:
+        PushbulletNotifier.isInstance(result)
+    }
 }

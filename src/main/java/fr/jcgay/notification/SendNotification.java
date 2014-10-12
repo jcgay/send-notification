@@ -22,6 +22,7 @@ public class SendNotification {
     private ConfigurationReader configuration;
     private Application application;
     private String chosenNotifier;
+    private Properties additionalConfiguration;
 
     SendNotification(ConfigurationReader configuration) {
         this.configuration = configuration;
@@ -33,6 +34,9 @@ public class SendNotification {
 
     public Notifier chooseNotifier() {
         Properties properties = configuration.get();
+        if (additionalConfiguration != null) {
+            properties.putAll(additionalConfiguration);
+        }
 
         if (chosenNotifier == null) {
             chosenNotifier = (String) properties.get("notifier.implementation");
@@ -67,6 +71,11 @@ public class SendNotification {
 
     public SendNotification setConfigurationPath(String configurationPath) {
         this.configuration = ConfigurationReader.atPath(configurationPath);
+        return this;
+    }
+
+    public SendNotification addConfigurationProperties(Properties additionalConfiguration) {
+        this.additionalConfiguration = additionalConfiguration;
         return this;
     }
 }
