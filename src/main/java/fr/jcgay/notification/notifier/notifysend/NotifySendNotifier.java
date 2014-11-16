@@ -50,7 +50,11 @@ public class NotifySendNotifier implements Notifier {
             LOGGER.debug("Will execute command line: " + Joiner.on(" ").join(commands));
         }
 
-        executor.exec(commands.toArray(new String[commands.size()]));
+        try {
+            executor.exec(commands.toArray(new String[commands.size()]));
+        } catch (RuntimeException e) {
+            throw new NotifySendNotificationException("Error while sending notification to notify-send.", e.getCause());
+        }
     }
 
     @Override

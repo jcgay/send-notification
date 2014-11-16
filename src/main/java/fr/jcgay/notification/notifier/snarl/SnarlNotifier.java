@@ -3,7 +3,6 @@ package fr.jcgay.notification.notifier.snarl;
 import fr.jcgay.notification.Application;
 import fr.jcgay.notification.Notification;
 import fr.jcgay.notification.Notifier;
-import fr.jcgay.notification.SendNotificationException;
 import fr.jcgay.snp4j.Icon;
 import fr.jcgay.snp4j.Server;
 import fr.jcgay.snp4j.SnpException;
@@ -37,7 +36,7 @@ public class SnarlNotifier implements Notifier {
         try {
             snarl = SnpNotifier.of(buildSnarlApp(), server);
         } catch (SnpException e) {
-            throw new SendNotificationException("Cannot register application with Snarl.", e);
+            throw new SnarlNotificationException("Cannot register application with Snarl.", e);
         }
     }
 
@@ -60,7 +59,7 @@ public class SnarlNotifier implements Notifier {
         try {
             snarl.send(snarNotification);
         } catch (SnpException e) {
-            throw new SendNotificationException("Cannot send notification to Snarl.", e);
+            throw new SnarlNotificationException("Cannot send notification to Snarl.", e);
         }
     }
 

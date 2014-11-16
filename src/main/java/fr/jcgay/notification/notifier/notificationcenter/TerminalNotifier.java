@@ -61,7 +61,11 @@ public class TerminalNotifier implements Notifier {
             LOGGER.debug("Will execute command line: " + Joiner.on(" ").skipNulls().join(commands));
         }
 
-        executor.exec(commands.toArray(new String[commands.size()]));
+        try {
+            executor.exec(commands.toArray(new String[commands.size()]));
+        } catch (RuntimeException e) {
+            throw new TerminalNotifierNotificationException("Error while sending notification to terminal-notifier", e.getCause());
+        }
     }
 
     @Override

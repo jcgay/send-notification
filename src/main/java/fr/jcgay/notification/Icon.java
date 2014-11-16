@@ -22,7 +22,7 @@ public abstract class Icon {
         try {
             return ImageIO.read(content());
         } catch (IOException e) {
-            throw new RuntimeException("Error while reading status icon.", e);
+            throw new SendNotificationException("Error while reading status icon.", e);
         }
     }
 
@@ -32,7 +32,7 @@ public abstract class Icon {
             is = content().openStream();
             return ByteStreams.toByteArray(is);
         } catch (IOException e) {
-            throw new RuntimeException("Error while reading status icon.", e);
+            throw new SendNotificationException("Error while reading status icon.", e);
         } finally {
             Closeables.closeQuietly(is);
         }
@@ -47,7 +47,7 @@ public abstract class Icon {
             try {
                 ImageIO.write(toRenderedImage(), extension, icon);
             } catch (IOException e) {
-                throw new RuntimeException("Can't write notification icon icon: " + icon.getPath(), e);
+                throw new SendNotificationException("Can't write notification icon icon: " + icon.getPath(), e);
             }
         }
         return icon.getPath();

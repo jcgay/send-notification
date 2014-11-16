@@ -11,7 +11,6 @@ import com.squareup.okhttp.Response;
 import fr.jcgay.notification.Application;
 import fr.jcgay.notification.Notification;
 import fr.jcgay.notification.Notifier;
-import fr.jcgay.notification.SendNotificationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,16 +59,18 @@ public class PushbulletNotifier implements Notifier {
         try {
             Response response = client.newCall(request).execute();
             if (response.code() != 200) {
-                LOGGER.error("Pushbullet notification has failed, [{}] - [{}]\n{}",
+                String message = String.format("Pushbullet notification has failed, [%s] - [%s]%n%s",
                         response.code(),
                         response.message(),
                         response.body().string()
                 );
+                LOGGER.error(message);
+                throw new PushbulletNotificationException(message);
             }
         } catch (IOException e) {
             String message = "Error while sending pushbullet notification.";
             LOGGER.error(message, e);
-            throw new SendNotificationException(message, e);
+            throw new PushbulletNotificationException(message, e);
         }
     }
 
@@ -89,7 +90,7 @@ public class PushbulletNotifier implements Notifier {
         } catch (IOException e) {
             String message = "Can't build request body.";
             LOGGER.error(message, e);
-            throw new SendNotificationException(message, e);
+            throw new PushbulletNotificationException(message, e);
         }
 
         return RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), data.toByteArray());
