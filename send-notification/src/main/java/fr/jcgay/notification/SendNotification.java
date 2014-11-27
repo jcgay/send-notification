@@ -14,10 +14,15 @@ import fr.jcgay.notification.notifier.pushbullet.PushbulletNotifier;
 import fr.jcgay.notification.notifier.snarl.SnarlConfiguration;
 import fr.jcgay.notification.notifier.snarl.SnarlNotifier;
 import fr.jcgay.notification.notifier.systemtray.SystemTrayNotifier;
+import org.slf4j.Logger;
 
 import java.util.Properties;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 public class SendNotification {
+
+    private static final Logger LOGGER = getLogger(SendNotification.class);
 
     private ConfigurationReader configuration;
     private Application application;
@@ -34,7 +39,9 @@ public class SendNotification {
 
     public Notifier chooseNotifier() {
         Properties properties = configuration.get();
+        LOGGER.debug("Configuration is: {}.", properties);
         if (additionalConfiguration != null) {
+            LOGGER.debug("Overriding previous configuration with: {}.", additionalConfiguration);
             properties.putAll(additionalConfiguration);
         }
 
@@ -42,6 +49,7 @@ public class SendNotification {
             chosenNotifier = (String) properties.get("notifier.implementation");
         }
 
+        LOGGER.debug("Notifications will be send to: {} for application: {}.", chosenNotifier, application);
         if ("growl".equalsIgnoreCase(chosenNotifier)) {
             return new GrowlNotifier(application, GrowlConfiguration.create(properties));
         } else if ("notificationcenter".equals(chosenNotifier)) {

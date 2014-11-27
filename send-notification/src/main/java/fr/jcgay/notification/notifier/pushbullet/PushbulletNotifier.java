@@ -28,6 +28,7 @@ public class PushbulletNotifier implements Notifier {
     private OkHttpClient client;
 
     public PushbulletNotifier(Application application, PushbulletConfiguration configuration) {
+        LOGGER.debug("Configuring Pushbullet for application {}: {}.", application, configuration);
         this.application = application;
         this.configuration = configuration;
     }

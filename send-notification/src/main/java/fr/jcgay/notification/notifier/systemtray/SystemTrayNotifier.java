@@ -20,6 +20,7 @@ public class SystemTrayNotifier implements Notifier {
     private TrayIcon icon;
 
     public SystemTrayNotifier(Application application) {
+        LOGGER.debug("Configuring System Tray for application {}.", application);
         this.application = application;
     }
 

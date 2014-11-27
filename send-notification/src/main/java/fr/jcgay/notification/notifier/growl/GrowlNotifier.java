@@ -8,10 +8,15 @@ import com.google.code.jgntp.GntpNotificationInfo;
 import fr.jcgay.notification.Application;
 import fr.jcgay.notification.Notification;
 import fr.jcgay.notification.Notifier;
+import org.slf4j.Logger;
 
 import java.util.concurrent.TimeUnit;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 public class GrowlNotifier implements Notifier {
+
+    private static final Logger LOGGER = getLogger(GrowlNotifier.class);
 
     private final Application application;
     private final GrowlConfiguration configuration;
@@ -21,6 +26,7 @@ public class GrowlNotifier implements Notifier {
     private GntpClient gClient;
 
     public GrowlNotifier(Application application, GrowlConfiguration configuration) {
+        LOGGER.debug("Configuring Growl for application {}: {}.", application, configuration);
         this.application = application;
         this.configuration = configuration;
     }

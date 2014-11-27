@@ -23,6 +23,7 @@ public class NotifySendNotifier implements Notifier {
     private final Executor executor;
 
     public NotifySendNotifier(Application application, NotifySendConfiguration configuration, Executor executor) {
+        LOGGER.debug("Configuring notify-send for application {}: {}.", application, configuration);
         this.application = application;
         this.configuration = configuration;
         this.executor = executor;

@@ -27,6 +27,7 @@ public class TerminalNotifier implements Notifier {
     private final Executor executor;
 
     public TerminalNotifier(Application application, TerminalNotifierConfiguration configuration, Executor executor) {
+        LOGGER.debug("Configuring terminal-notifier for application {}: {}.", application, configuration);
         this.application = application;
         this.configuration = configuration;
         this.executor = executor;

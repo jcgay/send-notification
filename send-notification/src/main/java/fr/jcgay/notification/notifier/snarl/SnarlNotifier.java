@@ -22,6 +22,7 @@ public class SnarlNotifier implements Notifier {
     private fr.jcgay.snp4j.Notifier snarl;
 
     public SnarlNotifier(Application application, SnarlConfiguration configuration) {
+        LOGGER.debug("Configuring Snarl for application {}: {}.", application, configuration);
         this.application = application;
         this.configuration = configuration;
     }
