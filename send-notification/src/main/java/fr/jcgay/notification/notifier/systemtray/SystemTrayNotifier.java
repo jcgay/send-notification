@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 public class SystemTrayNotifier implements Notifier {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SystemTrayNotifier.class);
@@ -51,7 +53,7 @@ public class SystemTrayNotifier implements Notifier {
     public void close() {
         if (!skipNotifications) {
             try {
-                Thread.sleep(application.timeout());
+                Thread.sleep(application.timeout() == -1 ? SECONDS.toMillis(2) : application.timeout());
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
