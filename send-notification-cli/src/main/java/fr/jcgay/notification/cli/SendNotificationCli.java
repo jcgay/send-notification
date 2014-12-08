@@ -9,7 +9,10 @@ import fr.jcgay.notification.Notifier;
 import fr.jcgay.notification.SendNotification;
 import fr.jcgay.notification.SendNotificationException;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.util.List;
 
@@ -33,11 +36,18 @@ public class SendNotificationCli {
     @Parameter(names = {"-h", "--help"}, help = true, description = "show help")
     private boolean help;
 
+    @Parameter(names = {"-v", "--version"}, help = true, description = "show version")
+    private boolean showVersion;
+
     public static void main(String[] args) {
         SendNotificationCli run = new SendNotificationCli();
         JCommander command = new JCommander(run, args);
         if (run.help) {
             command.usage();
+            System.exit(0);
+        }
+        if (run.showVersion) {
+            System.out.println("Send Notification CLI " + readVersion());
             System.exit(0);
         }
         run.fireNotifications();
@@ -91,5 +101,14 @@ public class SendNotificationCli {
 
     private static Icon icon() {
         return Icon.create(SendNotificationCli.class.getResource("/brochure5.png"), "send-notification-cli");
+    }
+
+    private static String readVersion() {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(SendNotificationCli.class.getResourceAsStream("/version.txt")));
+        try {
+            return reader.readLine();
+        } catch (IOException e) {
+            return "";
+        }
     }
 }
