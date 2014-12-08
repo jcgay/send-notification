@@ -30,9 +30,16 @@ public class SendNotificationCli {
     @Parameter(names = {"-s", "--subtitle"}, description = "notification subtitle")
     private String subtitle;
 
+    @Parameter(names = {"-h", "--help"}, help = true, description = "show help")
+    private boolean help;
+
     public static void main(String[] args) {
         SendNotificationCli run = new SendNotificationCli();
-        new JCommander(run, args);
+        JCommander command = new JCommander(run, args);
+        if (run.help) {
+            command.usage();
+            System.exit(0);
+        }
         run.fireNotifications();
     }
 
