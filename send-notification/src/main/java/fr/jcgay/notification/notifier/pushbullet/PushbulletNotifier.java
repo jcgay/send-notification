@@ -22,14 +22,12 @@ public class PushbulletNotifier implements Notifier {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PushbulletNotifier.class);
 
-    private final Application application;
     private final PushbulletConfiguration configuration;
 
     private OkHttpClient client;
 
     public PushbulletNotifier(Application application, PushbulletConfiguration configuration) {
         LOGGER.debug("Configuring Pushbullet for application {}: {}.", application, configuration);
-        this.application = application;
         this.configuration = configuration;
     }
 

@@ -21,7 +21,6 @@ public class GrowlNotifier implements Notifier {
     private final Application application;
     private final GrowlConfiguration configuration;
 
-    private GntpApplicationInfo gApplication;
     private GntpNotificationInfo gNotification;
     private GntpClient gClient;
 
@@ -33,7 +32,7 @@ public class GrowlNotifier implements Notifier {
 
     @Override
     public void init() {
-        gApplication = Gntp.appInfo(application.name()).build();
+        GntpApplicationInfo gApplication = Gntp.appInfo(application.name()).build();
         gNotification = Gntp.notificationInfo(gApplication, application.id())
                 .icon(application.icon().toRenderedImage())
                 .build();

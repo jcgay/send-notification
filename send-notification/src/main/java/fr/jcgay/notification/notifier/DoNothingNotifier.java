@@ -5,7 +5,7 @@ import fr.jcgay.notification.Notifier;
 
 public class DoNothingNotifier implements Notifier {
 
-    private static DoNothingNotifier INSTANCE = new DoNothingNotifier();
+    private static final DoNothingNotifier INSTANCE = new DoNothingNotifier();
 
     public static DoNothingNotifier doNothing() {
         return INSTANCE;
