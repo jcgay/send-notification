@@ -20,6 +20,25 @@ import java.util.Properties;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
+/**
+ * Fluent builder to create a {@link fr.jcgay.notification.Notifier}. <br />
+ *
+ * You'll need a configuration file (by default: {@code {user.home}/.send-notification}
+ * to select and configure a {@link fr.jcgay.notification.Notifier}. <br />
+ * This file must be property based (example):
+ * <pre>{@code
+ * notifier.implementation = pushbullet
+ * notifier.message.short = true
+ * notifier.pushbullet.apikey = 1234
+ * }</pre>
+ *
+ * Then to create a notifier you can use:
+ * <pre>{@code
+ * Notifier notifier = new SendNotification()
+ *  .setApplication(application)
+ *  .chooseNotifier();
+ * }</pre>
+ */
 public class SendNotification {
 
     private static final Logger LOGGER = getLogger(SendNotification.class);
@@ -37,6 +56,11 @@ public class SendNotification {
         this(ConfigurationReader.atPath(System.getProperty("user.home") + "/.send-notification"));
     }
 
+    /**
+     * Build a {@link fr.jcgay.notification.Notifier}.
+     *
+     * @return notifier based on provided configuration.
+     */
     public Notifier chooseNotifier() {
         Properties properties = configuration.get();
         LOGGER.debug("Configuration is: {}.", properties);
@@ -67,21 +91,51 @@ public class SendNotification {
         return DoNothingNotifier.doNothing();
     }
 
+    /**
+     * Define application.
+     *
+     * @param application {@link fr.jcgay.notification.Application} we want to send notification from.
+     *
+     * @return fluent builder.
+     */
     public SendNotification setApplication(Application application) {
         this.application = application;
         return this;
     }
 
+    /**
+     * Choose a {@link fr.jcgay.notification.Notifier} implementation when you don't want to
+     * rely on property file configuration.
+     *
+     * @param chosenNotifier a notifier name to instantiate.
+     *
+     * @return fluent builder.
+     */
     public SendNotification setChosenNotifier(String chosenNotifier) {
         this.chosenNotifier = chosenNotifier;
         return this;
     }
 
+    /**
+     * Change the path where the configuration will be read from. <br />
+     * Default one is: {@code {user.home}/.send-notification}
+     *
+     * @param configurationPath a file path for configuration file.
+     *
+     * @return fluent builder.
+     */
     public SendNotification setConfigurationPath(String configurationPath) {
         this.configuration = ConfigurationReader.atPath(configurationPath);
         return this;
     }
 
+    /**
+     * Add properties that will override existing ones (read from the configuration file).
+     *
+     * @param additionalConfiguration configuration (key/value) as {@link java.util.Properties}.
+     *
+     * @return fluent builder.
+     */
     public SendNotification addConfigurationProperties(Properties additionalConfiguration) {
         this.additionalConfiguration = additionalConfiguration;
         return this;

@@ -4,16 +4,40 @@ import com.google.auto.value.AutoValue;
 
 import javax.annotation.Nullable;
 
+/**
+ * A notification to send.
+ */
 @AutoValue
 public abstract class Notification {
 
+    /**
+     * Notification message.
+     *
+     * @return message.
+     */
     public abstract String message();
 
+    /**
+     * Notification title.
+     *
+     * @return title.
+     */
     public abstract String title();
 
+    /**
+     * Notification subtitle. <br />
+     * Not available for all notifier implementation.
+     *
+     * @return subtitle.
+     */
     @Nullable
     public abstract String subtitle();
 
+    /**
+     * Notification icon.
+     *
+     * @return icon.
+     */
     public abstract Icon icon();
 
     Notification() {

@@ -11,11 +11,25 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+/**
+ * An icon that can be displayed in notification, or in software that need application registration.
+ */
 @AutoValue
 public abstract class Icon {
 
+    /**
+     * A unique identifier. <br />
+     * You should ensure that this id will be unique because it can be used to temporary write file on disk.
+     *
+     * @return unique identifier.
+     */
     public abstract String id();
 
+    /**
+     * URL for this resource.
+     *
+     * @return URL to load icon.
+     */
     abstract URL content();
 
     public RenderedImage toRenderedImage() {
