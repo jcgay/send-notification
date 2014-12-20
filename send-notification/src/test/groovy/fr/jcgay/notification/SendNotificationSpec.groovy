@@ -1,6 +1,7 @@
 package fr.jcgay.notification
 
 import fr.jcgay.notification.configuration.ConfigurationReader
+import fr.jcgay.notification.configuration.OperatingSystem
 import fr.jcgay.notification.notifier.DoNothingNotifier
 import fr.jcgay.notification.notifier.growl.GrowlNotifier
 import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifier
@@ -16,7 +17,7 @@ class SendNotificationSpec extends Specification {
     Properties properties = new Properties()
 
     void setup() {
-        sendNotification = new SendNotification(new ConfigurationReader(properties))
+        sendNotification = new SendNotification(new ConfigurationReader(properties), new OperatingSystem())
     }
 
     def "should return notifier defined in user configuration"() {
@@ -61,6 +62,24 @@ class SendNotificationSpec extends Specification {
         'snarl'              | SnarlNotifier
         'systemtray'         | SystemTrayNotifier
         'unknown'            | DoNothingNotifier
+    }
+
+    def "should return default notifier when no configuration (file or manually set) is present"() {
+
+        setup:
+        sendNotification = new SendNotification(new ConfigurationReader(properties), new OperatingSystem(currentOs))
+
+        when:
+        def result = sendNotification.chooseNotifier()
+
+        then:
+        implementation.isInstance(result)
+
+        where:
+        currentOs    | implementation
+        'Mac OS X'   | GrowlNotifier
+        'Windows XP' | GrowlNotifier
+        'Linux'      | NotifySendNotifier
     }
 
     def "should override configuration when adding properties"() {

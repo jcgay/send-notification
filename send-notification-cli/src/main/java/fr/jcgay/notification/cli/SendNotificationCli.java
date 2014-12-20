@@ -59,12 +59,8 @@ public class SendNotificationCli {
                 sendNotificationUsing(buildNotifier(notifier));
             }
         } else {
-            sendNotificationUsing(buildNotifier(autoSelectNotifier()));
+            sendNotificationUsing(buildNotifier());
         }
-    }
-
-    private static String autoSelectNotifier() {
-        return null;
     }
 
     private void sendNotificationUsing(Notifier notify) {
@@ -78,6 +74,12 @@ public class SendNotificationCli {
         } finally {
             notify.close();
         }
+    }
+
+    private Notifier buildNotifier() {
+        return new SendNotification()
+                .setApplication(application())
+                .chooseNotifier();
     }
 
     private static Notifier buildNotifier(String notifier) {

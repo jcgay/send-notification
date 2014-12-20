@@ -3,6 +3,7 @@ package fr.jcgay.notification.notifier.growl;
 import com.google.code.jgntp.GntpErrorStatus;
 import com.google.code.jgntp.GntpListener;
 import com.google.code.jgntp.GntpNotification;
+import fr.jcgay.notification.configuration.OperatingSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +13,12 @@ class GntpSlf4jListener implements GntpListener {
 
     private static final String OSX_URL = "https://github.com/jcgay/send-notification/wiki/Growl-(OS-X)";
     private static final String WINDOWS_URL = "https://github.com/jcgay/send-notification/wiki/Growl-(Windows)";
+
+    private final OperatingSystem currentOs;
+
+    public GntpSlf4jListener() {
+        currentOs = new OperatingSystem();
+    }
 
     @Override
     public void onRegistrationSuccess() {
@@ -53,17 +60,16 @@ class GntpSlf4jListener implements GntpListener {
         LOGGER.error("Cannot communicate with Growl.", t);
     }
 
-    private static String error(String message) {
+    private String error(String message) {
         return String.format("%s%n%n For more information about the errors and possible solutions, please read the following article:%n%s",
                 message, wikiUrl());
     }
 
-    private static String wikiUrl() {
-        String os = System.getProperty("os.name").toLowerCase();
-        if (os.contains("win")) {
+    private String wikiUrl() {
+        if (currentOs.isWindows()) {
             return WINDOWS_URL;
         }
-        if (os.contains("mac")) {
+        if (currentOs.isMac()) {
             return OSX_URL;
         }
         return "https://github.com/jcgay/send-notification/wiki";

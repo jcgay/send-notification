@@ -1,6 +1,7 @@
 package fr.jcgay.notification;
 
 import fr.jcgay.notification.configuration.ConfigurationReader;
+import fr.jcgay.notification.configuration.OperatingSystem;
 import fr.jcgay.notification.notifier.DoNothingNotifier;
 import fr.jcgay.notification.notifier.executor.RuntimeExecutor;
 import fr.jcgay.notification.notifier.growl.GrowlConfiguration;
@@ -43,17 +44,20 @@ public class SendNotification {
 
     private static final Logger LOGGER = getLogger(SendNotification.class);
 
+    private final OperatingSystem currentOs;
+
     private ConfigurationReader configuration;
     private Application application;
     private String chosenNotifier;
     private Properties additionalConfiguration;
 
-    SendNotification(ConfigurationReader configuration) {
+    SendNotification(ConfigurationReader configuration, OperatingSystem currentOs) {
         this.configuration = configuration;
+        this.currentOs = currentOs;
     }
 
     public SendNotification() {
-        this(ConfigurationReader.atPath(System.getProperty("user.home") + "/.send-notification"));
+        this(ConfigurationReader.atPath(System.getProperty("user.home") + "/.send-notification"), new OperatingSystem());
     }
 
     /**
@@ -64,14 +68,10 @@ public class SendNotification {
     public Notifier chooseNotifier() {
         Properties properties = configuration.get();
         LOGGER.debug("Configuration is: {}.", properties);
-        if (additionalConfiguration != null) {
-            LOGGER.debug("Overriding previous configuration with: {}.", additionalConfiguration);
-            properties.putAll(additionalConfiguration);
-        }
 
-        if (chosenNotifier == null) {
-            chosenNotifier = (String) properties.get("notifier.implementation");
-        }
+        mergeConfigurations(properties);
+        maySetNotifierFromPropertyConfiguration(properties);
+        maySetDefaultNotifier();
 
         LOGGER.debug("Notifications will be send to: {} for application: {}.", chosenNotifier, application);
         if ("growl".equalsIgnoreCase(chosenNotifier)) {
@@ -139,5 +139,28 @@ public class SendNotification {
     public SendNotification addConfigurationProperties(Properties additionalConfiguration) {
         this.additionalConfiguration = additionalConfiguration;
         return this;
+    }
+
+    private void mergeConfigurations(Properties properties) {
+        if (additionalConfiguration != null) {
+            LOGGER.debug("Overriding previous configuration with: {}.", additionalConfiguration);
+            properties.putAll(additionalConfiguration);
+        }
+    }
+
+    private void maySetDefaultNotifier() {
+        if (chosenNotifier == null) {
+            if (currentOs.isWindows() || currentOs.isMac()) {
+                chosenNotifier = "growl";
+            } else {
+                chosenNotifier = "notifysend";
+            }
+        }
+    }
+
+    private void maySetNotifierFromPropertyConfiguration(Properties properties) {
+        if (chosenNotifier == null) {
+            chosenNotifier = (String) properties.get("notifier.implementation");
+        }
     }
 }
