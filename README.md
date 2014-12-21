@@ -35,7 +35,7 @@ Then send notification:
 
 ## CLI
 
-Download [bundle](), extract it, add the `bin` directory to your `$PATH`.
+Download [bundle](http://search.maven.org/remotecontent?filepath=fr/jcgay/send-notification/send-notification-cli/0.1/send-notification-cli-0.1-binaries.zip), extract it, add the `bin` directory to your `$PATH`.
 
     > send-notification -h
     
