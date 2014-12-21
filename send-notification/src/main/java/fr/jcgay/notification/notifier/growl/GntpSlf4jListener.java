@@ -57,7 +57,7 @@ class GntpSlf4jListener implements GntpListener {
 
     @Override
     public void onCommunicationError(Throwable t) {
-        LOGGER.error("Cannot communicate with Growl.", t);
+        LOGGER.error(error("Cannot communicate with Growl."), t);
     }
 
     private String error(String message) {
