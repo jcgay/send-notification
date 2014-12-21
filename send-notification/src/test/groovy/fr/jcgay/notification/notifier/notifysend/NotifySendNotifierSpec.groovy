@@ -37,7 +37,7 @@ class NotifySendNotifierSpec extends Specification {
         result.command == [
                 'notify-send', 'title', 'message',
                 '-t', "${application.timeout()}",
-                '-i', "${System.getProperty('java.io.tmpdir')}send-notifications-icons/ok.png"
+                '-i', new File("${System.getProperty('java.io.tmpdir')}/send-notifications-icons/ok.png").path
         ]
     }
 

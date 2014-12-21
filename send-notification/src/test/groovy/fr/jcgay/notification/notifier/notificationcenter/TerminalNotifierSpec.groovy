@@ -42,7 +42,7 @@ class TerminalNotifierSpec extends Specification {
                 '-message', 'message',
                 '-group', 'id',
                 '-activate', 'com.apple.Terminal',
-                '-contentImage', "${System.getProperty('java.io.tmpdir')}send-notifications-icons/ok.png"
+                '-contentImage', new File("${System.getProperty('java.io.tmpdir')}/send-notifications-icons/ok.png").path
         ]
     }
 

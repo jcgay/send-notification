@@ -27,7 +27,7 @@ class IconSpec extends Specification {
         def result = icon.asPath()
 
         then:
-        result == "${System.getProperty('java.io.tmpdir')}send-notifications-icons/img${extension}"
+        new File(result) == new File("${System.getProperty('java.io.tmpdir')}/send-notifications-icons/img${extension}")
 
         where:
         extension << ['.png', '.gif']
