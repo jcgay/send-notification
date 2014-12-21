@@ -42,6 +42,7 @@ public class GrowlNotifier implements Notifier {
         Gntp clientBuilder = Gntp.client(gApplication)
                 .onPort(configuration.port())
                 .forHost(configuration.host())
+                .withoutRetry()
                 .listener(new GntpSlf4jListener());
         if (configuration.password() != null) {
             clientBuilder.withPassword(configuration.password());
@@ -49,7 +50,7 @@ public class GrowlNotifier implements Notifier {
         gClient = clientBuilder.build();
         gClient.register();
         try {
-            gClient.waitRegistration();
+            gClient.waitRegistration(1L, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
