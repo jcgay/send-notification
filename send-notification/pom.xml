@@ -57,11 +57,6 @@
             <version>0.2</version>
         </dependency>
         <dependency>
-            <groupId>com.beust</groupId>
-            <artifactId>jcommander</artifactId>
-            <version>1.47</version>
-        </dependency>
-        <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
             <version>2.3.9</version>
