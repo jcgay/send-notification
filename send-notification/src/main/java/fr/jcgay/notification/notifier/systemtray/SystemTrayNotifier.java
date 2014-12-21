@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
+import java.awt.TrayIcon.MessageType;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -46,7 +47,7 @@ public class SystemTrayNotifier implements Notifier {
     public void send(Notification notification) {
         if (!skipNotifications) {
             icon.setImage(createImage(notification.icon().toByteArray()));
-            icon.displayMessage(notification.title(), notification.message(), TrayIcon.MessageType.INFO);
+            icon.displayMessage(notification.title(), notification.message(), toMessageType(notification.level()));
         }
     }
 
@@ -59,6 +60,19 @@ public class SystemTrayNotifier implements Notifier {
                 Thread.currentThread().interrupt();
             }
             SystemTray.getSystemTray().remove(icon);
+        }
+    }
+
+    private static MessageType toMessageType(Notification.Level level) {
+        switch (level) {
+            case INFO:
+                return MessageType.INFO;
+            case WARNING:
+                return MessageType.WARNING;
+            case ERROR:
+                return MessageType.ERROR;
+            default:
+                return MessageType.NONE;
         }
     }
 

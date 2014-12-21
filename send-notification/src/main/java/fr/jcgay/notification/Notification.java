@@ -4,11 +4,18 @@ import com.google.auto.value.AutoValue;
 
 import javax.annotation.Nullable;
 
+import static com.google.common.base.Objects.firstNonNull;
+
 /**
  * A notification to send.
  */
 @AutoValue
 public abstract class Notification {
+
+    /**
+     * Indicate notification priority.
+     */
+    public enum Level {INFO, WARNING, ERROR}
 
     /**
      * Notification message.
@@ -40,6 +47,13 @@ public abstract class Notification {
      */
     public abstract Icon icon();
 
+    /**
+     * Indicate the notification priority type.
+     *
+     * @return type
+     */
+    public abstract Level level();
+
     Notification() {
         // prevent external subclasses
     }
@@ -54,6 +68,7 @@ public abstract class Notification {
         private final String message;
         private final Icon icon;
         private String subtitle;
+        private Level level;
 
         private Builder(String title, String message, Icon icon) {
             this.title = title;
@@ -66,8 +81,13 @@ public abstract class Notification {
             return this;
         }
 
+        public Builder withLevel(Level level) {
+            this.level = level;
+            return this;
+        }
+
         public Notification build() {
-            return new AutoValue_Notification(message, title, subtitle, icon);
+            return new AutoValue_Notification(message, title, subtitle, icon, firstNonNull(level, Level.INFO));
         }
     }
 }

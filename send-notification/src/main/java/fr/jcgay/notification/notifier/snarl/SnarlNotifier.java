@@ -7,6 +7,7 @@ import fr.jcgay.snp4j.Icon;
 import fr.jcgay.snp4j.Server;
 import fr.jcgay.snp4j.SnpException;
 import fr.jcgay.snp4j.impl.SnpNotifier;
+import fr.jcgay.snp4j.request.Priority;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,6 +57,7 @@ public class SnarlNotifier implements Notifier {
         snarNotification.setIcon(Icon.base64(notification.icon().toByteArray()));
         snarNotification.setText(notification.message());
         snarNotification.setTitle(notification.title());
+        snarNotification.setPriority(toPriority(notification.level()));
 
         try {
             snarl.send(snarNotification);
@@ -68,6 +70,16 @@ public class SnarlNotifier implements Notifier {
     public void close() {
         if (snarl != null) {
             closeQuietly(snarl);
+        }
+    }
+
+    private static Priority toPriority(Notification.Level level) {
+        switch (level) {
+            case WARNING:
+            case ERROR:
+                return Priority.HIGH;
+            default:
+                return Priority.NORMAL;
         }
     }
 }

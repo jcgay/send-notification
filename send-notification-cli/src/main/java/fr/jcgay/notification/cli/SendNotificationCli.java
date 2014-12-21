@@ -33,6 +33,9 @@ public class SendNotificationCli {
     @Parameter(names = {"-s", "--subtitle"}, description = "notification subtitle")
     private String subtitle;
 
+    @Parameter(names = {"-l", "--level"}, description = "notification level (INFO, WARNING, ERROR)", converter = NotificationLevelConverter.class)
+    private Notification.Level level;
+
     @Parameter(names = {"-h", "--help"}, help = true, description = "show help")
     private boolean help;
 
@@ -67,9 +70,10 @@ public class SendNotificationCli {
         notify.init();
         try {
             notify.send(
-                Notification.builder(title, message, notificationIcon())
-                    .withSubtitle(subtitle)
-                    .build()
+                    Notification.builder(title, message, notificationIcon())
+                            .withSubtitle(subtitle)
+                            .withLevel(level)
+                            .build()
             );
         } finally {
             notify.close();

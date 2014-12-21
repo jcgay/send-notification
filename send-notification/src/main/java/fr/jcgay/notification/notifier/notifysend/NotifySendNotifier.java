@@ -17,6 +17,7 @@ public class NotifySendNotifier implements Notifier {
 
     private static final String CMD_TIMEOUT = "-t";
     private static final String CMD_ICON = "-i";
+    private static final String CMD_URGENCY = "-u";
 
     private final Application application;
     private final NotifySendConfiguration configuration;
@@ -46,6 +47,8 @@ public class NotifySendNotifier implements Notifier {
         }
         commands.add(CMD_ICON);
         commands.add(notification.icon().asPath());
+        commands.add(CMD_URGENCY);
+        commands.add(toUrgency(notification.level()));
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Will execute command line: " + Joiner.on(" ").join(commands));
@@ -61,5 +64,15 @@ public class NotifySendNotifier implements Notifier {
     @Override
     public void close() {
         // do nothing
+    }
+
+    private static String toUrgency(Notification.Level level) {
+        switch (level) {
+            case WARNING:
+            case ERROR:
+                return "critical";
+            default:
+                return "normal";
+        }
     }
 }

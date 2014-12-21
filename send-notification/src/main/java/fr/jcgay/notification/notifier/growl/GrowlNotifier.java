@@ -12,6 +12,9 @@ import org.slf4j.Logger;
 
 import java.util.concurrent.TimeUnit;
 
+import static com.google.code.jgntp.GntpNotification.Priority.HIGH;
+import static com.google.code.jgntp.GntpNotification.Priority.HIGHEST;
+import static com.google.code.jgntp.GntpNotification.Priority.NORMAL;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class GrowlNotifier implements Notifier {
@@ -58,6 +61,7 @@ public class GrowlNotifier implements Notifier {
             GntpNotification success = Gntp.notification(gNotification, notification.title())
                     .text(notification.message())
                     .icon(notification.icon().toRenderedImage())
+                    .priority(toPriority(notification.level()))
                     .build();
             try {
                 gClient.notify(success, 5, TimeUnit.SECONDS);
@@ -77,6 +81,19 @@ public class GrowlNotifier implements Notifier {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
+        }
+    }
+
+    private static GntpNotification.Priority toPriority(Notification.Level level) {
+        switch (level) {
+            case INFO:
+                return NORMAL;
+            case WARNING:
+                return HIGH;
+            case ERROR:
+                return HIGHEST;
+            default:
+                return NORMAL;
         }
     }
 

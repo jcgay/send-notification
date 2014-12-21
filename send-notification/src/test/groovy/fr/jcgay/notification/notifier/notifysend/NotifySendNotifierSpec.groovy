@@ -37,7 +37,8 @@ class NotifySendNotifierSpec extends Specification {
         result.command == [
                 'notify-send', 'title', 'message',
                 '-t', "${application.timeout()}",
-                '-i', new File("${System.getProperty('java.io.tmpdir')}/send-notifications-icons/ok.png").path
+                '-i', new File("${System.getProperty('java.io.tmpdir')}/send-notifications-icons/ok.png").path,
+                '-u', 'normal'
         ]
     }
 
@@ -52,5 +53,25 @@ class NotifySendNotifierSpec extends Specification {
 
         then:
         !result.command.contains('-t')
+    }
+
+    def "should translate notification level to urgency"() {
+
+        given:
+        def notification = Notification.builder('title', 'message', TestIcon.ok())
+                .withLevel(level)
+                .build()
+
+        when:
+        notifier.send(notification)
+
+        then:
+        result.command.contains(urgency)
+
+        where:
+        level                      | urgency
+        Notification.Level.INFO    | 'normal'
+        Notification.Level.WARNING | 'critical'
+        Notification.Level.ERROR   | 'critical'
     }
 }

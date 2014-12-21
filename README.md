@@ -46,6 +46,8 @@ Download [bundle](), extract it, add the `bin` directory to your `$PATH`.
            Default: false
       * -i, --icon
            notification icon
+        -l, --level
+           notification level (INFO, WARNING, ERROR)
       * -m, --message
            notification message
         -s, --subtitle
