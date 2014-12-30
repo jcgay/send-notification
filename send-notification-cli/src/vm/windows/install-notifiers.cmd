@@ -1,3 +1,6 @@
+echo 'Installing 7zip'
+choco install 7zip.commandline
+
 echo 'Installing Java JDK'
 choco install java.jdk
 
@@ -9,6 +12,13 @@ choco install Growl
 
 echo 'Installing Wget'
 choco install Wget
+
+echo 'Installing Notifu'
+wget -O %TEMP%\notifu.zip http://www.paralint.com/projects/notifu/dl/notifu-1.6.zip
+if exist c:\notifu rd /s /q c:\notifu
+mkdir c:\notifu
+7za x %TEMP%\notifu.zip -oc:\notifu -r
+setx PATH "%PATH%;c:\notifu"
 
 echo 'Installing Snarl'
 wget -O %TEMP%\melon.exe http://sourceforge.net/projects/snarlwin/files/Goodies/setup-minimal.exe/download

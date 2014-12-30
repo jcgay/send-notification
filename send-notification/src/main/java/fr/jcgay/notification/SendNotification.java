@@ -8,6 +8,8 @@ import fr.jcgay.notification.notifier.growl.GrowlConfiguration;
 import fr.jcgay.notification.notifier.growl.GrowlNotifier;
 import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifier;
 import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifierConfiguration;
+import fr.jcgay.notification.notifier.notifu.NotifuConfiguration;
+import fr.jcgay.notification.notifier.notifu.NotifuNotifier;
 import fr.jcgay.notification.notifier.notifysend.NotifySendConfiguration;
 import fr.jcgay.notification.notifier.notifysend.NotifySendNotifier;
 import fr.jcgay.notification.notifier.pushbullet.PushbulletConfiguration;
@@ -86,6 +88,8 @@ public class SendNotification {
             return new SnarlNotifier(application, SnarlConfiguration.create(properties));
         } else if ("systemtray".equals(chosenNotifier)) {
             return new SystemTrayNotifier(application);
+        } else if ("notifu".equals(chosenNotifier)) {
+            return new NotifuNotifier(application, NotifuConfiguration.create(properties), new RuntimeExecutor());
         }
 
         return DoNothingNotifier.doNothing();

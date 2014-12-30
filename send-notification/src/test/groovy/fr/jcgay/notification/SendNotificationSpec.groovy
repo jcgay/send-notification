@@ -5,6 +5,7 @@ import fr.jcgay.notification.configuration.OperatingSystem
 import fr.jcgay.notification.notifier.DoNothingNotifier
 import fr.jcgay.notification.notifier.growl.GrowlNotifier
 import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifier
+import fr.jcgay.notification.notifier.notifu.NotifuNotifier
 import fr.jcgay.notification.notifier.notifysend.NotifySendNotifier
 import fr.jcgay.notification.notifier.pushbullet.PushbulletNotifier
 import fr.jcgay.notification.notifier.snarl.SnarlNotifier
@@ -39,6 +40,7 @@ class SendNotificationSpec extends Specification {
         'pushbullet'         | PushbulletNotifier
         'snarl'              | SnarlNotifier
         'systemtray'         | SystemTrayNotifier
+        'notifu'             | NotifuNotifier
         'unknown'            | DoNothingNotifier
     }
 
@@ -61,6 +63,7 @@ class SendNotificationSpec extends Specification {
         'pushbullet'         | PushbulletNotifier
         'snarl'              | SnarlNotifier
         'systemtray'         | SystemTrayNotifier
+        'notifu'             | NotifuNotifier
         'unknown'            | DoNothingNotifier
     }
 
