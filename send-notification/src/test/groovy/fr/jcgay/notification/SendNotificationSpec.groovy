@@ -4,6 +4,7 @@ import fr.jcgay.notification.configuration.ConfigurationReader
 import fr.jcgay.notification.configuration.OperatingSystem
 import fr.jcgay.notification.notifier.DoNothingNotifier
 import fr.jcgay.notification.notifier.growl.GrowlNotifier
+import fr.jcgay.notification.notifier.kdialog.KdialogNotifier
 import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifier
 import fr.jcgay.notification.notifier.notifu.NotifuNotifier
 import fr.jcgay.notification.notifier.notifysend.NotifySendNotifier
@@ -41,6 +42,7 @@ class SendNotificationSpec extends Specification {
         'snarl'              | SnarlNotifier
         'systemtray'         | SystemTrayNotifier
         'notifu'             | NotifuNotifier
+        'kdialog'            | KdialogNotifier
         'unknown'            | DoNothingNotifier
     }
 
@@ -64,6 +66,7 @@ class SendNotificationSpec extends Specification {
         'snarl'              | SnarlNotifier
         'systemtray'         | SystemTrayNotifier
         'notifu'             | NotifuNotifier
+        'kdialog'            | KdialogNotifier
         'unknown'            | DoNothingNotifier
     }
 
