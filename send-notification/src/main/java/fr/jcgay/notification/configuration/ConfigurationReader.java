@@ -23,7 +23,7 @@ public class ConfigurationReader {
         try {
             return atUrl(new File(path).toURI().toURL());
         } catch (MalformedURLException e) {
-            LOGGER.warn("URL built for path [{}] is malformed will use default configuration.", path, e);
+            LOGGER.debug("URL built for path [{}] is malformed will use default configuration.", path, e);
             return new ConfigurationReader(new Properties());
         }
     }
@@ -33,7 +33,7 @@ public class ConfigurationReader {
         try {
             configuration.load(url.openStream());
         } catch (IOException e) {
-            LOGGER.warn("Cannot read configuration at [{}], will use default one.", url, e);
+            LOGGER.debug("Cannot read configuration at [{}], will use default one.", url, e);
         }
         return new ConfigurationReader(configuration);
     }
