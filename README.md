@@ -115,3 +115,7 @@ For KDE.
 For Windows [notifu](http://www.paralint.com/projects/notifu/index.html).
 
 ![notifu](http://jeanchristophegay.com/images/notifier.notifu.png)
+
+# Build status
+
+[![Build Status](https://travis-ci.org/jcgay/send-notification.svg?branch=master)](https://travis-ci.org/jcgay/send-notification)
