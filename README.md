@@ -72,36 +72,46 @@ Go to [Wiki](https://github.com/jcgay/send-notification/wiki) to read full confi
 
 For OS X [(paid app)](http://growl.info/) and Windows [(free)](http://www.growlforwindows.com/gfw/).
 
-![Growl success](http://jeanchristophegay.com/images/notifier.growl_.success.png)  ![Growl fail](http://jeanchristophegay.com/images/notifier.growl_.fail_.png)
+![Growl](http://jeanchristophegay.com/images/notifier.growl_.success.png)
 
 ##notify-send
 
 For linux. 
 
-![notify-send success](http://jeanchristophegay.com/images/notifier.notify-send.success.png)  
-![notify-send fail](http://jeanchristophegay.com/images/notifier.notify-send.error_.fail_.png)
+![notify-send](http://jeanchristophegay.com/images/notifier.notify-send.success.png)
 
 ##Notification center
 
 For OS X (at least Mountain lion) with [terminal-notifier](https://github.com/alloy/terminal-notifier).
 
-![terminal-notifier](http://jeanchristophegay.com/images/notifier.notification-center.success.png)  ![terminal-notifier fail](http://jeanchristophegay.com/images/notifier.notification-center.failure.png)
+![terminal-notifier](http://jeanchristophegay.com/images/notifier.notification-center.success.png)
 
 ##System tray
 
 Use Java `SystemTray` to display notification.
 
-![System Tray success](http://jeanchristophegay.com/images/notifier.system.tray_.success.png)  ![System Tray fail](http://jeanchristophegay.com/images/notifier.system.tray_.fail_.png)
+![System Tray](http://jeanchristophegay.com/images/notifier.system.tray_.success.png)
 
 ##Snarl
 
 For Windows [Snarl](http://snarl.fullphat.net/).
 
-![Snarl](http://jeanchristophegay.com/images/notifier.snarl.success.png)  ![Snarl fail](http://jeanchristophegay.com/images/notifier.snarl.failure.png)
+![Snarl](http://jeanchristophegay.com/images/notifier.snarl.success.png)
 
 ##Pushbullet
 
 Use [Pushbullet](https://www.pushbullet.com/) online service.
 
-![pushbullet success](http://jeanchristophegay.com/images/notifier.pushbullet.success.png)
-![pushbullet failure](http://jeanchristophegay.com/images/notifier.pushbullet.failure.png)
+![pushbullet](http://jeanchristophegay.com/images/notifier.pushbullet.success.png)
+
+## Kdialog
+
+For KDE.
+
+![Kdialog](http://jeanchristophegay.com/images/notifier.kdialog.png)
+
+## notifu
+
+For Windows [notifu](http://www.paralint.com/projects/notifu/index.html).
+
+![notifu](http://jeanchristophegay.com/images/notifier.notifu.png)
