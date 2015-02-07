@@ -119,3 +119,4 @@ For Windows [notifu](http://www.paralint.com/projects/notifu/index.html).
 # Build status
 
 [![Build Status](https://travis-ci.org/jcgay/send-notification.svg?branch=master)](https://travis-ci.org/jcgay/send-notification)
+[![Coverage Status](https://coveralls.io/repos/jcgay/send-notification/badge.svg?branch=master)](https://coveralls.io/r/jcgay/send-notification?branch=master)

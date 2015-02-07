@@ -41,6 +41,12 @@
                 <groupId>org.eluder.coveralls</groupId>
                 <artifactId>coveralls-maven-plugin</artifactId>
                 <version>3.0.1</version>
+                <configuration>
+                    <sourceDirectories>
+                        <sourceDirectory>send-notification/target/generated-sources/annotations</sourceDirectory>
+                    </sourceDirectories>
+                </configuration>
+
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
