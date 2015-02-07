@@ -22,5 +22,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision :shell, :path => "setup-chocolatey.cmd"
   config.vm.provision :shell, :path => "install-notifiers.cmd"
+  config.vm.provision :shell, :path => "install-tools.cmd"
 
 end
