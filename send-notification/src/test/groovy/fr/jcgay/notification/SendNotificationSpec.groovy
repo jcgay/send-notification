@@ -3,6 +3,7 @@ package fr.jcgay.notification
 import fr.jcgay.notification.configuration.ConfigurationReader
 import fr.jcgay.notification.configuration.OperatingSystem
 import fr.jcgay.notification.notifier.DoNothingNotifier
+import fr.jcgay.notification.notifier.anybar.AnyBarNotifier
 import fr.jcgay.notification.notifier.growl.GrowlNotifier
 import fr.jcgay.notification.notifier.kdialog.KdialogNotifier
 import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifier
@@ -43,6 +44,7 @@ class SendNotificationSpec extends Specification {
         'systemtray'         | SystemTrayNotifier
         'notifu'             | NotifuNotifier
         'kdialog'            | KdialogNotifier
+        'anybar'             | AnyBarNotifier
         'unknown'            | DoNothingNotifier
     }
 
@@ -67,6 +69,7 @@ class SendNotificationSpec extends Specification {
         'systemtray'         | SystemTrayNotifier
         'notifu'             | NotifuNotifier
         'kdialog'            | KdialogNotifier
+        'anybar'             | AnyBarNotifier
         'unknown'            | DoNothingNotifier
     }
 

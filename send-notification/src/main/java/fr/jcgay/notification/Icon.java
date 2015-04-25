@@ -30,7 +30,7 @@ public abstract class Icon {
      *
      * @return URL to load icon.
      */
-    abstract URL content();
+    public abstract URL content();
 
     public RenderedImage toRenderedImage() {
         try {
@@ -54,7 +54,7 @@ public abstract class Icon {
 
     public String asPath() {
         String folder = System.getProperty("java.io.tmpdir") + "/send-notifications-icons/";
-        String extension = content().getPath().substring(content().getPath().lastIndexOf(".") + 1);
+        String extension = extension();
         File icon = new File(folder + id() + "." + extension);
         if (!icon.exists()) {
             new File(folder).mkdirs();
@@ -65,6 +65,10 @@ public abstract class Icon {
             }
         }
         return icon.getPath();
+    }
+
+    public String extension() {
+        return content().getPath().substring(content().getPath().lastIndexOf(".") + 1);
     }
 
     public static Icon create(URL content, String id) {

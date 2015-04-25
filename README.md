@@ -116,6 +116,12 @@ For Windows [notifu](http://www.paralint.com/projects/notifu/index.html).
 
 ![notifu](http://jeanchristophegay.com/images/notifier.notifu.png)
 
+## AnyBar
+
+For OS X, [AnyBar](https://github.com/tonsky/AnyBar).
+
+![anybar](http://jeanchristophegay.com/images/notifier.anybar.png)
+
 # Build status
 
 [![Build Status](https://travis-ci.org/jcgay/send-notification.svg?branch=master)](https://travis-ci.org/jcgay/send-notification)

@@ -3,6 +3,8 @@ package fr.jcgay.notification;
 import fr.jcgay.notification.configuration.ConfigurationReader;
 import fr.jcgay.notification.configuration.OperatingSystem;
 import fr.jcgay.notification.notifier.DoNothingNotifier;
+import fr.jcgay.notification.notifier.anybar.AnyBarConfiguration;
+import fr.jcgay.notification.notifier.anybar.AnyBarNotifier;
 import fr.jcgay.notification.notifier.executor.RuntimeExecutor;
 import fr.jcgay.notification.notifier.growl.GrowlConfiguration;
 import fr.jcgay.notification.notifier.growl.GrowlNotifier;
@@ -94,6 +96,8 @@ public class SendNotification {
             return new NotifuNotifier(application, NotifuConfiguration.create(properties), new RuntimeExecutor());
         } else if ("kdialog".equals(chosenNotifier)) {
             return new KdialogNotifier(application, KdialogConfiguration.create(properties), new RuntimeExecutor());
+        } else if ("anybar".equals(chosenNotifier)) {
+            return AnyBarNotifier.create(application, AnyBarConfiguration.create(properties));
         }
 
         return DoNothingNotifier.doNothing();
