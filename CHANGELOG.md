@@ -1,3 +1,8 @@
+#0.4
+***
+
+- Add AnyBar notifier [view](http://github.com/jcgay/send-notification/commit/a7d91fdefdaf44ad86c3f596d909cf08d8400ad5)
+
 #0.3
 ***
 

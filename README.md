@@ -8,34 +8,40 @@ A toolbox in `Java` to send notifications.
 
 Example with *Maven*:
 
+```xml
     <dependencies>
      [...]
         <dependency>
             <groupId>fr.jcgay.send-notification</groupId>
             <artifactId>send-notification</artifactId>
-            <version>0.3</version>
+            <version>0.4</version>
         </dependency>
      [...]
     </dependencies>
+```
 
 Get a notifier:
 
+```java
     Notifier notifier = new SendNotification()
         .setApplication(application)
         .chooseNotifier();
+```
 
 Then send notification:
 
+```java
     notifier.init();
     try {
         notifier.send(notification);
     } finally {
         notifier.close;
     }
+```    
 
 ## CLI
 
-Download [bundle](http://search.maven.org/remotecontent?filepath=fr/jcgay/send-notification/send-notification-cli/0.3/send-notification-cli-0.3-binaries.zip), extract it, add the `bin` directory to your `$PATH`.
+Download [bundle](http://search.maven.org/remotecontent?filepath=fr/jcgay/send-notification/send-notification-cli/0.4/send-notification-cli-0.4-binaries.zip), extract it, add the `bin` directory to your `$PATH`.
 
     > send-notification -h
     
