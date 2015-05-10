@@ -1,17 +1,17 @@
 echo 'Installing 7zip'
-choco install 7zip.commandline
+choco install -y 7zip.commandline
 
 echo 'Installing Java JDK'
-choco install java.jdk
+choco install -y java.jdk
 
 echo 'Installing .NET Framework (needed by Growl)'
-choco install DotNet3.5
+choco install -y DotNet3.5
 
 echo 'Installing Growl for Windows'
-choco install Growl
+choco install -y Growl
 
 echo 'Installing Wget'
-choco install Wget
+choco install -y Wget
 
 echo 'Installing Notifu'
 wget -O %TEMP%\notifu.zip http://www.paralint.com/projects/notifu/dl/notifu-1.6.zip

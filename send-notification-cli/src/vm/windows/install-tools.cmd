@@ -1,8 +1,8 @@
 echo 'Installing git'
-choco install git
+choco install -y git
 
 echo 'Installing notepad++'
-choco install notepadplusplus
+choco install -y notepadplusplus
 
 echo 'Installing Maven'
-choco install maven
+choco install -y maven
