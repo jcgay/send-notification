@@ -29,7 +29,7 @@ class TerminalNotifierSpec extends Specification {
     def "should build command line to call terminal-notifier"() {
 
         setup:
-        def notification = Notification.builder('title', 'message', TestIcon.ok()).withSubtitle('subtitle').build()
+        def notification = Notification.builder('title', 'message', TestIcon.ok()).subtitle('subtitle').build()
 
         when:
         notifier.send(notification)

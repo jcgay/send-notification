@@ -9,7 +9,7 @@ class ApplicationSpec extends Specification {
 
         when:
         def icon = Icon.create(new URL('file:/icon.png'), 'icon')
-        def application = Application.builder('id', 'name', icon).withTimeout(1).build()
+        def application = Application.builder('id', 'name', icon).timeout(1).build()
 
         then:
         application.id() == 'id'

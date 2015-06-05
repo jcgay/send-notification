@@ -12,14 +12,22 @@ public class PusbulletExample {
 
         URL icon = PusbulletExample.class.getResource("/image/dialog-clean.png");
 
-        Application application = Application.builder("pushbullet-example", "Pushbullet Example", Icon.create(icon, "app")).build();
+        Application application = Application.builder()
+            .id("pushbullet-example")
+            .name("Pushbullet Example")
+            .icon(Icon.create(icon, "app"))
+            .build();
 
         Notifier notifier = new SendNotification()
                 .setApplication(application)
                 .setChosenNotifier("pushbullet")
                 .chooseNotifier();
 
-        Notification notification = Notification.builder("Pushbullet Notification", "Hello !", Icon.create(icon, "ok")).build();
+        Notification notification = Notification.builder()
+            .title("Pushbullet Notification")
+            .message("Hello !")
+            .icon(Icon.create(icon, "ok"))
+            .build();
 
         notifier.init();
         notifier.send(notification);

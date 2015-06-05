@@ -11,14 +11,22 @@ public class AnyBarExample {
     public static void main(String[] args) {
         URL icon = AnyBarExample.class.getResource("/image/dialog-clean.png");
 
-        Application application = Application.builder("AnyBar-example", "AnyBar Example", Icon.create(icon, "error")).build();
+        Application application = Application.builder()
+            .id("AnyBar-example")
+            .name("AnyBar Example")
+            .icon(Icon.create(icon, "error"))
+            .build();
 
         Notifier notifier = new SendNotification()
             .setApplication(application)
             .setChosenNotifier("anybar")
             .chooseNotifier();
 
-        Notification notification = Notification.builder("AnyBar Notification", "Hello !", Icon.create(icon, "error")).build();
+        Notification notification = Notification.builder()
+            .title("AnyBar Notification")
+            .message("Hello !")
+            .icon(Icon.create(icon, "error"))
+            .build();
 
         notifier.init();
         notifier.send(notification);

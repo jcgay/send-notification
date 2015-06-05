@@ -5,7 +5,7 @@ import fr.jcgay.notification.TestIcon
 import fr.jcgay.notification.notifier.executor.Executor
 import spock.lang.Specification
 
-import java.util.concurrent.TimeUnit
+import static java.util.concurrent.TimeUnit.SECONDS
 
 class KdialogNotifierSpec extends Specification {
 
@@ -15,7 +15,7 @@ class KdialogNotifierSpec extends Specification {
     Notification notification
 
     def setup() {
-        application = Application.builder('id', 'name', TestIcon.ok()).withTimeout(TimeUnit.SECONDS.toMillis(3)).build()
+        application = Application.builder('id', 'name', TestIcon.ok()).timeout(SECONDS.toMillis(3)).build()
         result = new Executor() {
             String[] command
 

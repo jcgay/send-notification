@@ -11,8 +11,8 @@ class NotificationSpec extends Specification {
 
         when:
         def notification = Notification.builder('title', 'message', icon)
-                .withSubtitle('subtitle')
-                .withLevel(Notification.Level.ERROR)
+                .subtitle('subtitle')
+                .level(Notification.Level.ERROR)
                 .build()
 
         then:

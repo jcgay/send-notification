@@ -12,18 +12,23 @@ public class TerminalNotifierExample {
 
         URL icon = TerminalNotifierExample.class.getResource("/image/dialog-clean.png");
 
-        Application application = Application.builder(
-                "terminal-notifier-example", "Terminal Notifier Example", Icon.create(icon, "app")
-        ).build();
+        Application application = Application.builder()
+            .id("terminal-notifier-example")
+            .name("Terminal Notifier Example")
+            .icon(Icon.create(icon, "app"))
+            .build();
 
         Notifier notifier = new SendNotification()
                 .setApplication(application)
                 .setChosenNotifier("notificationcenter")
                 .chooseNotifier();
 
-        Notification notification = Notification.builder(
-                "Terminal Notifier Notification", "Hello !", Icon.create(icon, "ok")
-        ).withSubtitle("subtitle").build();
+        Notification notification = Notification.builder()
+            .title("Terminal Notifier Notification")
+            .message("Hello !")
+            .icon(Icon.create(icon, "ok"))
+            .subtitle("subtitle")
+            .build();
 
         notifier.send(notification);
     }

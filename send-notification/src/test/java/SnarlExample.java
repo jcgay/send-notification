@@ -12,14 +12,22 @@ public class SnarlExample {
 
         URL icon = SnarlExample.class.getResource("/image/dialog-clean.png");
 
-        Application application = Application.builder("snarl-example", "Snarl Example", Icon.create(icon, "app")).build();
+        Application application = Application.builder()
+            .id("snarl-example")
+            .name("Snarl Example")
+            .icon(Icon.create(icon, "app"))
+            .build();
 
         Notifier notifier = new SendNotification()
                 .setApplication(application)
                 .setChosenNotifier("snarl")
                 .chooseNotifier();
 
-        Notification notification = Notification.builder("Snarl Notification", "Hello !", Icon.create(icon, "ok")).build();
+        Notification notification = Notification.builder()
+            .title("Snarl Notification")
+            .message("Hello !")
+            .icon(Icon.create(icon, "ok"))
+            .build();
 
         notifier.init();
         notifier.send(notification);

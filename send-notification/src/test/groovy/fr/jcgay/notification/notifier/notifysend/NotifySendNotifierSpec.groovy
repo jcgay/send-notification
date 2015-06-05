@@ -13,7 +13,7 @@ class NotifySendNotifierSpec extends Specification {
     Notification notification
 
     def setup() {
-        application = Application.builder('id', 'name', TestIcon.ok()).withTimeout(3).build()
+        application = Application.builder('id', 'name', TestIcon.ok()).timeout(3).build()
         result = new Executor() {
             String[] command
 
@@ -59,7 +59,7 @@ class NotifySendNotifierSpec extends Specification {
 
         given:
         def notification = Notification.builder('title', 'message', TestIcon.ok())
-                .withLevel(level)
+                .level(level)
                 .build()
 
         when:

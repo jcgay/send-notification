@@ -4,7 +4,7 @@ import com.google.auto.value.AutoValue;
 
 import javax.annotation.Nullable;
 
-import static com.google.common.base.Objects.firstNonNull;
+import static fr.jcgay.notification.Notification.Level.INFO;
 
 /**
  * A notification to send.
@@ -59,35 +59,23 @@ public abstract class Notification {
     }
 
     public static Builder builder(String title, String message, Icon icon) {
-        return new Builder(title, message, icon);
+        return builder()
+            .title(title)
+            .message(message)
+            .icon(icon);
     }
 
-    public static class Builder {
+    public static Builder builder() {
+        return new AutoValue_Notification.Builder().level(INFO);
+    }
 
-        private final String title;
-        private final String message;
-        private final Icon icon;
-        private String subtitle;
-        private Level level;
-
-        private Builder(String title, String message, Icon icon) {
-            this.title = title;
-            this.message = message;
-            this.icon = icon;
-        }
-
-        public Builder withSubtitle(String subtitle) {
-            this.subtitle = subtitle;
-            return this;
-        }
-
-        public Builder withLevel(Level level) {
-            this.level = level;
-            return this;
-        }
-
-        public Notification build() {
-            return new AutoValue_Notification(message, title, subtitle, icon, firstNonNull(level, Level.INFO));
-        }
+    @AutoValue.Builder
+    public interface Builder {
+        Builder title(String title);
+        Builder message(String message);
+        Builder icon(Icon icon);
+        Builder subtitle(String subtitle);
+        Builder level(Level level);
+        Notification build();
     }
 }

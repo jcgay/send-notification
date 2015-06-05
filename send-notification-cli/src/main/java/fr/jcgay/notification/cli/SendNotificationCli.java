@@ -69,12 +69,15 @@ public class SendNotificationCli {
     private void sendNotificationUsing(Notifier notify) {
         notify.init();
         try {
-            notify.send(
-                    Notification.builder(title, message, notificationIcon())
-                            .withSubtitle(subtitle)
-                            .withLevel(level)
-                            .build()
-            );
+            Notification.Builder notification = Notification.builder()
+                .title(title)
+                .message(message)
+                .icon(notificationIcon())
+                .subtitle(subtitle);
+            if (level != null) {
+                notification.level(level);
+            }
+            notify.send(notification.build());
         } finally {
             notify.close();
         }
@@ -102,7 +105,11 @@ public class SendNotificationCli {
     }
 
     private static Application application() {
-        return Application.builder("application/x-vnd-jcgay.send-notification", "Send Notification", icon()).build();
+        return Application.builder()
+            .id("application/x-vnd-jcgay.send-notification")
+            .name("Send Notification")
+            .icon(icon())
+            .build();
     }
 
     private static Icon icon() {

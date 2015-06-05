@@ -12,14 +12,22 @@ public class GrowlExample {
 
         URL icon = GrowlExample.class.getResource("/image/dialog-clean.png");
 
-        Application application = Application.builder("growl-example", "Growl Example", Icon.create(icon, "app")).build();
+        Application application = Application.builder()
+            .id("growl-example")
+            .name("Growl Example")
+            .icon(Icon.create(icon, "app"))
+            .build();
 
         Notifier notifier = new SendNotification()
                 .setApplication(application)
                 .setChosenNotifier("growl")
                 .chooseNotifier();
 
-        Notification notification = Notification.builder("Growl Notification", "Hello !", Icon.create(icon, "ok")).build();
+        Notification notification = Notification.builder()
+            .title("Growl Notification")
+            .message("Hello !")
+            .icon(Icon.create(icon, "ok"))
+            .build();
 
         notifier.init();
         notifier.send(notification);

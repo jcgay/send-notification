@@ -12,15 +12,23 @@ public class SystemTrayExample {
 
         URL icon = SystemTrayExample.class.getResource("/image/dialog-clean.png");
 
-        Application application = Application.builder("systemtray-example", "SystemTray Example", Icon.create(icon, "app"))
-                .withTimeout(2000).build();
+        Application application = Application.builder()
+            .id("systemtray-example")
+            .name("SystemTray Example")
+            .icon(Icon.create(icon, "app"))
+            .timeout(2000)
+            .build();
 
         Notifier notifier = new SendNotification()
                 .setApplication(application)
                 .setChosenNotifier("systemtray")
                 .chooseNotifier();
 
-        Notification notification = Notification.builder("SystemTray Notification", "Hello !", Icon.create(icon, "ok")).build();
+        Notification notification = Notification.builder()
+            .title("SystemTray Notification")
+            .message("Hello !")
+            .icon(Icon.create(icon, "ok"))
+            .build();
 
         notifier.init();
         notifier.send(notification);

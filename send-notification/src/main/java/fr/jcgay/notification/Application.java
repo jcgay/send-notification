@@ -54,30 +54,24 @@ public abstract class Application {
         // prevent external subclasses
     }
 
-    public static Builder builder(String id, String name, Icon icon) {
-        return new Builder(id, name, icon);
+    public static Builder builder() {
+        return new AutoValue_Application.Builder()
+            .timeout(-1);
     }
 
-    public static class Builder {
+    public static Builder builder(String id, String name, Icon icon) {
+        return builder()
+            .id(id)
+            .name(name)
+            .icon(icon);
+    }
 
-        private final String id;
-        private final String name;
-        private final Icon icon;
-        private Long timeout;
-
-        private Builder(String id, String name, Icon icon) {
-            this.id = id;
-            this.name = name;
-            this.icon = icon;
-        }
-
-        public Builder withTimeout(long timeout) {
-            this.timeout = timeout;
-            return this;
-        }
-
-        public Application build() {
-            return new AutoValue_Application(id, name, timeout == null ? -1 : timeout, icon);
-        }
+    @AutoValue.Builder
+    public interface Builder {
+        Builder id(String id);
+        Builder name(String name);
+        Builder icon(Icon icon);
+        Builder timeout(long timeout);
+        Application build();
     }
 }

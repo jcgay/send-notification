@@ -22,7 +22,7 @@ class AnyBarNotifierSpec extends Specification {
     def 'should configure timeout when application timeout is not the default one at notifier initialization'() {
         given:
         def application = Application.builder('id', 'name', TestIcon.application())
-            .withTimeout(3L)
+            .timeout(3L)
             .build()
         def notifierWithTimeout = new AnyBarNotifier(application, AnyBarConfiguration.byDefault(), socket, iconWriter)
 
