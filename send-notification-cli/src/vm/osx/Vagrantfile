@@ -6,10 +6,10 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  config.vm.box = "osx-mavericks"
-  config.vm.box_url = "http://files.dryga.com/boxes/osx-mavericks-0.1.0.box"
+  config.vm.box = "jhcook/osx-yosemite-10.10"
 
   config.vm.network "private_network", ip: "10.0.0.100"
+
   # Application binaries we want to test
   config.vm.synced_folder "../../../target", "/app", type: "nfs"
   config.vm.synced_folder ".", "/vagrant", type: "nfs"
@@ -17,11 +17,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider "virtualbox" do |vb|
      # Don't boot with headless mode
      vb.gui = true
-     # VM does not boot with message: hfs mounted macintosh hd on device root_device
-     vb.customize ["modifyvm", :id, "--cpuidset", "1","000206a7","02100800","1fbae3bf","bfebfbff"]
+     vb.memory = 4096
+     vb.cpus = 4
   end
 
-  config.vm.provision :shell, :path => "xcode-license.sh"
-  config.vm.provision :shell, :path => "install-notifiers.sh"
+  config.vm.provision :shell, :path => "xcode-cli-tools.sh"
+  config.vm.provision :shell, :path => "brew.sh", privileged: false
+  config.vm.provision :shell, :path => "install-notifiers.sh", privileged: false
 
 end

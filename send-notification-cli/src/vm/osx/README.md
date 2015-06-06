@@ -13,7 +13,7 @@ Scripts to launch a notification with each notifier are available in `/vagrant/n
 
 ## Construction
 
-The working box comes from [https://github.com/AndrewDryga/vagrant-box-osx-mavericks](https://github.com/AndrewDryga/vagrant-box-osx-mavericks).
+The working box comes from [https://atlas.hashicorp.com/jhcook/boxes/osx-yosemite-10.10](https://atlas.hashicorp.com/jhcook/boxes/osx-yosemite-10.10).
 
 ### Share folder between host and guest
 
@@ -33,9 +33,9 @@ It works with static ip, just had to use [`10.0.0.100`](http://leafac.com/bugs/2
     the IP or name of your host only network so that it no longer matches that of
     a bridged or non-hostonly network.
     
-### Auto accept xcode license
+### Install Xcode command line tools
 
-Have taken the script from [https://github.com/kokoabim/iOSOpenDev-Installer/issues/1](https://github.com/kokoabim/iOSOpenDev-Installer/issues/1).    
+Have taken the script from [https://github.com/boxcutter/osx/blob/master/script/xcode-cli-tools.sh](https://github.com/boxcutter/osx/blob/master/script/xcode-cli-tools.sh)
     
 ### Growl
 
