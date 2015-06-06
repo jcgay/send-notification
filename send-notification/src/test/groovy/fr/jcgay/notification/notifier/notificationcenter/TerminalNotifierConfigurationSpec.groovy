@@ -13,6 +13,7 @@ class TerminalNotifierConfigurationSpec extends Specification {
         then:
         result.bin() == TerminalNotifierConfiguration.byDefault().bin()
         result.activateApplication() == TerminalNotifierConfiguration.byDefault().activateApplication()
+        result.sound() == TerminalNotifierConfiguration.byDefault().sound()
 
         where:
         empty << [null, new Properties()]
@@ -22,7 +23,8 @@ class TerminalNotifierConfigurationSpec extends Specification {
         given:
         Properties properties = [
                 'notifier.notification-center.path':'new path',
-                'notifier.notification-center.activate':'com.googlecode.iterm2'
+                'notifier.notification-center.activate':'com.googlecode.iterm2',
+                'notifier.notification-center.sound':'default'
         ]
 
         when:
@@ -31,5 +33,6 @@ class TerminalNotifierConfigurationSpec extends Specification {
         then:
         result.bin() == 'new path'
         result.activateApplication() == 'com.googlecode.iterm2'
+        result.sound() == 'default'
     }
 }

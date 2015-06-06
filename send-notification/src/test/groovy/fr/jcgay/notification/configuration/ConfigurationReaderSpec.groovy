@@ -2,7 +2,6 @@ package fr.jcgay.notification.configuration
 
 import spock.lang.Specification
 
-
 class ConfigurationReaderSpec extends Specification {
 
     def "should read configuration from provided path"() {

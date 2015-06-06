@@ -21,6 +21,7 @@ public class TerminalNotifier implements Notifier {
     private static final String CMD_GROUP = "-group";
     private static final String CMD_ACTIVATE = "-activate";
     private static final String CMD_CONTENT_IMAGE = "-contentImage";
+    private static final String CMD_SOUND = "-sound";
 
     private final Application application;
     private final TerminalNotifierConfiguration configuration;
@@ -57,6 +58,10 @@ public class TerminalNotifier implements Notifier {
         commands.add(configuration.activateApplication());
         commands.add(CMD_CONTENT_IMAGE);
         commands.add(notification.icon().asPath());
+        if (configuration.sound() != null) {
+            commands.add(CMD_SOUND);
+            commands.add(configuration.sound());
+        }
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Will execute command line: " + Joiner.on(" ").skipNulls().join(commands));
