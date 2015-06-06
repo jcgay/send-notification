@@ -8,7 +8,8 @@ import spock.lang.Subject
 
 class TerminalNotifierSpec extends Specification {
 
-    Application application = Application.builder('id', 'name', TestIcon.ok()).build()
+    Application application = Application.builder('id', 'name', TestIcon.application()).build()
+    String temp = System.getProperty('java.io.tmpdir')
 
     List<String> executedCommand
     Executor executor = { String[] command -> executedCommand = command }
@@ -42,8 +43,9 @@ class TerminalNotifierSpec extends Specification {
                 '-message', 'message',
                 '-group', 'id',
                 '-activate', 'com.apple.Terminal',
-                '-contentImage', new File("${System.getProperty('java.io.tmpdir')}/send-notifications-icons/ok.png").path,
-                '-sound', 'default'
+                '-contentImage', new File("${temp}/send-notifications-icons/ok.png").path,
+                '-sound', 'default',
+                '-appIcon', new File("${temp}/send-notifications-icons/application.png").path
         ]
     }
 
