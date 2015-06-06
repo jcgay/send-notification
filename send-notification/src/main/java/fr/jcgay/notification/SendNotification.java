@@ -10,6 +10,7 @@ import fr.jcgay.notification.notifier.growl.GrowlConfiguration;
 import fr.jcgay.notification.notifier.growl.GrowlNotifier;
 import fr.jcgay.notification.notifier.kdialog.KdialogConfiguration;
 import fr.jcgay.notification.notifier.kdialog.KdialogNotifier;
+import fr.jcgay.notification.notifier.notificationcenter.SimpleNotificationCenterNotifier;
 import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifier;
 import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifierConfiguration;
 import fr.jcgay.notification.notifier.notifu.NotifuConfiguration;
@@ -98,6 +99,8 @@ public class SendNotification {
             return new KdialogNotifier(application, KdialogConfiguration.create(properties), new RuntimeExecutor());
         } else if ("anybar".equals(chosenNotifier)) {
             return AnyBarNotifier.create(application, AnyBarConfiguration.create(properties));
+        } else if ("simplenc".equals(chosenNotifier)) {
+            return new SimpleNotificationCenterNotifier(TerminalNotifierConfiguration.create(properties), new RuntimeExecutor());
         }
 
         return DoNothingNotifier.doNothing();

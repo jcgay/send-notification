@@ -6,6 +6,7 @@ import fr.jcgay.notification.notifier.DoNothingNotifier
 import fr.jcgay.notification.notifier.anybar.AnyBarNotifier
 import fr.jcgay.notification.notifier.growl.GrowlNotifier
 import fr.jcgay.notification.notifier.kdialog.KdialogNotifier
+import fr.jcgay.notification.notifier.notificationcenter.SimpleNotificationCenterNotifier
 import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifier
 import fr.jcgay.notification.notifier.notifu.NotifuNotifier
 import fr.jcgay.notification.notifier.notifysend.NotifySendNotifier
@@ -46,6 +47,7 @@ class SendNotificationSpec extends Specification {
         'notifu'             || NotifuNotifier
         'kdialog'            || KdialogNotifier
         'anybar'             || AnyBarNotifier
+        'simplenc'           || SimpleNotificationCenterNotifier
         'unknown'            || DoNothingNotifier
     }
 
@@ -68,6 +70,7 @@ class SendNotificationSpec extends Specification {
         'notifu'             || NotifuNotifier
         'kdialog'            || KdialogNotifier
         'anybar'             || AnyBarNotifier
+        'simplenc'           || SimpleNotificationCenterNotifier
         'unknown'            || DoNothingNotifier
     }
 
