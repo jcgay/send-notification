@@ -9,34 +9,21 @@ import static java.util.concurrent.TimeUnit.SECONDS
 
 class KdialogNotifierSpec extends Specification {
 
-    Application application
-    Executor result
-    KdialogNotifier notifier
-    Notification notification
+    Notification notification = Notification.builder('title', 'message', TestIcon.ok()).build()
 
-    def setup() {
-        application = Application.builder('id', 'name', TestIcon.ok()).timeout(SECONDS.toMillis(3)).build()
-        result = new Executor() {
-            String[] command
-
-            @Override
-            void exec(String[] command) {
-                if (command != null) {
-                    this.command = command
-                }
-            }
-        }
-        notifier = new KdialogNotifier(application, KdialogConfiguration.byDefault(), result)
-        notification = Notification.builder('title', 'message', TestIcon.ok()).build()
-    }
+    List<String> executedCommand
+    Executor executor = { String[] command -> executedCommand = command }
 
     def "should build command line to call kdialog"() {
+        given:
+        def application = Application.builder('id', 'name', TestIcon.ok()).timeout(SECONDS.toMillis(3)).build()
+        def notifier = new KdialogNotifier(application, KdialogConfiguration.byDefault(), executor)
 
         when:
         notifier.send(notification)
 
         then:
-        result.command == [
+        executedCommand == [
                 'kdialog',
                 '--passivepopup', notification.message(), '3',
                 '--title', notification.title(),
@@ -45,21 +32,19 @@ class KdialogNotifierSpec extends Specification {
     }
 
     def "should not set timeout when application timeout is the default one"() {
-
-        setup:
-        application = Application.builder('id', 'name', TestIcon.ok()).build()
-        notifier = new KdialogNotifier(application, KdialogConfiguration.byDefault(), result)
+        given:
+        def application = Application.builder('id', 'name', TestIcon.ok()).build()
+        def notifier = new KdialogNotifier(application, KdialogConfiguration.byDefault(), executor)
 
         when:
         notifier.send(notification)
 
         then:
-        result.command == [
+        executedCommand == [
                 'kdialog',
                 '--passivepopup', notification.message(),
                 '--title', notification.title(),
                 '--icon', notification.icon().asPath()
         ]
     }
-
 }

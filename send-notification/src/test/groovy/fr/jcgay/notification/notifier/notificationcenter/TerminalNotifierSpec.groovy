@@ -2,40 +2,30 @@ package fr.jcgay.notification.notifier.notificationcenter
 import fr.jcgay.notification.Application
 import fr.jcgay.notification.Notification
 import fr.jcgay.notification.TestIcon
-import fr.jcgay.notification.notifier.executor.Executor
 import spock.lang.Specification
+import spock.lang.Subject
 
 class TerminalNotifierSpec extends Specification {
 
-    Application application
-    Executor result
+    Application application = Application.builder('id', 'name', TestIcon.ok()).build()
+    List<String> executedCommand
+
+    @Subject
     TerminalNotifier notifier
 
     def setup() {
-        application = Application.builder('id', 'name', TestIcon.ok()).build()
-        result = new Executor() {
-            private String[] command
-
-            @Override
-            void exec(String[] command) {
-                if (command != null) {
-                    this.command = command
-                }
-            }
-        }
-        notifier = new TerminalNotifier(application, TerminalNotifierConfiguration.byDefault(), result)
+        notifier = new TerminalNotifier(application, TerminalNotifierConfiguration.byDefault(), { String[] command -> executedCommand = command })
     }
 
     def "should build command line to call terminal-notifier"() {
-
-        setup:
+        given:
         def notification = Notification.builder('title', 'message', TestIcon.ok()).subtitle('subtitle').build()
 
         when:
         notifier.send(notification)
 
         then:
-        result.command == [
+        executedCommand == [
                 'terminal-notifier',
                 '-title', 'name',
                 '-subtitle', 'subtitle',
@@ -47,14 +37,13 @@ class TerminalNotifierSpec extends Specification {
     }
 
     def "should not set subtitle when notification does not set one"() {
-
-        setup:
+        given:
         def notification = Notification.builder('title', 'message', TestIcon.ok()).build()
 
         when:
         notifier.send(notification)
 
         then:
-        !result.command.contains('-subtitle')
+        !executedCommand.contains('-subtitle')
     }
 }

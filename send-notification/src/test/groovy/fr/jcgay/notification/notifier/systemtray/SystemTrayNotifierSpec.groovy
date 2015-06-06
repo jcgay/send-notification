@@ -11,8 +11,7 @@ class SystemTrayNotifierSpec extends Specification {
 
     @IgnoreIf({ !SystemTray.isSupported() })
     def "should not fail when application has default timeout"() {
-
-        setup:
+        given:
         def application = Application.builder('id', 'name', TestIcon.ok()).build()
         def notifier = new SystemTrayNotifier(application)
 

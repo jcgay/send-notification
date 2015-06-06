@@ -4,7 +4,7 @@ import spock.lang.Specification
 
 import javax.imageio.ImageIO
 
-class AnyBarIconWriterTest extends Specification {
+class AnyBarIconWriterSpec extends Specification {
 
     AnyBarIconWriter writer
     File destinationFolder
@@ -19,22 +19,20 @@ class AnyBarIconWriterTest extends Specification {
     }
 
     def 'should write icons for classic and retina resolutions'() {
-        given:
-        def icon = TestIcon.ok()
-
         when:
-        writer.write(icon)
+        writer.write(TestIcon.ok())
 
         then:
         def classic = new File("${destinationFolder}/ok.png")
         classic.exists()
 
-        def retina = new File("${destinationFolder}/ok@2x.png")
-        retina.exists()
-
         def classicImage = ImageIO.read(classic)
         classicImage.height == 19
         classicImage.width == 19
+
+        and:
+        def retina = new File("${destinationFolder}/ok@2x.png")
+        retina.exists()
 
         def retinaImage = ImageIO.read(retina)
         retinaImage.height == 38

@@ -6,7 +6,6 @@ import spock.lang.Specification
 class PushbulletConfigurationSpec extends Specification {
 
     def "should throw NPE when creating configuration without properties"() {
-
         when:
         PushbulletConfiguration.create(null)
 
@@ -16,7 +15,6 @@ class PushbulletConfigurationSpec extends Specification {
     }
 
     def "should fail when creating configuration without defining api key"() {
-
         when:
         PushbulletConfiguration.create(new Properties())
 
@@ -25,8 +23,7 @@ class PushbulletConfigurationSpec extends Specification {
     }
 
     def "should build user configuration"() {
-
-        setup:
+        given:
         Properties properties = [
                 'notifier.pushbullet.apikey':'key',
                 'notifier.pushbullet.device':'12345'
@@ -41,8 +38,7 @@ class PushbulletConfigurationSpec extends Specification {
     }
 
     def "should build user configuration without device"() {
-
-        setup:
+        given:
         Properties properties = ['notifier.pushbullet.apikey': 'key']
 
         when:

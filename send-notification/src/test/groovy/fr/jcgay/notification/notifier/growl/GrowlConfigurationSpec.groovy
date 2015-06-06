@@ -1,14 +1,15 @@
 package fr.jcgay.notification.notifier.growl
 
 import spock.lang.Specification
+import spock.lang.Unroll
 
 
 class GrowlConfigurationSpec extends Specification {
 
-    def "should build default configuration"() {
-
+    @Unroll
+    def "should build default configuration when properties are [#empty]"() {
         when:
-        def result = GrowlConfiguration.create(input)
+        def result = GrowlConfiguration.create(empty)
 
         then:
         result.host() == GrowlConfiguration.byDefault().host()
@@ -16,7 +17,7 @@ class GrowlConfigurationSpec extends Specification {
         result.port() == GrowlConfiguration.byDefault().port()
 
         where:
-        input << [null, new Properties()]
+        empty << [null, new Properties()]
     }
 
     def "should build user configuration"() {

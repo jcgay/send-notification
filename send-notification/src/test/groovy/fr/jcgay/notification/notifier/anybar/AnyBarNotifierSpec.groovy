@@ -4,17 +4,19 @@ import fr.jcgay.notification.IconFileWriter
 import fr.jcgay.notification.Notification
 import fr.jcgay.notification.TestIcon
 import spock.lang.Specification
+import spock.lang.Subject
 
 class AnyBarNotifierSpec extends Specification {
 
-    DatagramSocket socket
-    IconFileWriter iconWriter
+    DatagramSocket socket = Mock()
+    IconFileWriter iconWriter = Mock()
+
     Application application
+
+    @Subject
     AnyBarNotifier notifier
 
     def setup() {
-        socket = Mock(DatagramSocket)
-        iconWriter = Mock(IconFileWriter)
         application = Application.builder('id', 'name', TestIcon.application()).build()
         notifier = new AnyBarNotifier(application, AnyBarConfiguration.byDefault(), socket, iconWriter)
     }

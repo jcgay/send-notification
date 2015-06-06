@@ -1,16 +1,14 @@
 package fr.jcgay.notification.configuration
 
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class OperatingSystemSpec extends Specification {
 
-    def "should detect when current host is a mac"() {
-
-        setup:
-        def currentOs = new OperatingSystem(os)
-
+    @Unroll
+    def "should return true when #os is a mac"() {
         expect:
-        currentOs.isMac() == result
+        new OperatingSystem(os).isMac() == result
 
         where:
         os           | result
@@ -19,13 +17,10 @@ class OperatingSystemSpec extends Specification {
         'Linux'      | false
     }
 
-    def "should detect when current host is running windows"() {
-
-        setup:
-        def currentOs = new OperatingSystem(os)
-
+    @Unroll
+    def "should return true when #os is windows"() {
         expect:
-        currentOs.isWindows() == result
+        new OperatingSystem(os).isWindows() == result
 
         where:
         os           | result

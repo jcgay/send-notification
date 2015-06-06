@@ -13,20 +13,21 @@ import fr.jcgay.notification.notifier.pushbullet.PushbulletNotifier
 import fr.jcgay.notification.notifier.snarl.SnarlNotifier
 import fr.jcgay.notification.notifier.systemtray.SystemTrayNotifier
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class SendNotificationSpec extends Specification {
 
     SendNotification sendNotification
-    Properties properties = new Properties()
+    Properties properties = ['notifier.pushbullet.apikey': 'apikey']
 
     void setup() {
         sendNotification = new SendNotification(new ConfigurationReader(properties), new OperatingSystem())
     }
 
-    def "should return notifier defined in user configuration"() {
-
-        setup:
-        properties << ['notifier.implementation': notifier, 'notifier.pushbullet.apikey': 'apikey']
+    @Unroll
+    def "should return notifier [#implementation] when user chooses #notifier"() {
+        given:
+        properties << ['notifier.implementation': notifier]
 
         when:
         def result = sendNotification.chooseNotifier()
@@ -35,24 +36,21 @@ class SendNotificationSpec extends Specification {
         implementation.isInstance(result)
 
         where:
-        notifier             | implementation
-        'growl'              | GrowlNotifier
-        'notificationcenter' | TerminalNotifier
-        'notifysend'         | NotifySendNotifier
-        'pushbullet'         | PushbulletNotifier
-        'snarl'              | SnarlNotifier
-        'systemtray'         | SystemTrayNotifier
-        'notifu'             | NotifuNotifier
-        'kdialog'            | KdialogNotifier
-        'anybar'             | AnyBarNotifier
-        'unknown'            | DoNothingNotifier
+        notifier             || implementation
+        'growl'              || GrowlNotifier
+        'notificationcenter' || TerminalNotifier
+        'notifysend'         || NotifySendNotifier
+        'pushbullet'         || PushbulletNotifier
+        'snarl'              || SnarlNotifier
+        'systemtray'         || SystemTrayNotifier
+        'notifu'             || NotifuNotifier
+        'kdialog'            || KdialogNotifier
+        'anybar'             || AnyBarNotifier
+        'unknown'            || DoNothingNotifier
     }
 
-    def "should return notifier when setting override notifier"() {
-
-        setup:
-        properties << ['notifier.pushbullet.apikey': 'apikey']
-
+    @Unroll
+    def "should return notifier [#implementation] when user setting is override by #notifier"() {
         when:
         def result = sendNotification.setChosenNotifier(notifier).chooseNotifier()
 
@@ -60,22 +58,22 @@ class SendNotificationSpec extends Specification {
         implementation.isInstance(result)
 
         where:
-        notifier             | implementation
-        'growl'              | GrowlNotifier
-        'notificationcenter' | TerminalNotifier
-        'notifysend'         | NotifySendNotifier
-        'pushbullet'         | PushbulletNotifier
-        'snarl'              | SnarlNotifier
-        'systemtray'         | SystemTrayNotifier
-        'notifu'             | NotifuNotifier
-        'kdialog'            | KdialogNotifier
-        'anybar'             | AnyBarNotifier
-        'unknown'            | DoNothingNotifier
+        notifier             || implementation
+        'growl'              || GrowlNotifier
+        'notificationcenter' || TerminalNotifier
+        'notifysend'         || NotifySendNotifier
+        'pushbullet'         || PushbulletNotifier
+        'snarl'              || SnarlNotifier
+        'systemtray'         || SystemTrayNotifier
+        'notifu'             || NotifuNotifier
+        'kdialog'            || KdialogNotifier
+        'anybar'             || AnyBarNotifier
+        'unknown'            || DoNothingNotifier
     }
 
-    def "should return default notifier when no configuration (file or manually set) is present"() {
-
-        setup:
+    @Unroll
+    def "should return default notifier [#implementation] for #currentOs when no configuration (file or manually set) is present"() {
+        given:
         sendNotification = new SendNotification(new ConfigurationReader(properties), new OperatingSystem(currentOs))
 
         when:
@@ -85,16 +83,15 @@ class SendNotificationSpec extends Specification {
         implementation.isInstance(result)
 
         where:
-        currentOs    | implementation
-        'Mac OS X'   | GrowlNotifier
-        'Windows XP' | GrowlNotifier
-        'Linux'      | NotifySendNotifier
+        currentOs    || implementation
+        'Mac OS X'   || GrowlNotifier
+        'Windows XP' || GrowlNotifier
+        'Linux'      || NotifySendNotifier
     }
 
     def "should override configuration when adding properties"() {
-
-        setup:
-        properties << ['notifier.implementation': 'growl', 'notifier.pushbullet.apikey': 'apikey']
+        given:
+        properties << ['notifier.implementation': 'growl']
         sendNotification.addConfigurationProperties(['notifier.implementation': 'pushbullet'] as Properties)
 
         when:

@@ -4,37 +4,33 @@ import fr.jcgay.notification.Notification
 import fr.jcgay.notification.TestIcon
 import fr.jcgay.notification.notifier.executor.Executor
 import spock.lang.Specification
+import spock.lang.Subject
+
+import static fr.jcgay.notification.Notification.Level.*
 
 class NotifySendNotifierSpec extends Specification {
 
     Application application
-    Executor result
-    NotifySendNotifier notifier
     Notification notification
+
+    Executor executor = { String[] command -> executedCommand = command }
+    List<String> executedCommand
+
+    @Subject
+    NotifySendNotifier notifier
 
     def setup() {
         application = Application.builder('id', 'name', TestIcon.ok()).timeout(3).build()
-        result = new Executor() {
-            String[] command
-
-            @Override
-            void exec(String[] command) {
-                if (command != null) {
-                    this.command = command
-                }
-            }
-        }
-        notifier = new NotifySendNotifier(application, NotifySendConfiguration.byDefault(), result)
         notification = Notification.builder('title', 'message', TestIcon.ok()).build()
+        notifier = new NotifySendNotifier(application, NotifySendConfiguration.byDefault(), executor)
     }
 
     def "should build command line to call notify-send"() {
-
         when:
         notifier.send(notification)
 
         then:
-        result.command == [
+        executedCommand == [
                 'notify-send', 'title', 'message',
                 '-t', "${application.timeout()}",
                 '-i', new File("${System.getProperty('java.io.tmpdir')}/send-notifications-icons/ok.png").path,
@@ -43,20 +39,18 @@ class NotifySendNotifierSpec extends Specification {
     }
 
     def "should not set timeout when application timeout is equals to -1"() {
-
-        setup:
+        given:
         def application = Application.builder('id', 'name', TestIcon.ok()).build()
-        def notifier = new NotifySendNotifier(application, NotifySendConfiguration.byDefault(), result)
+        def notifier = new NotifySendNotifier(application, NotifySendConfiguration.byDefault(), executor)
 
         when:
         notifier.send(notification)
 
         then:
-        !result.command.contains('-t')
+        !executedCommand.contains('-t')
     }
 
     def "should translate notification level to urgency"() {
-
         given:
         def notification = Notification.builder('title', 'message', TestIcon.ok())
                 .level(level)
@@ -66,12 +60,12 @@ class NotifySendNotifierSpec extends Specification {
         notifier.send(notification)
 
         then:
-        result.command.contains(urgency)
+        executedCommand.contains(urgency)
 
         where:
-        level                      | urgency
-        Notification.Level.INFO    | 'normal'
-        Notification.Level.WARNING | 'critical'
-        Notification.Level.ERROR   | 'critical'
+        level   | urgency
+        INFO    | 'normal'
+        WARNING | 'critical'
+        ERROR   | 'critical'
     }
 }

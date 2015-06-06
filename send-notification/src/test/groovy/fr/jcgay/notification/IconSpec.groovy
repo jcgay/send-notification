@@ -1,13 +1,10 @@
 package fr.jcgay.notification
-
 import spock.lang.Specification
-
 
 class IconSpec extends Specification {
 
     def "should create an icon"() {
-
-        setup:
+        given:
         def content = new URL('file:/test.png')
 
         when:
@@ -19,8 +16,7 @@ class IconSpec extends Specification {
     }
 
     def "should write image in temp folder when url protocol is not file"() {
-
-        setup:
+        given:
         def icon = Icon.create(getClass().getResource("/image/1px${extension}"), 'img')
 
         when:

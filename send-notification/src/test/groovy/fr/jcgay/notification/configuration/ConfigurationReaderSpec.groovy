@@ -6,8 +6,7 @@ import spock.lang.Specification
 class ConfigurationReaderSpec extends Specification {
 
     def "should read configuration from provided path"() {
-
-        setup:
+        given:
         def reader = ConfigurationReader.atUrl(getClass().getResource("/configuration/example.properties").toURI().toURL())
 
         when:
@@ -19,8 +18,7 @@ class ConfigurationReaderSpec extends Specification {
     }
 
     def "should return empty configuration when reading configuration fails"() {
-
-        setup:
+        given:
         def reader = ConfigurationReader.atUrl(new URL('file://unreachable-file'))
 
         when:
@@ -31,8 +29,7 @@ class ConfigurationReaderSpec extends Specification {
     }
 
     def "should return empty configuration when reading configuration from String fails"() {
-
-        setup:
+        given:
         def reader = ConfigurationReader.atPath("unreachable-file")
 
         when:

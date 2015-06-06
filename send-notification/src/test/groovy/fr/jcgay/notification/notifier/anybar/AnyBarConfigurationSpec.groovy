@@ -1,24 +1,24 @@
 package fr.jcgay.notification.notifier.anybar
 
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class AnyBarConfigurationSpec extends Specification {
 
-    def "should build default configuration"() {
-
+    @Unroll
+    def "should build default configuration when properties are [#empty]"() {
         when:
-        def result = AnyBarConfiguration.create(input)
+        def result = AnyBarConfiguration.create(empty)
 
         then:
         result.port() == AnyBarConfiguration.byDefault().port()
         result.host() == AnyBarConfiguration.byDefault().host()
 
         where:
-        input << [null, new Properties()]
+        empty << [null, new Properties()]
     }
 
     def "should build user configuration"() {
-
         given:
         Properties properties = [
             'notifier.anybar.host':'hostname',

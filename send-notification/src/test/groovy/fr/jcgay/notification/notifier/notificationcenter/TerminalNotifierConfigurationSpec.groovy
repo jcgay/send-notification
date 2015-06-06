@@ -1,24 +1,24 @@
 package fr.jcgay.notification.notifier.notificationcenter
 
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class TerminalNotifierConfigurationSpec extends Specification {
 
-    def "should build default configuration"() {
-
+    @Unroll
+    def "should build default configuration when properties are [#empty]"() {
         when:
-        def result = TerminalNotifierConfiguration.create(input)
+        def result = TerminalNotifierConfiguration.create(empty)
 
         then:
         result.bin() == TerminalNotifierConfiguration.byDefault().bin()
         result.activateApplication() == TerminalNotifierConfiguration.byDefault().activateApplication()
 
         where:
-        input << [null, new Properties()]
+        empty << [null, new Properties()]
     }
 
     def "should build user configuration"() {
-
         given:
         Properties properties = [
                 'notifier.notification-center.path':'new path',
