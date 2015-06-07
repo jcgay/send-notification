@@ -14,7 +14,7 @@ Example with *Maven*:
         <dependency>
             <groupId>fr.jcgay.send-notification</groupId>
             <artifactId>send-notification</artifactId>
-            <version>0.4</version>
+            <version>0.5</version>
         </dependency>
      [...]
     </dependencies>
@@ -41,7 +41,7 @@ Then send notification:
 
 ## CLI
 
-Download [bundle](http://search.maven.org/remotecontent?filepath=fr/jcgay/send-notification/send-notification-cli/0.4/send-notification-cli-0.4-binaries.zip), extract it, add the `bin` directory to your `$PATH`.
+Download [bundle](http://search.maven.org/remotecontent?filepath=fr/jcgay/send-notification/send-notification-cli/0.5/send-notification-cli-0.5-binaries.zip), extract it, add the `bin` directory to your `$PATH`.
 
     > send-notification -h
     
@@ -92,6 +92,10 @@ For OS X (at least Mountain lion) with [terminal-notifier](https://github.com/al
 
 ![terminal-notifier](http://jeanchristophegay.com/images/notifier.notification-center.success.png)
 
+Starting from Mavericks with limited features but without dependency.
+
+![notification-center](http://jeanchristophegay.com/images/notifier.simplenc.thumbnail.png)
+
 ##System tray
 
 Use Java `SystemTray` to display notification.
@@ -131,6 +135,12 @@ For OS X, [AnyBar](https://github.com/tonsky/AnyBar).
 For Linux, [SomeBar](https://github.com/limpbrains/somebar)
 
 ![somebar](https://raw.githubusercontent.com/limpbrains/somebar/9019ecd04c5dea6eac27bfd10f0ae75477761236/screenshot.png)
+
+## Toaster
+
+For Windows 8 and higher, [Toaster](https://github.com/nels-o/toaster)
+
+![toaster](http://jeanchristophegay.com/images/notifier.toaster.png)
 
 # Build status
 
