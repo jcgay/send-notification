@@ -13,6 +13,7 @@ import fr.jcgay.notification.notifier.notifysend.NotifySendNotifier
 import fr.jcgay.notification.notifier.pushbullet.PushbulletNotifier
 import fr.jcgay.notification.notifier.snarl.SnarlNotifier
 import fr.jcgay.notification.notifier.systemtray.SystemTrayNotifier
+import fr.jcgay.notification.notifier.toaster.ToasterNotifier
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -48,6 +49,7 @@ class SendNotificationSpec extends Specification {
         'kdialog'            || KdialogNotifier
         'anybar'             || AnyBarNotifier
         'simplenc'           || SimpleNotificationCenterNotifier
+        'toaster'            || ToasterNotifier
         'unknown'            || DoNothingNotifier
     }
 
@@ -71,6 +73,7 @@ class SendNotificationSpec extends Specification {
         'kdialog'            || KdialogNotifier
         'anybar'             || AnyBarNotifier
         'simplenc'           || SimpleNotificationCenterNotifier
+        'toaster'            || ToasterNotifier
         'unknown'            || DoNothingNotifier
     }
 

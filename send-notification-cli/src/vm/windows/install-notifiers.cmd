@@ -20,6 +20,13 @@ mkdir c:\notifu
 7za x %TEMP%\notifu.zip -oc:\notifu -r
 setx PATH "%PATH%;c:\notifu"
 
+echo 'Installing Toaster'
+wget -O %TEMP%\toaster.zip https://github.com/nels-o/toaster/archive/master.zip --no-check-certificate
+if exist c:\toaster rd /s /q c:\toaster
+mkdir c:\toaster
+7za x %TEMP%\toaster.zip -oc:\toaster -r
+setx PATH "%PATH%;c:\toaster\toaster-master\toast\bin\Release"
+
 echo 'Installing Snarl'
 wget -O %TEMP%\melon.exe http://sourceforge.net/projects/snarlwin/files/Goodies/setup-minimal.exe/download
 %TEMP%\melon.exe /S

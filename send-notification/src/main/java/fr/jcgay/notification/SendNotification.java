@@ -22,6 +22,8 @@ import fr.jcgay.notification.notifier.pushbullet.PushbulletNotifier;
 import fr.jcgay.notification.notifier.snarl.SnarlConfiguration;
 import fr.jcgay.notification.notifier.snarl.SnarlNotifier;
 import fr.jcgay.notification.notifier.systemtray.SystemTrayNotifier;
+import fr.jcgay.notification.notifier.toaster.ToasterConfiguration;
+import fr.jcgay.notification.notifier.toaster.ToasterNotifier;
 import org.slf4j.Logger;
 
 import java.util.Properties;
@@ -101,6 +103,8 @@ public class SendNotification {
             return AnyBarNotifier.create(application, AnyBarConfiguration.create(properties));
         } else if ("simplenc".equals(chosenNotifier)) {
             return new SimpleNotificationCenterNotifier(TerminalNotifierConfiguration.create(properties), new RuntimeExecutor());
+        } else if ("toaster".equals(chosenNotifier)) {
+            return new ToasterNotifier(ToasterConfiguration.create(properties), new RuntimeExecutor());
         }
 
         return DoNothingNotifier.doNothing();
