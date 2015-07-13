@@ -1,6 +1,5 @@
 package fr.jcgay.notification.notifier.notificationcenter;
 
-import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import fr.jcgay.notification.Application;
 import fr.jcgay.notification.DiscoverableNotifier;
@@ -68,10 +67,6 @@ public class TerminalNotifier implements DiscoverableNotifier {
         commands.add(CMD_APP_ICON);
         commands.add(application.icon().asPath());
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Will execute command line: " + Joiner.on(" ").skipNulls().join(commands));
-        }
-
         try {
             executor.exec(commands.toArray(new String[commands.size()]));
         } catch (RuntimeException e) {
@@ -89,10 +84,6 @@ public class TerminalNotifier implements DiscoverableNotifier {
         List<String> commands = new ArrayList<String>();
         commands.add(configuration.bin());
         commands.add("-help");
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Will execute command line: " + Joiner.on(" ").skipNulls().join(commands));
-        }
 
         try {
             return executor.exec(commands.toArray(new String[commands.size()])).waitFor() == 0;

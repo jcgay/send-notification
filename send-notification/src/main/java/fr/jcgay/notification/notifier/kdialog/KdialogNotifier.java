@@ -1,6 +1,5 @@
 package fr.jcgay.notification.notifier.kdialog;
 
-import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import fr.jcgay.notification.Application;
 import fr.jcgay.notification.DiscoverableNotifier;
@@ -49,10 +48,6 @@ public class KdialogNotifier implements DiscoverableNotifier {
         commands.add("--icon");
         commands.add(notification.icon().asPath());
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Will execute command line: " + Joiner.on(" ").join(commands));
-        }
-
         try {
             executor.exec(commands.toArray(new String[commands.size()]));
         } catch (RuntimeException e) {
@@ -70,10 +65,6 @@ public class KdialogNotifier implements DiscoverableNotifier {
         List<String> commands = new ArrayList<String>();
         commands.add(configuration.bin());
         commands.add("-v");
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Will execute command line: " + Joiner.on(" ").join(commands));
-        }
 
         try {
             return executor.exec(commands.toArray(new String[commands.size()])).waitFor() == 0;

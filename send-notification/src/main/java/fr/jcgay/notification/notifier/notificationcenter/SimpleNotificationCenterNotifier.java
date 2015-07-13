@@ -1,6 +1,5 @@
 package fr.jcgay.notification.notifier.notificationcenter;
 
-import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import fr.jcgay.notification.DiscoverableNotifier;
 import fr.jcgay.notification.Notification;
@@ -37,10 +36,6 @@ public class SimpleNotificationCenterNotifier implements DiscoverableNotifier {
         commands.add("osascript");
         commands.add("-e");
         commands.add(buildAppleScript(notification));
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Will execute command line: " + Joiner.on(" ").skipNulls().join(commands));
-        }
 
         try {
             executor.exec(commands.toArray(new String[commands.size()]));

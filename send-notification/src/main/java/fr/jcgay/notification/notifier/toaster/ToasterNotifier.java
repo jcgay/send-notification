@@ -1,6 +1,5 @@
 package fr.jcgay.notification.notifier.toaster;
 
-import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import fr.jcgay.notification.DiscoverableNotifier;
 import fr.jcgay.notification.Notification;
@@ -42,10 +41,6 @@ public class ToasterNotifier implements DiscoverableNotifier {
         commands.add("-p");
         commands.add(DOUBLE_QUOTE + notification.icon().asPath() + DOUBLE_QUOTE);
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Will execute command line: " + Joiner.on(" ").join(commands));
-        }
-
         try {
             executor.exec(commands.toArray(new String[commands.size()]));
         } catch (RuntimeException e) {
@@ -62,10 +57,6 @@ public class ToasterNotifier implements DiscoverableNotifier {
     public boolean tryInit() {
         List<String> commands = new ArrayList<String>();
         commands.add(configuration.bin());
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Will execute command line: " + Joiner.on(" ").join(commands));
-        }
 
         try {
             return executor.exec(commands.toArray(new String[commands.size()])).waitFor() == 0;

@@ -1,6 +1,5 @@
 package fr.jcgay.notification.notifier.notifysend;
 
-import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import fr.jcgay.notification.Application;
 import fr.jcgay.notification.DiscoverableNotifier;
@@ -52,10 +51,6 @@ public class NotifySendNotifier implements DiscoverableNotifier {
         commands.add(CMD_URGENCY);
         commands.add(toUrgency(notification.level()));
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Will execute command line: " + Joiner.on(" ").join(commands));
-        }
-
         try {
             executor.exec(commands.toArray(new String[commands.size()]));
         } catch (RuntimeException e) {
@@ -73,10 +68,6 @@ public class NotifySendNotifier implements DiscoverableNotifier {
         List<String> commands = new ArrayList<String>();
         commands.add(configuration.bin());
         commands.add("-v");
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Will execute command line: " + Joiner.on(" ").join(commands));
-        }
 
         try {
             return executor.exec(commands.toArray(new String[commands.size()])).waitFor() == 0;
