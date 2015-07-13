@@ -25,13 +25,12 @@ Get a notifier:
 ```java
     Notifier notifier = new SendNotification()
         .setApplication(application)
-        .chooseNotifier();
+        .initNotifier();
 ```
 
 Then send notification:
 
 ```java
-    notifier.init();
     try {
         notifier.send(notification);
     } finally {

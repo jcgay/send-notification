@@ -21,7 +21,7 @@ public class PusbulletExample {
         Notifier notifier = new SendNotification()
                 .setApplication(application)
                 .setChosenNotifier("pushbullet")
-                .chooseNotifier();
+                .initNotifier();
 
         Notification notification = Notification.builder()
             .title("Pushbullet Notification")
@@ -29,7 +29,6 @@ public class PusbulletExample {
             .icon(Icon.create(icon, "ok"))
             .build();
 
-        notifier.init();
         notifier.send(notification);
         notifier.close();
     }

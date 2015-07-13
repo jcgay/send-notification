@@ -7,11 +7,11 @@ import java.io.IOException;
 public class RuntimeExecutor implements Executor {
 
     @Override
-    public void exec(String[] command) {
+    public Process exec(String[] command) {
         try {
-            Runtime.getRuntime().exec(command);
+            return Runtime.getRuntime().exec(command);
         } catch (IOException e) {
-            Throwables.propagate(e);
+            throw Throwables.propagate(e);
         }
     }
 }

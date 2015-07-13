@@ -1,6 +1,8 @@
 package fr.jcgay.notification.notifier.notificationcenter;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Objects;
+import fr.jcgay.notification.DiscoverableNotifier;
 import fr.jcgay.notification.Notification;
 import fr.jcgay.notification.Notifier;
 import fr.jcgay.notification.notifier.executor.Executor;
@@ -10,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleNotificationCenterNotifier implements Notifier {
+public class SimpleNotificationCenterNotifier implements DiscoverableNotifier {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleNotificationCenterNotifier.class);
     private static final String DOUBLE_QUOTE = "\"";
@@ -25,8 +27,8 @@ public class SimpleNotificationCenterNotifier implements Notifier {
     }
 
     @Override
-    public void init() {
-        // do nothing
+    public Notifier init() {
+        return this;
     }
 
     @Override
@@ -74,5 +76,34 @@ public class SimpleNotificationCenterNotifier implements Notifier {
     @Override
     public void close() {
         // do nothing
+    }
+
+    @Override
+    public boolean tryInit() {
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(configuration);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final SimpleNotificationCenterNotifier other = (SimpleNotificationCenterNotifier) obj;
+        return Objects.equal(this.configuration, other.configuration);
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+            .add("configuration", configuration)
+            .toString();
     }
 }

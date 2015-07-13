@@ -21,7 +21,7 @@ public class GrowlExample {
         Notifier notifier = new SendNotification()
                 .setApplication(application)
                 .setChosenNotifier("growl")
-                .chooseNotifier();
+                .initNotifier();
 
         Notification notification = Notification.builder()
             .title("Growl Notification")
@@ -29,7 +29,6 @@ public class GrowlExample {
             .icon(Icon.create(icon, "ok"))
             .build();
 
-        notifier.init();
         notifier.send(notification);
         notifier.close();
     }

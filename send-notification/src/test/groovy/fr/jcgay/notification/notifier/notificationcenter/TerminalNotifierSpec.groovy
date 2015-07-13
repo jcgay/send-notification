@@ -3,6 +3,7 @@ import fr.jcgay.notification.Application
 import fr.jcgay.notification.Notification
 import fr.jcgay.notification.TestIcon
 import fr.jcgay.notification.notifier.executor.Executor
+import fr.jcgay.notification.notifier.executor.RuntimeExecutor
 import spock.lang.Specification
 import spock.lang.Subject
 
@@ -12,7 +13,7 @@ class TerminalNotifierSpec extends Specification {
     String temp = System.getProperty('java.io.tmpdir')
 
     List<String> executedCommand
-    Executor executor = { String[] command -> executedCommand = command }
+    Executor executor = { String[] command -> executedCommand = command; Stub(Process) }
 
     @Subject
     TerminalNotifier notifier
@@ -70,5 +71,35 @@ class TerminalNotifierSpec extends Specification {
 
         then:
         !executedCommand.contains('-sound')
+    }
+
+    def "should return true when binary is available"() {
+        given:
+        RuntimeExecutor executor = Mock()
+
+        and:
+        def notifier = new TerminalNotifier(application, TerminalNotifierConfiguration.byDefault(), executor)
+
+        when:
+        def result = notifier.tryInit()
+
+        then:
+        result
+        1 * executor.exec([TerminalNotifierConfiguration.byDefault().bin(), '-help']) >> Stub(Process) { waitFor() >> 0 }
+    }
+
+    def "should return false when binary is not available"() {
+        given:
+        RuntimeExecutor executor = Mock()
+
+        and:
+        def notifier = new TerminalNotifier(application, TerminalNotifierConfiguration.byDefault(), executor)
+
+        when:
+        def result = notifier.tryInit()
+
+        then:
+        !result
+        1 * executor.exec([TerminalNotifierConfiguration.byDefault().bin(), '-help']) >> Stub(Process) { waitFor() >> 127 }
     }
 }

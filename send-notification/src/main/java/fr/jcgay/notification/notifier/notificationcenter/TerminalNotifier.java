@@ -1,7 +1,9 @@
 package fr.jcgay.notification.notifier.notificationcenter;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Objects;
 import fr.jcgay.notification.Application;
+import fr.jcgay.notification.DiscoverableNotifier;
 import fr.jcgay.notification.Notification;
 import fr.jcgay.notification.Notifier;
 import fr.jcgay.notification.notifier.executor.Executor;
@@ -11,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TerminalNotifier implements Notifier {
+public class TerminalNotifier implements DiscoverableNotifier {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TerminalNotifier.class);
 
@@ -36,8 +38,8 @@ public class TerminalNotifier implements Notifier {
     }
 
     @Override
-    public void init() {
-        // do nothing
+    public Notifier init() {
+        return this;
     }
 
     @Override
@@ -73,12 +75,58 @@ public class TerminalNotifier implements Notifier {
         try {
             executor.exec(commands.toArray(new String[commands.size()]));
         } catch (RuntimeException e) {
-            throw new TerminalNotifierNotificationException("Error while sending notification to terminal-notifier", e.getCause());
+            throw new TerminalNotifierNotificationException("Error while sending notification to terminal-notifier", e);
         }
     }
 
     @Override
     public void close() {
         // do nothing
+    }
+
+    @Override
+    public boolean tryInit() {
+        List<String> commands = new ArrayList<String>();
+        commands.add(configuration.bin());
+        commands.add("-help");
+
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Will execute command line: " + Joiner.on(" ").skipNulls().join(commands));
+        }
+
+        try {
+            return executor.exec(commands.toArray(new String[commands.size()])).waitFor() == 0;
+        } catch (RuntimeException e) {
+            return false;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(application, configuration);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final TerminalNotifier other = (TerminalNotifier) obj;
+        return Objects.equal(this.application, other.application)
+            && Objects.equal(this.configuration, other.configuration);
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+            .add("application", application)
+            .add("configuration", configuration)
+            .toString();
     }
 }

@@ -1,7 +1,9 @@
 package fr.jcgay.notification.notifier.notifu;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Objects;
 import fr.jcgay.notification.Application;
+import fr.jcgay.notification.DiscoverableNotifier;
 import fr.jcgay.notification.Notification;
 import fr.jcgay.notification.Notifier;
 import fr.jcgay.notification.notifier.executor.Executor;
@@ -13,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-public class NotifuNotifier implements Notifier {
+public class NotifuNotifier implements DiscoverableNotifier {
 
     private static final Logger LOGGER = getLogger(NotifuNotifier.class);
 
@@ -29,8 +31,8 @@ public class NotifuNotifier implements Notifier {
     }
 
     @Override
-    public void init() {
-        // do nothing
+    public Notifier init() {
+        return this;
     }
 
     @Override
@@ -60,7 +62,6 @@ public class NotifuNotifier implements Notifier {
         } catch (RuntimeException e) {
             throw new NotifuException("Error while sending notification to notifu.", e.getCause());
         }
-
     }
 
     private static String toType(Notification.Level level) {
@@ -77,5 +78,51 @@ public class NotifuNotifier implements Notifier {
     @Override
     public void close() {
         // do nothing
+    }
+
+    @Override
+    public boolean tryInit() {
+        List<String> commands = new ArrayList<String>();
+        commands.add(configuration.bin());
+        commands.add("/v");
+
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Will execute command line: " + Joiner.on(" ").join(commands));
+        }
+
+        try {
+            return executor.exec(commands.toArray(new String[commands.size()])).waitFor() == 0;
+        } catch (RuntimeException e) {
+            return false;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(application, configuration);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final NotifuNotifier other = (NotifuNotifier) obj;
+        return Objects.equal(this.application, other.application)
+            && Objects.equal(this.configuration, other.configuration);
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+            .add("configuration", configuration)
+            .add("application", application)
+            .toString();
     }
 }

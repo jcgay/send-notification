@@ -3,6 +3,7 @@ import fr.jcgay.notification.Application
 import fr.jcgay.notification.Notification
 import fr.jcgay.notification.TestIcon
 import fr.jcgay.notification.notifier.executor.Executor
+import fr.jcgay.notification.notifier.executor.RuntimeExecutor
 import spock.lang.Specification
 import spock.lang.Subject
 
@@ -13,7 +14,7 @@ class NotifySendNotifierSpec extends Specification {
     Application application
     Notification notification
 
-    Executor executor = { String[] command -> executedCommand = command }
+    Executor executor = { String[] command -> executedCommand = command; Stub(Process) }
     List<String> executedCommand
 
     @Subject
@@ -68,4 +69,35 @@ class NotifySendNotifierSpec extends Specification {
         WARNING | 'critical'
         ERROR   | 'critical'
     }
+
+    def "should return false when binary is not available"() {
+        given:
+        RuntimeExecutor executor = Mock()
+
+        and:
+        def notifier = new NotifySendNotifier(application, NotifySendConfiguration.byDefault(), executor)
+
+        when:
+        def result = notifier.tryInit()
+
+        then:
+        !result
+        1 * executor.exec([NotifySendConfiguration.byDefault().bin(), '-v']) >> Stub(Process) { waitFor() >> 127 }
+    }
+
+    def "should return true when binary is available"() {
+        given:
+        RuntimeExecutor executor = Mock()
+
+        and:
+        def notifier = new NotifySendNotifier(application, NotifySendConfiguration.byDefault(), executor)
+
+        when:
+        def result = notifier.tryInit()
+
+        then:
+        result
+        1 * executor.exec([NotifySendConfiguration.byDefault().bin(), '-v']) >> Stub(Process) { waitFor() >> 0 }
+    }
+
 }

@@ -21,7 +21,7 @@ public class TerminalNotifierExample {
         Notifier notifier = new SendNotification()
                 .setApplication(application)
                 .setChosenNotifier("notificationcenter")
-                .chooseNotifier();
+                .initNotifier();
 
         Notification notification = Notification.builder()
             .title("Terminal Notifier Notification")

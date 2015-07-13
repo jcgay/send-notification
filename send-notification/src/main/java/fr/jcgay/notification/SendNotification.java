@@ -3,30 +3,10 @@ package fr.jcgay.notification;
 import fr.jcgay.notification.configuration.ConfigurationReader;
 import fr.jcgay.notification.configuration.OperatingSystem;
 import fr.jcgay.notification.notifier.DoNothingNotifier;
-import fr.jcgay.notification.notifier.anybar.AnyBarConfiguration;
-import fr.jcgay.notification.notifier.anybar.AnyBarNotifier;
-import fr.jcgay.notification.notifier.executor.RuntimeExecutor;
-import fr.jcgay.notification.notifier.growl.GrowlConfiguration;
-import fr.jcgay.notification.notifier.growl.GrowlNotifier;
-import fr.jcgay.notification.notifier.kdialog.KdialogConfiguration;
-import fr.jcgay.notification.notifier.kdialog.KdialogNotifier;
-import fr.jcgay.notification.notifier.notificationcenter.SimpleNotificationCenterNotifier;
-import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifier;
-import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifierConfiguration;
-import fr.jcgay.notification.notifier.notifu.NotifuConfiguration;
-import fr.jcgay.notification.notifier.notifu.NotifuNotifier;
-import fr.jcgay.notification.notifier.notifysend.NotifySendConfiguration;
-import fr.jcgay.notification.notifier.notifysend.NotifySendNotifier;
-import fr.jcgay.notification.notifier.pushbullet.PushbulletConfiguration;
-import fr.jcgay.notification.notifier.pushbullet.PushbulletNotifier;
-import fr.jcgay.notification.notifier.snarl.SnarlConfiguration;
-import fr.jcgay.notification.notifier.snarl.SnarlNotifier;
-import fr.jcgay.notification.notifier.systemtray.SystemTrayNotifier;
-import fr.jcgay.notification.notifier.toaster.ToasterConfiguration;
-import fr.jcgay.notification.notifier.toaster.ToasterNotifier;
 import org.slf4j.Logger;
 
 import java.util.Properties;
+import java.util.Set;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -46,7 +26,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  * <pre>{@code
  * Notifier notifier = new SendNotification()
  *  .setApplication(application)
- *  .chooseNotifier();
+ *  .initNotifier();
  * }</pre>
  */
 public class SendNotification {
@@ -54,6 +34,7 @@ public class SendNotification {
     private static final Logger LOGGER = getLogger(SendNotification.class);
 
     private final OperatingSystem currentOs;
+    private final NotifierProvider provider;
 
     private ConfigurationReader configuration;
     private Application application;
@@ -61,12 +42,32 @@ public class SendNotification {
     private Properties additionalConfiguration;
 
     SendNotification(ConfigurationReader configuration, OperatingSystem currentOs) {
+        this(configuration, currentOs, new NotifierProvider(currentOs));
+    }
+
+    SendNotification(ConfigurationReader configuration, OperatingSystem currentOs, NotifierProvider provider) {
         this.configuration = configuration;
         this.currentOs = currentOs;
+        this.provider = provider;
     }
 
     public SendNotification() {
         this(ConfigurationReader.atPath(System.getProperty("user.home") + "/.send-notification"), new OperatingSystem());
+    }
+
+    DiscoverableNotifier chooseNotifier() {
+        Properties properties = configuration.get();
+        LOGGER.debug("Configuration is: {}.", properties);
+
+        mergeConfigurations(properties);
+        maySetNotifierFromPropertyConfiguration(properties);
+
+        if (chosenNotifier != null) {
+            LOGGER.debug("Notifications will be send to: {} for application: {}.", chosenNotifier, application);
+            return provider.byName(chosenNotifier, properties, application);
+        }
+
+        return defaultNotifier(properties);
     }
 
     /**
@@ -74,40 +75,8 @@ public class SendNotification {
      *
      * @return notifier based on provided configuration.
      */
-    public Notifier chooseNotifier() {
-        Properties properties = configuration.get();
-        LOGGER.debug("Configuration is: {}.", properties);
-
-        mergeConfigurations(properties);
-        maySetNotifierFromPropertyConfiguration(properties);
-        maySetDefaultNotifier();
-
-        LOGGER.debug("Notifications will be send to: {} for application: {}.", chosenNotifier, application);
-        if ("growl".equalsIgnoreCase(chosenNotifier)) {
-            return new GrowlNotifier(application, GrowlConfiguration.create(properties));
-        } else if ("notificationcenter".equals(chosenNotifier)) {
-            return new TerminalNotifier(application, TerminalNotifierConfiguration.create(properties), new RuntimeExecutor());
-        } else if ("notifysend".equals(chosenNotifier)) {
-            return new NotifySendNotifier(application, NotifySendConfiguration.create(properties), new RuntimeExecutor());
-        } else if ("pushbullet".equals(chosenNotifier)) {
-            return new PushbulletNotifier(application, PushbulletConfiguration.create(properties));
-        } else if ("snarl".equals(chosenNotifier)) {
-            return new SnarlNotifier(application, SnarlConfiguration.create(properties));
-        } else if ("systemtray".equals(chosenNotifier)) {
-            return new SystemTrayNotifier(application);
-        } else if ("notifu".equals(chosenNotifier)) {
-            return new NotifuNotifier(application, NotifuConfiguration.create(properties), new RuntimeExecutor());
-        } else if ("kdialog".equals(chosenNotifier)) {
-            return new KdialogNotifier(application, KdialogConfiguration.create(properties), new RuntimeExecutor());
-        } else if ("anybar".equals(chosenNotifier)) {
-            return AnyBarNotifier.create(application, AnyBarConfiguration.create(properties));
-        } else if ("simplenc".equals(chosenNotifier)) {
-            return new SimpleNotificationCenterNotifier(TerminalNotifierConfiguration.create(properties), new RuntimeExecutor());
-        } else if ("toaster".equals(chosenNotifier)) {
-            return new ToasterNotifier(ToasterConfiguration.create(properties), new RuntimeExecutor());
-        }
-
-        return DoNothingNotifier.doNothing();
+    public Notifier initNotifier() {
+        return chooseNotifier().init();
     }
 
     /**
@@ -160,20 +129,22 @@ public class SendNotification {
         return this;
     }
 
+    private DiscoverableNotifier defaultNotifier(Properties properties) {
+        Set<DiscoverableNotifier> all = provider.available(properties, application);
+        for (DiscoverableNotifier candidate : all) {
+            boolean isAvailable = candidate.tryInit();
+            LOGGER.debug("{} is available ? {}.", candidate, isAvailable);
+            if (isAvailable) {
+                return candidate;
+            }
+        }
+        return DoNothingNotifier.doNothing();
+    }
+
     private void mergeConfigurations(Properties properties) {
         if (additionalConfiguration != null) {
             LOGGER.debug("Overriding previous configuration with: {}.", additionalConfiguration);
             properties.putAll(additionalConfiguration);
-        }
-    }
-
-    private void maySetDefaultNotifier() {
-        if (chosenNotifier == null) {
-            if (currentOs.isWindows() || currentOs.isMac()) {
-                chosenNotifier = "growl";
-            } else {
-                chosenNotifier = "notifysend";
-            }
         }
     }
 

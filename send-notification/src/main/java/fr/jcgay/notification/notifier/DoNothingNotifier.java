@@ -1,9 +1,10 @@
 package fr.jcgay.notification.notifier;
 
+import fr.jcgay.notification.DiscoverableNotifier;
 import fr.jcgay.notification.Notification;
 import fr.jcgay.notification.Notifier;
 
-public class DoNothingNotifier implements Notifier {
+public class DoNothingNotifier implements DiscoverableNotifier {
 
     private static final DoNothingNotifier INSTANCE = new DoNothingNotifier();
 
@@ -15,8 +16,8 @@ public class DoNothingNotifier implements Notifier {
     }
 
     @Override
-    public void init() {
-        // do nothing
+    public Notifier init() {
+        return this;
     }
 
     @Override
@@ -27,5 +28,10 @@ public class DoNothingNotifier implements Notifier {
     @Override
     public void close() {
         // do nothing
+    }
+
+    @Override
+    public boolean tryInit() {
+        return true;
     }
 }

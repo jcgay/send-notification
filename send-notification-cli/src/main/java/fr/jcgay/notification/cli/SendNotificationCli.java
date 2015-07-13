@@ -67,7 +67,6 @@ public class SendNotificationCli {
     }
 
     private void sendNotificationUsing(Notifier notify) {
-        notify.init();
         try {
             Notification.Builder notification = Notification.builder()
                 .title(title)
@@ -86,14 +85,14 @@ public class SendNotificationCli {
     private Notifier buildNotifier() {
         return new SendNotification()
                 .setApplication(application())
-                .chooseNotifier();
+                .initNotifier();
     }
 
     private static Notifier buildNotifier(String notifier) {
         return new SendNotification()
                         .setApplication(application())
                         .setChosenNotifier(notifier)
-                        .chooseNotifier();
+                        .initNotifier();
     }
 
     private Icon notificationIcon() {

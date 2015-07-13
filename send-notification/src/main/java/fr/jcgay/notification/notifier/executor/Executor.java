@@ -1,5 +1,5 @@
 package fr.jcgay.notification.notifier.executor;
 
 public interface Executor {
-    void exec(String[] command);
+    Process exec(String[] command);
 }

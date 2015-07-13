@@ -21,7 +21,7 @@ public class SimpleNotificationCenter {
         Notifier notifier = new SendNotification()
             .setApplication(application)
             .setChosenNotifier("simplenc")
-            .chooseNotifier();
+            .initNotifier();
 
         Notification notification = Notification.builder()
             .title("Notification Center Notification")

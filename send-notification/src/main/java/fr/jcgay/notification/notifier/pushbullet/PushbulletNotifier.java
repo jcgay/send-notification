@@ -9,6 +9,7 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 import fr.jcgay.notification.Application;
+import fr.jcgay.notification.DiscoverableNotifier;
 import fr.jcgay.notification.Notification;
 import fr.jcgay.notification.Notifier;
 import org.slf4j.Logger;
@@ -18,7 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.Proxy;
 
-public class PushbulletNotifier implements Notifier {
+public class PushbulletNotifier implements DiscoverableNotifier {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PushbulletNotifier.class);
 
@@ -32,7 +33,11 @@ public class PushbulletNotifier implements Notifier {
     }
 
     @Override
-    public void init() {
+    public Notifier init() {
+        if (client != null) {
+            return this;
+        }
+
         client = new OkHttpClient();
         client.setAuthenticator(new Authenticator() {
             @Override
@@ -46,6 +51,8 @@ public class PushbulletNotifier implements Notifier {
                 return authenticate(proxy, response);
             }
         });
+
+        return this;
     }
 
     @Override
@@ -98,5 +105,10 @@ public class PushbulletNotifier implements Notifier {
     @Override
     public void close() {
         // do nothing
+    }
+
+    @Override
+    public boolean tryInit() {
+        return false;
     }
 }

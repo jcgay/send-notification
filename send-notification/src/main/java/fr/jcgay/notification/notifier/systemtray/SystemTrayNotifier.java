@@ -1,6 +1,8 @@
 package fr.jcgay.notification.notifier.systemtray;
 
+import com.google.common.base.Objects;
 import fr.jcgay.notification.Application;
+import fr.jcgay.notification.DiscoverableNotifier;
 import fr.jcgay.notification.Notification;
 import fr.jcgay.notification.Notifier;
 import org.slf4j.Logger;
@@ -11,7 +13,7 @@ import java.awt.TrayIcon.MessageType;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-public class SystemTrayNotifier implements Notifier {
+public class SystemTrayNotifier implements DiscoverableNotifier {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SystemTrayNotifier.class);
 
@@ -26,11 +28,15 @@ public class SystemTrayNotifier implements Notifier {
     }
 
     @Override
-    public void init() {
+    public Notifier init() {
+        if (icon != null) {
+            return this;
+        }
+
         if (!SystemTray.isSupported()) {
             skipNotifications = true;
             LOGGER.warn("SystemTray is not supported, skipping notifications...");
-            return;
+            return this;
         }
 
         icon = new TrayIcon(createImage(application.icon().toByteArray()), application.name());
@@ -41,6 +47,8 @@ public class SystemTrayNotifier implements Notifier {
         } catch (AWTException e) {
             throw new SystemTrayNotificationException("Error initializing SystemTray Icon.", e);
         }
+
+        return this;
     }
 
     @Override
@@ -63,6 +71,12 @@ public class SystemTrayNotifier implements Notifier {
         }
     }
 
+    @Override
+    public boolean tryInit() {
+        init();
+        return !skipNotifications;
+    }
+
     private static MessageType toMessageType(Notification.Level level) {
         switch (level) {
             case INFO:
@@ -78,5 +92,29 @@ public class SystemTrayNotifier implements Notifier {
 
     private Image createImage(byte[] imageData) {
         return Toolkit.getDefaultToolkit().createImage(imageData);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(application);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final SystemTrayNotifier other = (SystemTrayNotifier) obj;
+        return Objects.equal(this.application, other.application);
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+            .add("application", application)
+            .toString();
     }
 }

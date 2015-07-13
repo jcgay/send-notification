@@ -27,7 +27,7 @@ class SendNotificationSpec extends Specification {
     }
 
     @Unroll
-    def "should return notifier [#implementation] when user chooses #notifier"() {
+    def "should return notifier [#implementation.simpleName] when user chooses #notifier"() {
         given:
         properties << ['notifier.implementation': notifier]
 
@@ -54,7 +54,7 @@ class SendNotificationSpec extends Specification {
     }
 
     @Unroll
-    def "should return notifier [#implementation] when user setting is override by #notifier"() {
+    def "should return notifier [#implementation.simpleName] when user setting is override by #notifier"() {
         when:
         def result = sendNotification.setChosenNotifier(notifier).chooseNotifier()
 
@@ -77,22 +77,27 @@ class SendNotificationSpec extends Specification {
         'unknown'            || DoNothingNotifier
     }
 
-    @Unroll
-    def "should return default notifier [#implementation] for #currentOs when no configuration (file or manually set) is present"() {
+    def "should return available notifier when no configuration is present"() {
         given:
-        sendNotification = new SendNotification(new ConfigurationReader(properties), new OperatingSystem(currentOs))
+        DiscoverableNotifier notAvailable = Stub() {
+            tryInit() >> false
+        }
+        DiscoverableNotifier isAvailable = Stub() {
+            tryInit() >> true
+        }
+
+        NotifierProvider provider = Stub() {
+            available(_, _) >> [notAvailable, isAvailable]
+        }
+
+        and:
+        sendNotification = new SendNotification(new ConfigurationReader(properties), new OperatingSystem("mac"), provider)
 
         when:
         def result = sendNotification.chooseNotifier()
 
         then:
-        implementation.isInstance(result)
-
-        where:
-        currentOs    || implementation
-        'Mac OS X'   || GrowlNotifier
-        'Windows XP' || GrowlNotifier
-        'Linux'      || NotifySendNotifier
+        result == isAvailable
     }
 
     def "should override configuration when adding properties"() {

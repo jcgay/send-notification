@@ -20,7 +20,7 @@ public class AnyBarExample {
         Notifier notifier = new SendNotification()
             .setApplication(application)
             .setChosenNotifier("anybar")
-            .chooseNotifier();
+            .initNotifier();
 
         Notification notification = Notification.builder()
             .title("AnyBar Notification")
@@ -28,7 +28,6 @@ public class AnyBarExample {
             .icon(Icon.create(icon, "error"))
             .build();
 
-        notifier.init();
         notifier.send(notification);
         notifier.close();
     }

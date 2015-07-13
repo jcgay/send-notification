@@ -9,7 +9,7 @@ import spock.lang.Subject
 class SimpleNotificationCenterSpec extends Specification {
 
     List<String> executedCommand
-    Executor executor = { String[] command -> executedCommand = command }
+    Executor executor = { String[] command -> executedCommand = command; Stub(Process) }
 
     @Subject
     SimpleNotificationCenterNotifier notifier

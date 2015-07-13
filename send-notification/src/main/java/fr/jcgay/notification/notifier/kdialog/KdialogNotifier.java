@@ -1,7 +1,9 @@
 package fr.jcgay.notification.notifier.kdialog;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Objects;
 import fr.jcgay.notification.Application;
+import fr.jcgay.notification.DiscoverableNotifier;
 import fr.jcgay.notification.Notification;
 import fr.jcgay.notification.Notifier;
 import fr.jcgay.notification.notifier.executor.Executor;
@@ -13,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-public class KdialogNotifier implements Notifier {
+public class KdialogNotifier implements DiscoverableNotifier {
 
     private static final Logger LOGGER = getLogger(KdialogNotifier.class);
 
@@ -29,8 +31,8 @@ public class KdialogNotifier implements Notifier {
     }
 
     @Override
-    public void init() {
-        // do nothing
+    public Notifier init() {
+        return this;
     }
 
     @Override
@@ -54,12 +56,58 @@ public class KdialogNotifier implements Notifier {
         try {
             executor.exec(commands.toArray(new String[commands.size()]));
         } catch (RuntimeException e) {
-            throw new KdialogException("Error while sending notification with Kdialog.", e.getCause());
+            throw new KdialogException("Error while sending notification with Kdialog.", e);
         }
     }
 
     @Override
     public void close() {
         // do nothing
+    }
+
+    @Override
+    public boolean tryInit() {
+        List<String> commands = new ArrayList<String>();
+        commands.add(configuration.bin());
+        commands.add("-v");
+
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Will execute command line: " + Joiner.on(" ").join(commands));
+        }
+
+        try {
+            return executor.exec(commands.toArray(new String[commands.size()])).waitFor() == 0;
+        } catch (RuntimeException e) {
+            return false;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(application, configuration);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final KdialogNotifier other = (KdialogNotifier) obj;
+        return Objects.equal(this.application, other.application)
+            && Objects.equal(this.configuration, other.configuration);
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+            .add("configuration", configuration)
+            .add("application", application)
+            .toString();
     }
 }

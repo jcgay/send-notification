@@ -22,7 +22,7 @@ public class SystemTrayExample {
         Notifier notifier = new SendNotification()
                 .setApplication(application)
                 .setChosenNotifier("systemtray")
-                .chooseNotifier();
+                .initNotifier();
 
         Notification notification = Notification.builder()
             .title("SystemTray Notification")
@@ -30,7 +30,6 @@ public class SystemTrayExample {
             .icon(Icon.create(icon, "ok"))
             .build();
 
-        notifier.init();
         notifier.send(notification);
         notifier.close();
     }

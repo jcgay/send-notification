@@ -23,7 +23,7 @@ public class NotifySendExample {
         Notifier notifier = new SendNotification()
                 .setApplication(application)
                 .setChosenNotifier("notifysend")
-                .chooseNotifier();
+                .initNotifier();
 
         Notification notification = Notification.builder()
             .title("Notify Send Notification")

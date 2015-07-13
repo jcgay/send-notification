@@ -21,7 +21,7 @@ public class SnarlExample {
         Notifier notifier = new SendNotification()
                 .setApplication(application)
                 .setChosenNotifier("snarl")
-                .chooseNotifier();
+                .initNotifier();
 
         Notification notification = Notification.builder()
             .title("Snarl Notification")
@@ -29,7 +29,6 @@ public class SnarlExample {
             .icon(Icon.create(icon, "ok"))
             .build();
 
-        notifier.init();
         notifier.send(notification);
         notifier.close();
     }
