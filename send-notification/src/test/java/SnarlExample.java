@@ -6,7 +6,7 @@ import fr.jcgay.notification.SendNotification;
 
 import java.net.URL;
 
-public class SnarlExample {
+class SnarlExample {
 
     public static void main(String[] args) {
 

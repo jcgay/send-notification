@@ -91,7 +91,7 @@ class SendNotificationSpec extends Specification {
         }
 
         and:
-        sendNotification = new SendNotification(new ConfigurationReader(properties), new OperatingSystem("mac"), provider)
+        sendNotification = new SendNotification(new ConfigurationReader(properties), provider)
 
         when:
         def result = sendNotification.chooseNotifier()

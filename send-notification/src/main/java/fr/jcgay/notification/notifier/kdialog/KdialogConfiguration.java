@@ -7,7 +7,7 @@ import java.util.Properties;
 @AutoValue
 public abstract class KdialogConfiguration {
 
-    public static final KdialogConfiguration DEFAULT = new AutoValue_KdialogConfiguration("kdialog");
+    private static final KdialogConfiguration DEFAULT = new AutoValue_KdialogConfiguration("kdialog");
 
     public abstract String bin();
 

@@ -30,7 +30,7 @@ import java.util.Set;
 
 import static java.util.Collections.unmodifiableSet;
 
-public class NotifierProvider {
+class NotifierProvider {
 
     private static final String GROWL = "growl";
     private static final String NOTIFICATION_CENTER = "notificationcenter";
@@ -44,9 +44,8 @@ public class NotifierProvider {
     private static final String SIMPLE_NOTIFICATION_CENTER = "simplenc";
     private static final String TOASTER = "toaster";
 
+    private final RuntimeExecutor executor = new RuntimeExecutor();
     private final OperatingSystem os;
-
-    private RuntimeExecutor executor;
 
     public NotifierProvider(OperatingSystem os) {
         this.os = os;
@@ -56,7 +55,6 @@ public class NotifierProvider {
         if (GROWL.equalsIgnoreCase(name)) {
             return new GrowlNotifier(application, GrowlConfiguration.create(properties));
         } else {
-            executor = new RuntimeExecutor();
             if (NOTIFICATION_CENTER.equals(name)) {
                 return new TerminalNotifier(application, TerminalNotifierConfiguration.create(properties), executor);
             } else if (NOTIFY_SEND.equals(name)) {
@@ -85,7 +83,7 @@ public class NotifierProvider {
 
     public Set<DiscoverableNotifier> available(Properties configuration, Application application) {
         if (os.isMac()) {
-            LinkedHashSet<DiscoverableNotifier> macNotifiers = new LinkedHashSet<DiscoverableNotifier>();
+            Set<DiscoverableNotifier> macNotifiers = new LinkedHashSet<DiscoverableNotifier>();
             macNotifiers.add(byName(GROWL, configuration, application));
             macNotifiers.add(byName(NOTIFICATION_CENTER, configuration, application));
             macNotifiers.add(byName(SYSTEM_TRAY,  configuration, application));
@@ -93,7 +91,7 @@ public class NotifierProvider {
         }
 
         if (os.isWindows()) {
-            LinkedHashSet<DiscoverableNotifier> winNotifiers = new LinkedHashSet<DiscoverableNotifier>();
+            Set<DiscoverableNotifier> winNotifiers = new LinkedHashSet<DiscoverableNotifier>();
             winNotifiers.add(byName(SNARL, configuration, application));
             winNotifiers.add(byName(GROWL, configuration, application));
             winNotifiers.add(byName(TOASTER, configuration, application));
@@ -101,7 +99,7 @@ public class NotifierProvider {
             return unmodifiableSet(winNotifiers);
         }
 
-        LinkedHashSet<DiscoverableNotifier> linuxNotifiers = new LinkedHashSet<DiscoverableNotifier>();
+        Set<DiscoverableNotifier> linuxNotifiers = new LinkedHashSet<DiscoverableNotifier>();
         linuxNotifiers.add(byName(KDIALOG, configuration, application));
         linuxNotifiers.add(byName(NOTIFY_SEND, configuration, application));
         linuxNotifiers.add(byName(SYSTEM_TRAY,  configuration, application));

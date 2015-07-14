@@ -6,7 +6,7 @@ import fr.jcgay.notification.SendNotification;
 
 import java.net.URL;
 
-public class AnyBarExample {
+class AnyBarExample {
 
     public static void main(String[] args) {
         URL icon = AnyBarExample.class.getResource("/image/dialog-clean.png");

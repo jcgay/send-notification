@@ -7,7 +7,7 @@ import fr.jcgay.notification.SendNotification;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
-public class NotifySendExample {
+class NotifySendExample {
 
     public static void main(String[] args) {
 

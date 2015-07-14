@@ -44,7 +44,7 @@ public class SimpleNotificationCenterNotifier implements DiscoverableNotifier {
         }
     }
 
-    public String buildAppleScript(Notification notification) {
+    private String buildAppleScript(Notification notification) {
         StringBuilder script = new StringBuilder("display notification ");
         script.append(DOUBLE_QUOTE)
             .append(notification.message())

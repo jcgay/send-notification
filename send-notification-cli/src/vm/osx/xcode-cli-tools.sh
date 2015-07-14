@@ -1,4 +1,5 @@
-# create the placeholder file that's checked by CLI updates' .dist code 
+#!/usr/bin/env bash
+# create the placeholder file that's checked by CLI updates' .dist code
 # in Apple's SUS catalog
 touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
 # find the CLI Tools update

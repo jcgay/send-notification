@@ -54,7 +54,7 @@ public class AnyBarNotifier implements DiscoverableNotifier {
 
         try {
             if (application.timeout() > 0) {
-                socket.setSoTimeout(Long.valueOf(application.timeout()).intValue());
+                socket.setSoTimeout((int) application.timeout());
             }
         } catch (java.io.IOException e) {
             throw new AnyBarException("Error while setting socket timeout", e);

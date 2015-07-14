@@ -6,7 +6,7 @@ import fr.jcgay.notification.SendNotification;
 
 import java.net.URL;
 
-public class PusbulletExample {
+class PusbulletExample {
 
     public static void main(String[] args) {
 

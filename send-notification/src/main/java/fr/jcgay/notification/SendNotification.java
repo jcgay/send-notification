@@ -1,5 +1,6 @@
 package fr.jcgay.notification;
 
+import com.google.common.annotations.VisibleForTesting;
 import fr.jcgay.notification.configuration.ConfigurationReader;
 import fr.jcgay.notification.configuration.OperatingSystem;
 import fr.jcgay.notification.notifier.DoNothingNotifier;
@@ -33,7 +34,6 @@ public class SendNotification {
 
     private static final Logger LOGGER = getLogger(SendNotification.class);
 
-    private final OperatingSystem currentOs;
     private final NotifierProvider provider;
 
     private ConfigurationReader configuration;
@@ -42,12 +42,11 @@ public class SendNotification {
     private Properties additionalConfiguration;
 
     SendNotification(ConfigurationReader configuration, OperatingSystem currentOs) {
-        this(configuration, currentOs, new NotifierProvider(currentOs));
+        this(configuration, new NotifierProvider(currentOs));
     }
 
-    SendNotification(ConfigurationReader configuration, OperatingSystem currentOs, NotifierProvider provider) {
+    SendNotification(ConfigurationReader configuration, NotifierProvider provider) {
         this.configuration = configuration;
-        this.currentOs = currentOs;
         this.provider = provider;
     }
 
@@ -55,6 +54,7 @@ public class SendNotification {
         this(ConfigurationReader.atPath(System.getProperty("user.home") + "/.send-notification"), new OperatingSystem());
     }
 
+    @VisibleForTesting
     DiscoverableNotifier chooseNotifier() {
         Properties properties = configuration.get();
         LOGGER.debug("Configuration is: {}.", properties);

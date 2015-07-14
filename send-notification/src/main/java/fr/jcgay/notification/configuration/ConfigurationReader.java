@@ -15,7 +15,7 @@ public class ConfigurationReader {
 
     private final Properties properties;
 
-    public ConfigurationReader(Properties properties) {
+    private ConfigurationReader(Properties properties) {
         this.properties = properties;
     }
 
