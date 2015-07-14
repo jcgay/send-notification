@@ -3,7 +3,7 @@
     <parent>
         <groupId>fr.jcgay.maven</groupId>
         <artifactId>jcgay-build-configuration</artifactId>
-        <version>1.4</version>
+        <version>1.5</version>
     </parent>
 
     <groupId>fr.jcgay.send-notification</groupId>
