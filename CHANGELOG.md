@@ -1,3 +1,8 @@
+#0.6
+***
+
+- Can automatically select notifier if they are available ([3c0339c](http://github.com/jcgay/send-notification/commit/3c0339c7397446a38d820e69a1101b82bead4131))
+
 #0.5
 ***
 
