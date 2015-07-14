@@ -145,3 +145,13 @@ For Windows 8 and higher, [Toaster](https://github.com/nels-o/toaster)
 
 [![Build Status](https://travis-ci.org/jcgay/send-notification.svg?branch=master)](https://travis-ci.org/jcgay/send-notification)
 [![Coverage Status](https://coveralls.io/repos/jcgay/send-notification/badge.svg?branch=master)](https://coveralls.io/r/jcgay/send-notification?branch=master)
+
+# Release
+
+Deploy to Maven Central:
+
+    mvn release:prepare release:perform
+    
+Deploy to Bintray:
+
+    etc/deploy-bintray.sh    
