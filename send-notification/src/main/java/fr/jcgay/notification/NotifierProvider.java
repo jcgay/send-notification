@@ -54,31 +54,38 @@ class NotifierProvider {
     public DiscoverableNotifier byName(String name, Properties properties, Application application) {
         if (GROWL.equalsIgnoreCase(name)) {
             return new GrowlNotifier(application, GrowlConfiguration.create(properties));
-        } else {
-            if (NOTIFICATION_CENTER.equals(name)) {
-                return new TerminalNotifier(application, TerminalNotifierConfiguration.create(properties), executor);
-            } else if (NOTIFY_SEND.equals(name)) {
-                return new NotifySendNotifier(application, NotifySendConfiguration.create(properties), executor);
-            } else if (PUSHBULLET.equals(name)) {
-                return new PushbulletNotifier(application, PushbulletConfiguration.create(properties));
-            } else if (SNARL.equals(name)) {
-                return new SnarlNotifier(application, SnarlConfiguration.create(properties));
-            } else if (SYSTEM_TRAY.equals(name)) {
-                return new SystemTrayNotifier(application);
-            } else if (NOTIFU.equals(name)) {
-                return new NotifuNotifier(application, NotifuConfiguration.create(properties), executor);
-            } else if (KDIALOG.equals(name)) {
-                return new KdialogNotifier(application, KdialogConfiguration.create(properties), executor);
-            } else if (ANYBAR.equals(name)) {
-                return AnyBarNotifier.create(application, AnyBarConfiguration.create(properties));
-            } else if (SIMPLE_NOTIFICATION_CENTER.equals(name)) {
-                return new SimpleNotificationCenterNotifier(TerminalNotifierConfiguration.create(properties), executor);
-            } else if (TOASTER.equals(name)) {
-                return new ToasterNotifier(ToasterConfiguration.create(properties), executor);
-            } else {
-                return DoNothingNotifier.doNothing();
-            }
         }
+        if (NOTIFICATION_CENTER.equalsIgnoreCase(name)) {
+            return new TerminalNotifier(application, TerminalNotifierConfiguration.create(properties), executor);
+        }
+        if (NOTIFY_SEND.equalsIgnoreCase(name)) {
+            return new NotifySendNotifier(application, NotifySendConfiguration.create(properties), executor);
+        }
+        if (PUSHBULLET.equalsIgnoreCase(name)) {
+            return new PushbulletNotifier(application, PushbulletConfiguration.create(properties));
+        }
+        if (SNARL.equalsIgnoreCase(name)) {
+            return new SnarlNotifier(application, SnarlConfiguration.create(properties));
+        }
+        if (SYSTEM_TRAY.equalsIgnoreCase(name)) {
+            return new SystemTrayNotifier(application);
+        }
+        if (NOTIFU.equalsIgnoreCase(name)) {
+            return new NotifuNotifier(application, NotifuConfiguration.create(properties), executor);
+        }
+        if (KDIALOG.equalsIgnoreCase(name)) {
+            return new KdialogNotifier(application, KdialogConfiguration.create(properties), executor);
+        }
+        if (ANYBAR.equalsIgnoreCase(name)) {
+            return AnyBarNotifier.create(application, AnyBarConfiguration.create(properties));
+        }
+        if (SIMPLE_NOTIFICATION_CENTER.equalsIgnoreCase(name)) {
+            return new SimpleNotificationCenterNotifier(TerminalNotifierConfiguration.create(properties), executor);
+        }
+        if (TOASTER.equalsIgnoreCase(name)) {
+            return new ToasterNotifier(ToasterConfiguration.create(properties), executor);
+        }
+        return DoNothingNotifier.doNothing();
     }
 
     public Set<DiscoverableNotifier> available(Properties configuration, Application application) {
