@@ -1,6 +1,7 @@
 package fr.jcgay.notification;
 
 import com.google.common.annotations.VisibleForTesting;
+import fr.jcgay.notification.configuration.ChosenNotifiers;
 import fr.jcgay.notification.configuration.ConfigurationReader;
 import fr.jcgay.notification.configuration.OperatingSystem;
 import fr.jcgay.notification.notifier.DoNothingNotifier;
@@ -38,7 +39,7 @@ public class SendNotification {
 
     private ConfigurationReader configuration;
     private Application application;
-    private String chosenNotifier;
+    private ChosenNotifiers chosenNotifiers;
     private Properties additionalConfiguration;
 
     SendNotification(ConfigurationReader configuration, OperatingSystem currentOs) {
@@ -62,9 +63,9 @@ public class SendNotification {
         mergeConfigurations(properties);
         maySetNotifierFromPropertyConfiguration(properties);
 
-        if (chosenNotifier != null) {
-            LOGGER.debug("Notifications will be send to: {} for application: {}.", chosenNotifier, application);
-            return provider.byName(chosenNotifier, properties, application);
+        if (chosenNotifiers != null) {
+            LOGGER.debug("Notifications will be send to: {} for application: {}.", chosenNotifiers, application);
+            return provider.byName(chosenNotifiers, properties, application);
         }
 
         return defaultNotifier(properties);
@@ -100,7 +101,7 @@ public class SendNotification {
      * @return fluent builder.
      */
     public SendNotification setChosenNotifier(String chosenNotifier) {
-        this.chosenNotifier = chosenNotifier;
+        this.chosenNotifiers = ChosenNotifiers.from(chosenNotifier);
         return this;
     }
 
@@ -149,8 +150,9 @@ public class SendNotification {
     }
 
     private void maySetNotifierFromPropertyConfiguration(Properties properties) {
-        if (chosenNotifier == null) {
-            chosenNotifier = (String) properties.get("notifier.implementation");
+        String candidate = (String) properties.get("notifier.implementation");
+        if (chosenNotifiers == null && candidate != null) {
+            chosenNotifiers = ChosenNotifiers.from(candidate);
         }
     }
 }

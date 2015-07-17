@@ -1,5 +1,6 @@
 package fr.jcgay.notification;
 
+import fr.jcgay.notification.configuration.ChosenNotifiers;
 import fr.jcgay.notification.configuration.OperatingSystem;
 import fr.jcgay.notification.notifier.DoNothingNotifier;
 import fr.jcgay.notification.notifier.anybar.AnyBarConfiguration;
@@ -9,6 +10,7 @@ import fr.jcgay.notification.notifier.growl.GrowlConfiguration;
 import fr.jcgay.notification.notifier.growl.GrowlNotifier;
 import fr.jcgay.notification.notifier.kdialog.KdialogConfiguration;
 import fr.jcgay.notification.notifier.kdialog.KdialogNotifier;
+import fr.jcgay.notification.notifier.additional.AdditionalNotifier;
 import fr.jcgay.notification.notifier.notificationcenter.SimpleNotificationCenterNotifier;
 import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifier;
 import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifierConfiguration;
@@ -32,17 +34,17 @@ import static java.util.Collections.unmodifiableSet;
 
 class NotifierProvider {
 
-    private static final String GROWL = "growl";
-    private static final String NOTIFICATION_CENTER = "notificationcenter";
-    private static final String NOTIFY_SEND = "notifysend";
-    private static final String PUSHBULLET = "pushbullet";
-    private static final String SNARL = "snarl";
-    private static final String SYSTEM_TRAY = "systemtray";
-    private static final String NOTIFU = "notifu";
-    private static final String KDIALOG = "kdialog";
-    private static final String ANYBAR = "anybar";
-    private static final String SIMPLE_NOTIFICATION_CENTER = "simplenc";
-    private static final String TOASTER = "toaster";
+    private static final ChosenNotifiers GROWL = ChosenNotifiers.from("growl");
+    private static final ChosenNotifiers NOTIFICATION_CENTER = ChosenNotifiers.from("notificationcenter");
+    private static final ChosenNotifiers NOTIFY_SEND = ChosenNotifiers.from("notifysend");
+    private static final ChosenNotifiers PUSHBULLET = ChosenNotifiers.from("pushbullet");
+    private static final ChosenNotifiers SNARL = ChosenNotifiers.from("snarl");
+    private static final ChosenNotifiers SYSTEM_TRAY = ChosenNotifiers.from("systemtray");
+    private static final ChosenNotifiers NOTIFU = ChosenNotifiers.from("notifu");
+    private static final ChosenNotifiers KDIALOG = ChosenNotifiers.from("kdialog");
+    private static final ChosenNotifiers ANYBAR = ChosenNotifiers.from("anybar");
+    private static final ChosenNotifiers SIMPLE_NOTIFICATION_CENTER = ChosenNotifiers.from("simplenc");
+    private static final ChosenNotifiers TOASTER = ChosenNotifiers.from("toaster");
 
     private final RuntimeExecutor executor = new RuntimeExecutor();
     private final OperatingSystem os;
@@ -51,40 +53,54 @@ class NotifierProvider {
         this.os = os;
     }
 
-    public DiscoverableNotifier byName(String name, Properties properties, Application application) {
-        if (GROWL.equalsIgnoreCase(name)) {
+    public DiscoverableNotifier byName(ChosenNotifiers notifier, Properties properties, Application application) {
+
+        if (!notifier.secondary().isEmpty()) {
+            LinkedHashSet<DiscoverableNotifier> secondary = new LinkedHashSet<DiscoverableNotifier>(notifier.secondary().size());
+            for (String secondaryNotifier : notifier.secondary()) {
+                secondary.add(byName(ChosenNotifiers.from(secondaryNotifier), properties, application));
+            }
+
+            return new AdditionalNotifier(
+                byName(ChosenNotifiers.from(notifier.primary()), properties, application),
+                unmodifiableSet(secondary)
+            );
+        }
+
+        if (GROWL.equals(notifier)) {
             return new GrowlNotifier(application, GrowlConfiguration.create(properties));
         }
-        if (NOTIFICATION_CENTER.equalsIgnoreCase(name)) {
+        if (NOTIFICATION_CENTER.equals(notifier)) {
             return new TerminalNotifier(application, TerminalNotifierConfiguration.create(properties), executor);
         }
-        if (NOTIFY_SEND.equalsIgnoreCase(name)) {
+        if (NOTIFY_SEND.equals(notifier)) {
             return new NotifySendNotifier(application, NotifySendConfiguration.create(properties), executor);
         }
-        if (PUSHBULLET.equalsIgnoreCase(name)) {
+        if (PUSHBULLET.equals(notifier)) {
             return new PushbulletNotifier(application, PushbulletConfiguration.create(properties));
         }
-        if (SNARL.equalsIgnoreCase(name)) {
+        if (SNARL.equals(notifier)) {
             return new SnarlNotifier(application, SnarlConfiguration.create(properties));
         }
-        if (SYSTEM_TRAY.equalsIgnoreCase(name)) {
+        if (SYSTEM_TRAY.equals(notifier)) {
             return new SystemTrayNotifier(application);
         }
-        if (NOTIFU.equalsIgnoreCase(name)) {
+        if (NOTIFU.equals(notifier)) {
             return new NotifuNotifier(application, NotifuConfiguration.create(properties), executor);
         }
-        if (KDIALOG.equalsIgnoreCase(name)) {
+        if (KDIALOG.equals(notifier)) {
             return new KdialogNotifier(application, KdialogConfiguration.create(properties), executor);
         }
-        if (ANYBAR.equalsIgnoreCase(name)) {
+        if (ANYBAR.equals(notifier)) {
             return AnyBarNotifier.create(application, AnyBarConfiguration.create(properties));
         }
-        if (SIMPLE_NOTIFICATION_CENTER.equalsIgnoreCase(name)) {
+        if (SIMPLE_NOTIFICATION_CENTER.equals(notifier)) {
             return new SimpleNotificationCenterNotifier(TerminalNotifierConfiguration.create(properties), executor);
         }
-        if (TOASTER.equalsIgnoreCase(name)) {
+        if (TOASTER.equals(notifier)) {
             return new ToasterNotifier(ToasterConfiguration.create(properties), executor);
         }
+
         return DoNothingNotifier.doNothing();
     }
 
