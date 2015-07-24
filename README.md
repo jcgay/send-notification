@@ -73,73 +73,19 @@ Example:
 
 Go to [Wiki](https://github.com/jcgay/send-notification/wiki) to read full configuration guide for each notifier.
 
-##Growl
-
-For OS X [(paid app)](http://growl.info/) and Windows [(free)](http://www.growlforwindows.com/gfw/).
-
-![Growl](http://jeanchristophegay.com/images/notifier.growl_.success.png)
-
-##notify-send
-
-For linux. 
-
-![notify-send](http://jeanchristophegay.com/images/notifier.notify-send.success.png)
-
-##Notification center
-
-For OS X (at least Mountain lion) with [terminal-notifier](https://github.com/alloy/terminal-notifier).
-
-![terminal-notifier](http://jeanchristophegay.com/images/notifier.notification-center.success.png)
-
-Starting from Mavericks with limited features but without dependency.
-
-![notification-center](http://jeanchristophegay.com/images/notifier.simplenc.thumbnail.png)
-
-##System tray
-
-Use Java `SystemTray` to display notification.
-
-![System Tray](http://jeanchristophegay.com/images/notifier.system.tray_.success.png)
-
-##Snarl
-
-For Windows [Snarl](http://snarl.fullphat.net/).
-
-![Snarl](http://jeanchristophegay.com/images/notifier.snarl.success.png)
-
-##Pushbullet
-
-Use [Pushbullet](https://www.pushbullet.com/) online service.
-
-![pushbullet](http://jeanchristophegay.com/images/notifier.pushbullet.success.png)
-
-## Kdialog
-
-For KDE.
-
-![Kdialog](http://jeanchristophegay.com/images/notifier.kdialog.png)
-
-## notifu
-
-For Windows [notifu](http://www.paralint.com/projects/notifu/index.html).
-
-![notifu](http://jeanchristophegay.com/images/notifier.notifu.png)
-
-## AnyBar / SomeBar
-
-For OS X, [AnyBar](https://github.com/tonsky/AnyBar).
-
-![anybar](http://jeanchristophegay.com/images/notifier.anybar.png)
-
-For Linux, [SomeBar](https://github.com/limpbrains/somebar)
-
-![somebar](https://raw.githubusercontent.com/limpbrains/somebar/9019ecd04c5dea6eac27bfd10f0ae75477761236/screenshot.png)
-
-## Toaster
-
-For Windows 8 and higher, [Toaster](https://github.com/nels-o/toaster)
-
-![toaster](http://jeanchristophegay.com/images/notifier.toaster.png)
+| Notifier | Screenshot |
+|:--------:|-----------------|
+| **Growl**, for [Windows](http://www.growlforwindows.com/gfw/) and [OS X](http://growl.info/).    | ![Growl](http://jeanchristophegay.com/images/notifier.growl_.success.png) |
+| **[Snarl](http://snarl.fullphat.net/)**, for Windows | ![Snarl](http://jeanchristophegay.com/images/notifier.snarl.success.png) |
+| **[terminal-notifier](https://github.com/alloy/terminal-notifier)**, OS X | ![terminal-notifier](http://jeanchristophegay.com/images/notifier.notification-center.success.png) |
+| **notification center** OS X (since Mavericks) | ![notification-center](http://jeanchristophegay.com/images/notifier.simplenc.thumbnail.png) |
+| **notify-send** for Linux | ![notify-send](http://jeanchristophegay.com/images/notifier.notify-send.success.png) |
+| **SystemTray** since Java 6 | ![System Tray](http://jeanchristophegay.com/images/notifier.system.tray_.success.png) |
+| **[Pushbullet](https://www.pushbullet.com/)** | ![pushbullet](http://jeanchristophegay.com/images/notifier.pushbullet.success.png) |
+| **Kdialog** for KDE | ![Kdialog](http://jeanchristophegay.com/images/notifier.kdialog.png) |
+| **[notifu](http://www.paralint.com/projects/notifu/index.html)** for Windows | ![notifu](http://jeanchristophegay.com/images/notifier.notifu.png) |
+| **AnyBar** for [OS X](https://github.com/tonsky/AnyBar) and [Linux](https://github.com/limpbrains/somebar) | ![anybar](http://jeanchristophegay.com/images/notifier.anybar_maven.png) |
+| **[Toaster](https://github.com/nels-o/toaster)** for Windows 8 | ![toaster](http://jeanchristophegay.com/images/notifier.toaster.png) |
 
 # Build status
 
