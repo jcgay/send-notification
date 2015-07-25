@@ -81,6 +81,11 @@ public class SnarlNotifier implements DiscoverableNotifier {
     }
 
     @Override
+    public boolean isPersistent() {
+        return false;
+    }
+
+    @Override
     public boolean tryInit() {
         try {
             init();

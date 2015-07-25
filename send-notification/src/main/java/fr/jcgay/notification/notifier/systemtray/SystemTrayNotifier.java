@@ -72,6 +72,11 @@ public class SystemTrayNotifier implements DiscoverableNotifier {
     }
 
     @Override
+    public boolean isPersistent() {
+        return true;
+    }
+
+    @Override
     public boolean tryInit() {
         init();
         return !skipNotifications;

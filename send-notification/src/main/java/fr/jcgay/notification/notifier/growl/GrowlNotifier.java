@@ -94,6 +94,11 @@ public class GrowlNotifier implements DiscoverableNotifier {
     }
 
     @Override
+    public boolean isPersistent() {
+        return false;
+    }
+
+    @Override
     public boolean tryInit() {
         init();
         boolean hasSucceeded = isClientRegistered();

@@ -82,6 +82,18 @@ public class AdditionalNotifier implements DiscoverableNotifier {
         failIfNotEmpty(errors);
     }
 
+    @Override
+    public boolean isPersistent() {
+        if (notifyWithSecondaryNotifiers) {
+            boolean result = primary.isPersistent();
+            for (DiscoverableNotifier notifier : secondary) {
+                result |= notifier.isPersistent();
+            }
+            return result;
+        }
+        return primary.isPersistent();
+    }
+
     public static void safeClose(DiscoverableNotifier notifier, List<Exception> errors) {
         try {
             notifier.close();

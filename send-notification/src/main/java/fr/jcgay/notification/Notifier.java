@@ -29,4 +29,10 @@ public interface Notifier {
      * This method must be called to release resources when the notifier is not needed anymore.
      */
     void close();
+
+    /**
+     * Indicate if the notifier is always displayed somewhere (menu/task bar, etc).
+     * @return {@code true} if the notifier is persistent.
+     */
+    boolean isPersistent();
 }

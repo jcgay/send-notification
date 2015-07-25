@@ -61,6 +61,11 @@ public class KdialogNotifier implements DiscoverableNotifier {
     }
 
     @Override
+    public boolean isPersistent() {
+        return false;
+    }
+
+    @Override
     public boolean tryInit() {
         List<String> commands = new ArrayList<String>();
         commands.add(configuration.bin());

@@ -77,6 +77,11 @@ public class AnyBarNotifier implements DiscoverableNotifier {
     }
 
     @Override
+    public boolean isPersistent() {
+        return true;
+    }
+
+    @Override
     public boolean tryInit() {
         return false;
     }

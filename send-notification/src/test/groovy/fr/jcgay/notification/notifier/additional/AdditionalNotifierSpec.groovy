@@ -186,6 +186,40 @@ class AdditionalNotifierSpec extends Specification {
         1 * anybar.close() >> { throw anybarError }
     }
 
+    def "should be persistent if one of the underlying notifier is persistent"() {
+        given:
+        secondary_notification_is_activated()
+
+        and:
+        notifier = new AdditionalNotifier(growl, secondary)
+
+        when:
+        def result = notifier.isPersistent()
+
+        then:
+        1 * growl.isPersistent() >> false
+        1 * pushbullet.isPersistent() >> false
+        1 * anybar.isPersistent() >> true
+        result
+    }
+
+    def "should not be persistent when all notifiers are persistent"() {
+        given:
+        secondary_notification_is_activated()
+
+        and:
+        notifier = new AdditionalNotifier(growl, secondary)
+
+        when:
+        def result = notifier.isPersistent()
+
+        then:
+        1 * growl.isPersistent() >> false
+        1 * pushbullet.isPersistent() >> false
+        1 * anybar.isPersistent() >> false
+        !result
+    }
+
     private static Notification anyNotification() {
         Notification.builder('title', 'message', TestIcon.ok()).build()
     }

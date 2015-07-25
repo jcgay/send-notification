@@ -108,6 +108,11 @@ public class PushbulletNotifier implements DiscoverableNotifier {
     }
 
     @Override
+    public boolean isPersistent() {
+        return false;
+    }
+
+    @Override
     public boolean tryInit() {
         return false;
     }

@@ -74,6 +74,11 @@ public class SimpleNotificationCenterNotifier implements DiscoverableNotifier {
     }
 
     @Override
+    public boolean isPersistent() {
+        return false;
+    }
+
+    @Override
     public boolean tryInit() {
         return false;
     }
