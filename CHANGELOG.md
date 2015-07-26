@@ -1,3 +1,9 @@
+#0.7
+***
+
+- Indicate if a notifier is persistent ([3b21eb2](http://github.com/jcgay/send-notification/commit/3b21eb292fd329f680a9141319ee3b24a9e874f3))
+- Can send notification to multiple implementations at once ([7cf3ccc](http://github.com/jcgay/send-notification/commit/7cf3ccccf9c3e06c14f925e81e4674a3030738ad))
+
 #0.6
 ***
 
