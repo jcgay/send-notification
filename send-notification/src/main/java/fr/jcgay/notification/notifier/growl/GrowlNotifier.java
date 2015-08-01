@@ -25,14 +25,16 @@ public class GrowlNotifier implements DiscoverableNotifier {
 
     private final Application application;
     private final GrowlConfiguration configuration;
+    private final GntpSlf4jListener logListener;
 
     private GntpNotificationInfo gNotification;
     private GntpClient gClient;
 
-    public GrowlNotifier(Application application, GrowlConfiguration configuration) {
+    public GrowlNotifier(Application application, GrowlConfiguration configuration, GntpSlf4jListener logListener) {
         LOGGER.debug("Configuring Growl for application {}: {}.", application, configuration);
         this.application = application;
         this.configuration = configuration;
+        this.logListener = logListener;
     }
 
     @Override
@@ -49,7 +51,7 @@ public class GrowlNotifier implements DiscoverableNotifier {
             .onPort(configuration.port())
             .forHost(configuration.host())
             .withoutRetry()
-            .listener(new GntpSlf4jListener());
+            .listener(logListener);
         if (configuration.password() != null) {
             clientBuilder.withPassword(configuration.password());
         }
@@ -131,7 +133,7 @@ public class GrowlNotifier implements DiscoverableNotifier {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(application, configuration);
+        return Objects.hashCode(application, configuration, logListener);
     }
 
     @Override
@@ -144,7 +146,8 @@ public class GrowlNotifier implements DiscoverableNotifier {
         }
         final GrowlNotifier other = (GrowlNotifier) obj;
         return Objects.equal(this.application, other.application)
-            && Objects.equal(this.configuration, other.configuration);
+            && Objects.equal(this.configuration, other.configuration)
+            && Objects.equal(this.logListener, other.logListener);
     }
 
     @Override
@@ -152,6 +155,7 @@ public class GrowlNotifier implements DiscoverableNotifier {
         return Objects.toStringHelper(this)
             .add("application", application)
             .add("configuration", configuration)
+            .add("logListener", logListener)
             .toString();
     }
 }

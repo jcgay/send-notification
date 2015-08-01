@@ -7,18 +7,44 @@ import fr.jcgay.notification.configuration.OperatingSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class GntpSlf4jListener implements GntpListener {
+public enum GntpSlf4jListener implements GntpListener {
+    ERROR {
+        @Override
+        public void onRegistrationError(GntpErrorStatus status, String description) {
+            LOGGER.error(error("Growl registration has failed.\n {}: {}"), status, description);
+        }
+
+        @Override
+        public void onNotificationError(GntpNotification notification, GntpErrorStatus status, String description) {
+            LOGGER.error(error("Growl notification has failed.\n {}: {}\n {}"), status, description, notification);
+        }
+
+        @Override
+        public void onCommunicationError(Throwable t) {
+            LOGGER.error(error("Cannot communicate with Growl."), t);
+        }
+    },
+    DEBUG {
+        @Override
+        public void onRegistrationError(GntpErrorStatus status, String description) {
+            LOGGER.debug(error("Growl registration has failed.\n {}: {}"), status, description);
+        }
+
+        @Override
+        public void onNotificationError(GntpNotification notification, GntpErrorStatus status, String description) {
+            LOGGER.debug(error("Growl notification has failed.\n {}: {}\n {}"), status, description, notification);
+        }
+
+        @Override
+        public void onCommunicationError(Throwable t) {
+            LOGGER.debug(error("Cannot communicate with Growl."), t);
+        }
+    };
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GntpSlf4jListener.class);
-
     private static final String OSX_URL = "https://github.com/jcgay/send-notification/wiki/Growl-(OS-X)";
     private static final String WINDOWS_URL = "https://github.com/jcgay/send-notification/wiki/Growl-(Windows)";
-
-    private final OperatingSystem currentOs;
-
-    public GntpSlf4jListener() {
-        currentOs = new OperatingSystem();
-    }
+    private static final OperatingSystem currentOs = new OperatingSystem();
 
     @Override
     public void onRegistrationSuccess() {
@@ -45,22 +71,7 @@ class GntpSlf4jListener implements GntpListener {
 
     }
 
-    @Override
-    public void onRegistrationError(GntpErrorStatus status, String description) {
-        LOGGER.error(error("Growl registration has failed.\n {}: {}"), status, description);
-    }
-
-    @Override
-    public void onNotificationError(GntpNotification notification, GntpErrorStatus status, String description) {
-        LOGGER.error(error("Growl notification has failed.\n {}: {}\n {}"), status, description, notification);
-    }
-
-    @Override
-    public void onCommunicationError(Throwable t) {
-        LOGGER.error(error("Cannot communicate with Growl."), t);
-    }
-
-    private String error(String message) {
+    protected String error(String message) {
         return String.format("%s%n%n For more information about the errors and possible solutions, please read the following article:%n%s",
                 message, wikiUrl());
     }

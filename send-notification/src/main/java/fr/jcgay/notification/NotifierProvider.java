@@ -3,6 +3,7 @@ package fr.jcgay.notification;
 import fr.jcgay.notification.configuration.ChosenNotifiers;
 import fr.jcgay.notification.configuration.OperatingSystem;
 import fr.jcgay.notification.notifier.DoNothingNotifier;
+import fr.jcgay.notification.notifier.additional.AdditionalNotifier;
 import fr.jcgay.notification.notifier.anybar.AnyBarConfiguration;
 import fr.jcgay.notification.notifier.anybar.AnyBarNotifier;
 import fr.jcgay.notification.notifier.executor.RuntimeExecutor;
@@ -10,7 +11,6 @@ import fr.jcgay.notification.notifier.growl.GrowlConfiguration;
 import fr.jcgay.notification.notifier.growl.GrowlNotifier;
 import fr.jcgay.notification.notifier.kdialog.KdialogConfiguration;
 import fr.jcgay.notification.notifier.kdialog.KdialogNotifier;
-import fr.jcgay.notification.notifier.additional.AdditionalNotifier;
 import fr.jcgay.notification.notifier.notificationcenter.SimpleNotificationCenterNotifier;
 import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifier;
 import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifierConfiguration;
@@ -30,6 +30,8 @@ import java.util.LinkedHashSet;
 import java.util.Properties;
 import java.util.Set;
 
+import static fr.jcgay.notification.notifier.growl.GntpSlf4jListener.DEBUG;
+import static fr.jcgay.notification.notifier.growl.GntpSlf4jListener.ERROR;
 import static java.util.Collections.unmodifiableSet;
 
 class NotifierProvider {
@@ -68,7 +70,7 @@ class NotifierProvider {
         }
 
         if (GROWL.equals(notifier)) {
-            return new GrowlNotifier(application, GrowlConfiguration.create(properties));
+            return new GrowlNotifier(application, GrowlConfiguration.create(properties), ERROR);
         }
         if (NOTIFICATION_CENTER.equals(notifier)) {
             return new TerminalNotifier(application, TerminalNotifierConfiguration.create(properties), executor);
@@ -107,7 +109,7 @@ class NotifierProvider {
     public Set<DiscoverableNotifier> available(Properties configuration, Application application) {
         if (os.isMac()) {
             Set<DiscoverableNotifier> macNotifiers = new LinkedHashSet<DiscoverableNotifier>();
-            macNotifiers.add(byName(GROWL, configuration, application));
+            macNotifiers.add(new GrowlNotifier(application, GrowlConfiguration.create(configuration), DEBUG));
             macNotifiers.add(byName(NOTIFICATION_CENTER, configuration, application));
             macNotifiers.add(byName(SYSTEM_TRAY,  configuration, application));
             return unmodifiableSet(macNotifiers);
@@ -116,7 +118,7 @@ class NotifierProvider {
         if (os.isWindows()) {
             Set<DiscoverableNotifier> winNotifiers = new LinkedHashSet<DiscoverableNotifier>();
             winNotifiers.add(byName(SNARL, configuration, application));
-            winNotifiers.add(byName(GROWL, configuration, application));
+            winNotifiers.add(new GrowlNotifier(application, GrowlConfiguration.create(configuration), DEBUG));
             winNotifiers.add(byName(TOASTER, configuration, application));
             winNotifiers.add(byName(SYSTEM_TRAY,  configuration, application));
             return unmodifiableSet(winNotifiers);

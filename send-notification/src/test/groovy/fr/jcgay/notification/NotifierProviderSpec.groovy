@@ -1,4 +1,6 @@
 package fr.jcgay.notification
+
+import fr.jcgay.notification.configuration.ChosenNotifiers
 import fr.jcgay.notification.configuration.OperatingSystem
 import fr.jcgay.notification.notifier.executor.RuntimeExecutor
 import fr.jcgay.notification.notifier.growl.GrowlConfiguration
@@ -16,6 +18,8 @@ import fr.jcgay.notification.notifier.toaster.ToasterConfiguration
 import fr.jcgay.notification.notifier.toaster.ToasterNotifier
 import spock.lang.Specification
 
+import static fr.jcgay.notification.notifier.growl.GntpSlf4jListener.DEBUG
+import static fr.jcgay.notification.notifier.growl.GntpSlf4jListener.ERROR
 import static org.assertj.core.api.Assertions.assertThat
 
 class NotifierProviderSpec extends Specification {
@@ -31,7 +35,7 @@ class NotifierProviderSpec extends Specification {
 
         then:
         assertThat(result).containsExactly(
-            new GrowlNotifier(application, GrowlConfiguration.byDefault()),
+            new GrowlNotifier(application, GrowlConfiguration.byDefault(), DEBUG),
             new TerminalNotifier(application, TerminalNotifierConfiguration.byDefault(), new RuntimeExecutor()),
             new SystemTrayNotifier(application)
         )
@@ -47,7 +51,7 @@ class NotifierProviderSpec extends Specification {
         then:
         assertThat(result).containsExactly(
             new SnarlNotifier(application, SnarlConfiguration.byDefault()),
-            new GrowlNotifier(application, GrowlConfiguration.byDefault()),
+            new GrowlNotifier(application, GrowlConfiguration.byDefault(), DEBUG),
             new ToasterNotifier(ToasterConfiguration.byDefault(), new RuntimeExecutor()),
             new SystemTrayNotifier(application)
         )
@@ -66,5 +70,16 @@ class NotifierProviderSpec extends Specification {
             new NotifySendNotifier(application, NotifySendConfiguration.byDefault(), new RuntimeExecutor()),
             new SystemTrayNotifier(application)
         )
+    }
+
+    def "should return growl notifier with log level error"() {
+        given:
+        def provider = new NotifierProvider(new OperatingSystem('mac'))
+
+        when:
+        def result = provider.byName(ChosenNotifiers.from('growl'), [:] as Properties, application)
+
+        then:
+        result == new GrowlNotifier(application, GrowlConfiguration.byDefault(), ERROR)
     }
 }
