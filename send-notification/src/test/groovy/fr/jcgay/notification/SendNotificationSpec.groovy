@@ -53,6 +53,7 @@ class SendNotificationSpec extends Specification {
         'toaster'            || ToasterNotifier
         'growl,pushbullet'   || AdditionalNotifier
         'unknown'            || DoNothingNotifier
+        'none'               || DoNothingNotifier
     }
 
     @Unroll
@@ -78,6 +79,7 @@ class SendNotificationSpec extends Specification {
         'toaster'            || ToasterNotifier
         'growl,pushbullet'   || AdditionalNotifier
         'unknown'            || DoNothingNotifier
+        'none'               || DoNothingNotifier
     }
 
     def "should return available notifier when no configuration is present"() {
