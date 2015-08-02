@@ -1,3 +1,9 @@
+#0.8
+***
+
+- Use notifier 'none' to not send notifications ([8b30bc2](http://github.com/jcgay/send-notification/commit/8b30bc2c03e800b36eb8a455172fbe1b1388f638))
+- Log Growl errors in debug when used in auto discovery mode ([24aa149](http://github.com/jcgay/send-notification/commit/24aa149ad33804fe69164c9b18b0c1ec2a5fbb02))
+
 #0.7
 ***
 
