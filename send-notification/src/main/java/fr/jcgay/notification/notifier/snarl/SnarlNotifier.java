@@ -21,6 +21,7 @@ public class SnarlNotifier implements DiscoverableNotifier {
 
     private final Application application;
     private final SnarlConfiguration configuration;
+    private final fr.jcgay.snp4j.Application snarlApplication;
 
     private fr.jcgay.snp4j.Notifier snarl;
 
@@ -28,29 +29,22 @@ public class SnarlNotifier implements DiscoverableNotifier {
         LOGGER.debug("Configuring Snarl for application {}: {}.", application, configuration);
         this.application = application;
         this.configuration = configuration;
+        this.snarlApplication = buildSnarlApp(application);
     }
 
     @Override
     public Notifier init() {
-        if (snarl != null) {
-            return this;
-        }
-
         Server server = Server.builder()
             .withHost(configuration.host())
             .withPort(configuration.port())
             .build();
 
         try {
-            snarl = SnpNotifier.of(buildSnarlApp(), server);
+            snarl = SnpNotifier.of(snarlApplication, server);
         } catch (SnpException e) {
             throw new SnarlNotificationException("Cannot register application with Snarl.", e);
         }
         return this;
-    }
-
-    private fr.jcgay.snp4j.Application buildSnarlApp() {
-        return fr.jcgay.snp4j.Application.of(application.id(), application.name());
     }
 
     @Override
@@ -66,6 +60,7 @@ public class SnarlNotifier implements DiscoverableNotifier {
         snarNotification.setTitle(notification.title());
         snarNotification.setPriority(toPriority(notification.level()));
 
+        init();
         try {
             snarl.send(snarNotification);
         } catch (SnpException e) {
@@ -94,6 +89,10 @@ public class SnarlNotifier implements DiscoverableNotifier {
             close();
             return false;
         }
+    }
+
+    private static fr.jcgay.snp4j.Application buildSnarlApp(Application application) {
+        return fr.jcgay.snp4j.Application.of(application.id(), application.name());
     }
 
     private static Priority toPriority(Notification.Level level) {
