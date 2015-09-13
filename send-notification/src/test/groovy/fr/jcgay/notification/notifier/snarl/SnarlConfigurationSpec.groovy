@@ -13,6 +13,7 @@ class SnarlConfigurationSpec extends Specification {
         then:
         result.host() == SnarlConfiguration.byDefault().host()
         result.port() == SnarlConfiguration.byDefault().port()
+        result.applicationPassword() == SnarlConfiguration.byDefault().applicationPassword()
 
         where:
         empty << [null, new Properties()]
@@ -22,7 +23,8 @@ class SnarlConfigurationSpec extends Specification {
         given:
         Properties properties = [
                 'notifier.snarl.host':'host',
-                'notifier.snarl.port':'12345'
+                'notifier.snarl.port':'12345',
+                'notifier.snarl.appPassword':'app-password'
         ]
 
         when:
@@ -31,5 +33,6 @@ class SnarlConfigurationSpec extends Specification {
         then:
         result.host() == 'host'
         result.port() == 12345
+        result.applicationPassword() == 'app-password'
     }
 }

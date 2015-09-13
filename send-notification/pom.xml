@@ -54,7 +54,7 @@
         <dependency>
             <groupId>fr.jcgay.snp4j</groupId>
             <artifactId>snp4j</artifactId>
-            <version>0.2</version>
+            <version>0.3</version>
         </dependency>
         <dependency>
             <groupId>net.coobird</groupId>

@@ -29,7 +29,7 @@ public class SnarlNotifier implements DiscoverableNotifier {
         LOGGER.debug("Configuring Snarl for application {}: {}.", application, configuration);
         this.application = application;
         this.configuration = configuration;
-        this.snarlApplication = buildSnarlApp(application);
+        this.snarlApplication = fr.jcgay.snp4j.Application.withPassword(application.id(), application.name(), configuration.applicationPassword());
     }
 
     @Override
@@ -89,10 +89,6 @@ public class SnarlNotifier implements DiscoverableNotifier {
             close();
             return false;
         }
-    }
-
-    private static fr.jcgay.snp4j.Application buildSnarlApp(Application application) {
-        return fr.jcgay.snp4j.Application.of(application.id(), application.name());
     }
 
     private static Priority toPriority(Notification.Level level) {
