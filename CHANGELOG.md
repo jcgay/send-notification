@@ -1,3 +1,10 @@
+#0.9
+***
+
+- Better log messages ([1dbc5a2](http://github.com/jcgay/send-notification/commit/1dbc5a2129abb8263bafe9da92943f27b0d462c0))
+- Can set Snarl application password ([c2e5d3b](http://github.com/jcgay/send-notification/commit/c2e5d3bb33964a737683a2da819f9a8d7a9df49e))
+- Register Snarl application before each notification ([0e8e719](http://github.com/jcgay/send-notification/commit/0e8e71923a3fd1c0e350f974b1521638cfaa1865))
+
 #0.8
 ***
 
