@@ -14,9 +14,15 @@ public class ConfigurationReader {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigurationReader.class);
 
     private final Properties properties;
+    private final URL location;
 
     private ConfigurationReader(Properties properties) {
-        this.properties = properties;
+        this(properties, null);
+    }
+
+    public ConfigurationReader(Properties configuration, URL location) {
+        this.properties = configuration;
+        this.location = location;
     }
 
     public static ConfigurationReader atPath(String path) {
@@ -35,10 +41,11 @@ public class ConfigurationReader {
         } catch (IOException e) {
             LOGGER.debug("Cannot read configuration at [{}], will use default one.", url, e);
         }
-        return new ConfigurationReader(configuration);
+        return new ConfigurationReader(configuration, url);
     }
 
     public Properties get() {
+        LOGGER.debug("Notification configuration read from {} is: {}.", location, properties);
         return properties;
     }
 }

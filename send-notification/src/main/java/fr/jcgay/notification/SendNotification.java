@@ -58,7 +58,6 @@ public class SendNotification {
     @VisibleForTesting
     DiscoverableNotifier chooseNotifier() {
         Properties properties = configuration.get();
-        LOGGER.debug("Configuration is: {}.", properties);
 
         mergeConfigurations(properties);
         maySetNotifierFromPropertyConfiguration(properties);
@@ -143,7 +142,7 @@ public class SendNotification {
     }
 
     private void mergeConfigurations(Properties properties) {
-        if (additionalConfiguration != null) {
+        if (additionalConfiguration != null && !additionalConfiguration.isEmpty()) {
             LOGGER.debug("Overriding previous configuration with: {}.", additionalConfiguration);
             properties.putAll(additionalConfiguration);
         }
