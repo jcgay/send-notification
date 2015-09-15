@@ -14,7 +14,7 @@ Example with *Maven*:
         <dependency>
             <groupId>fr.jcgay.send-notification</groupId>
             <artifactId>send-notification</artifactId>
-            <version>0.8</version>
+            <version>0.9</version>
         </dependency>
      [...]
     </dependencies>
@@ -40,7 +40,7 @@ Then send notification:
 
 ## CLI
 
-Download [bundle](http://search.maven.org/remotecontent?filepath=fr/jcgay/send-notification/send-notification-cli/0.8/send-notification-cli-0.8-binaries.zip), extract it, add the `bin` directory to your `$PATH`.
+Download [bundle](http://search.maven.org/remotecontent?filepath=fr/jcgay/send-notification/send-notification-cli/0.9/send-notification-cli-0.9-binaries.zip), extract it, add the `bin` directory to your `$PATH`.
 
     > send-notification -h
     
