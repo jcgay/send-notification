@@ -3,7 +3,7 @@
     <parent>
         <groupId>fr.jcgay.maven</groupId>
         <artifactId>jcgay-build-configuration</artifactId>
-        <version>1.5</version>
+        <version>1.6</version>
     </parent>
 
     <groupId>fr.jcgay.send-notification</groupId>
@@ -28,6 +28,10 @@
         <system>GitHub</system>
         <url>https://github.com/jcgay/send-notification/issues</url>
     </issueManagement>
+
+    <properties>
+        <bintray.package>send-notification</bintray.package>
+    </properties>
 
     <modules>
         <module>send-notification</module>

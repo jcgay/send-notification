@@ -94,10 +94,5 @@ Go to [Wiki](https://github.com/jcgay/send-notification/wiki) to read full confi
 
 # Release
 
-Deploy to Maven Central:
-
-    mvn release:prepare release:perform
+    mvn -B release:prepare release:perform
     
-Deploy to Bintray:
-
-    etc/deploy-bintray.sh    
