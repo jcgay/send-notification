@@ -2,19 +2,19 @@ echo 'Installing 7zip'
 choco install -y 7zip.commandline
 
 echo 'Installing Java JDK'
-choco install -y java.jdk
+choco install -y jdk8
 
 echo 'Installing .NET Framework (needed by Growl)'
-choco install -y DotNet3.5
+choco install -y dotnet3.5
 
 echo 'Installing Growl for Windows'
 choco install -y Growl
 
 echo 'Installing Wget'
-choco install -y Wget
+choco install -y wget
 
 echo 'Installing Notifu'
-wget -O %TEMP%\notifu.zip http://www.paralint.com/projects/notifu/dl/notifu-1.6.zip
+wget -O %TEMP%\notifu.zip http://www.paralint.com/projects/notifu/dl/notifu-1.7.zip
 if exist c:\notifu rd /s /q c:\notifu
 mkdir c:\notifu
 7za x %TEMP%\notifu.zip -oc:\notifu -r
