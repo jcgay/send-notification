@@ -7,6 +7,7 @@ import com.google.common.io.Closeables;
 import javax.imageio.ImageIO;
 import java.awt.image.RenderedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -59,9 +60,9 @@ public abstract class Icon {
         if (!icon.exists()) {
             new File(folder).mkdirs();
             try {
-                ImageIO.write(toRenderedImage(), extension, icon);
+                write(icon);
             } catch (IOException e) {
-                throw new SendNotificationException("Can't write notification icon icon: " + icon.getPath(), e);
+                throw new SendNotificationException("Can't write notification icon : " + icon.getPath(), e);
             }
         }
         return icon.getPath();
@@ -73,5 +74,22 @@ public abstract class Icon {
 
     public static Icon create(URL content, String id) {
         return new AutoValue_Icon(id, content);
+    }
+
+    private void write(File destination) throws IOException {
+        InputStream input = content().openStream();
+        FileOutputStream output = new FileOutputStream(destination);
+        try {
+            byte[] buffer = new byte[1024 * 4];
+            int n;
+            while ((n = input.read(buffer)) != -1) {
+                output.write(buffer, 0, n);
+            }
+        } finally {
+            try {
+                output.close();
+                input.close();
+            } catch (IOException ignored) {}
+        }
     }
 }
