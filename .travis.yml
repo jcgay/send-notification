@@ -5,7 +5,7 @@ jdk:
   - oraclejdk7
   - openjdk6
 after_success:
-  - "[[ ${TRAVIS_PULL_REQUEST} == 'false' ]] && [[ ${TRAVIS_TAG} == '' ]] && mvn deploy -DskipTests --settings etc/deploy-settings.xml"
+  - "[[ ${TRAVIS_PULL_REQUEST} == 'false' ]] && [[ ${TRAVIS_TAG} == '' ]] && [[ ${TRAVIS_JDK_VERSION} == 'openjdk6' ]] && mvn deploy -DskipTests --settings etc/deploy-settings.xml"
   - mvn clean verify coveralls:report -Prun-coverage
 env:
   global:
