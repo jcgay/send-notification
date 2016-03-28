@@ -19,6 +19,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
      vb.gui = true
      vb.memory = 4096
      vb.cpus = 4
+     vb.linked_clone = true
   end
 
   config.vm.provision :shell, :path => "xcode-cli-tools.sh"
