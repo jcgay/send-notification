@@ -1,3 +1,8 @@
+#0.10
+***
+
+- Prevent dock icon creation on OS X ([f7ba636](http://github.com/jcgay/send-notification/commit/f7ba63631fe6e1c9f2bbad126164eeca1cf2d7b5))
+
 #0.9
 ***
 
