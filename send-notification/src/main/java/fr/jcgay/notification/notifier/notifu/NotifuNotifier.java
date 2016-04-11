@@ -39,9 +39,9 @@ public class NotifuNotifier implements DiscoverableNotifier {
         List<String> commands = new ArrayList<String>();
         commands.add(configuration.bin());
         commands.add("/p");
-        commands.add(notification.title());
+        commands.add(escape(notification.title()));
         commands.add("/m");
-        commands.add(notification.message());
+        commands.add(escape(notification.message()));
         commands.add("/d");
         if (application.timeout() == -1) {
             commands.add(String.valueOf(TimeUnit.SECONDS.toMillis(10)));
@@ -57,6 +57,10 @@ public class NotifuNotifier implements DiscoverableNotifier {
         } catch (RuntimeException e) {
             throw new NotifuException("Error while sending notification to notifu.", e.getCause());
         }
+    }
+
+    private static String escape(String title) {
+        return title.replace("\"", "\\\"");
     }
 
     private static String toType(Notification.Level level) {

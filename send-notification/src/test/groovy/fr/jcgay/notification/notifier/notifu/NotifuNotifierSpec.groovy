@@ -41,6 +41,18 @@ class NotifuNotifierSpec extends Specification {
         ]
     }
 
+    def "should escape arguments"() {
+        given:
+        def notification = Notification.builder('ti"tle', 'mes"sage', TestIcon.ok()).build()
+
+        when:
+        notifier.send(notification)
+
+        then:
+        executedCommand.contains('ti\\"tle')
+        executedCommand.contains('mes\\"sage')
+    }
+
     def "should translate notification level to type"() {
         given:
         def notification = Notification.builder('title', 'message', TestIcon.ok())
