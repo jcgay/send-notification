@@ -1,3 +1,8 @@
+#0.10.1
+***
+
+- Escape argument when executing notifu ([41358dd](http://github.com/jcgay/send-notification/commit/41358ddc20125d35996ebba5545c00e2b66ff31f))
+
 #0.10
 ***
 
