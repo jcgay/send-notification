@@ -10,7 +10,7 @@
     <name>Send Notification</name>
 
     <properties>
-        <slf4j.version>1.7.19</slf4j.version>
+        <slf4j.version>1.7.22</slf4j.version>
     </properties>
 
     <dependencies>
@@ -64,19 +64,19 @@
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
-            <version>2.4.6</version>
+            <version>2.4.8</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
-            <version>1.0-groovy-2.4</version>
+            <version>1.1-groovy-2.4-rc-3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
-            <version>3.1</version>
+            <version>3.2.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -94,7 +94,7 @@
         <dependency>
             <groupId>com.github.stefanbirkner</groupId>
             <artifactId>system-rules</artifactId>
-            <version>1.16.0</version>
+            <version>1.16.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -103,7 +103,6 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.gmavenplus</groupId>
@@ -127,7 +126,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.9.1</version>
+                <version>3.0.0</version>
                 <executions>
                     <execution>
                         <id>add-generated-sources</id>
