@@ -24,12 +24,18 @@ public class PushbulletNotifier implements DiscoverableNotifier {
     private static final Logger LOGGER = LoggerFactory.getLogger(PushbulletNotifier.class);
 
     private final PushbulletConfiguration configuration;
+    private final String url;
 
     private OkHttpClient client;
 
     public PushbulletNotifier(Application application, PushbulletConfiguration configuration) {
+        this(application, configuration, "https://api.pushbullet.com/v2/pushes");
+    }
+
+    PushbulletNotifier(Application application, PushbulletConfiguration configuration, String url) {
         LOGGER.debug("Configuring Pushbullet for application {}: {}.", application, configuration);
         this.configuration = configuration;
+        this.url = url;
     }
 
     @Override
@@ -43,6 +49,9 @@ public class PushbulletNotifier implements DiscoverableNotifier {
             @Override
             public Request authenticate(Proxy proxy, Response response) throws IOException {
                 String credentials = Credentials.basic(configuration.key(), "");
+                if (credentials.equals(response.request().header("Authorization"))) {
+                    return null; // If we already failed with these credentials, don't retry.
+                }
                 return response.request().newBuilder().header("Authorization", credentials).build();
             }
 
@@ -58,7 +67,7 @@ public class PushbulletNotifier implements DiscoverableNotifier {
     @Override
     public void send(Notification notification) {
         Request request = new Request.Builder()
-                .url("https://api.pushbullet.com/v2/pushes")
+                .url(url)
                 .post(buildRequestBody(notification))
                 .build();
 

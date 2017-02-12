@@ -1,6 +1,7 @@
 package fr.jcgay.notification.notifier.snarl;
 
 import com.google.common.base.Objects;
+import com.google.common.io.Closeables;
 import fr.jcgay.notification.Application;
 import fr.jcgay.notification.DiscoverableNotifier;
 import fr.jcgay.notification.Notification;
@@ -13,7 +14,7 @@ import fr.jcgay.snp4j.request.Priority;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.google.common.io.Closeables.closeQuietly;
+import java.io.IOException;
 
 public class SnarlNotifier implements DiscoverableNotifier {
 
@@ -71,7 +72,9 @@ public class SnarlNotifier implements DiscoverableNotifier {
     @Override
     public void close() {
         if (snarl != null) {
-            closeQuietly(snarl);
+            try {
+                Closeables.close(snarl, true);
+            } catch (IOException ignored) {}
         }
     }
 

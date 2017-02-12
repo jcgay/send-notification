@@ -1,6 +1,7 @@
 package fr.jcgay.notification.notifier.anybar;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.io.Closeables;
 import fr.jcgay.notification.Icon;
 import fr.jcgay.notification.IconFileWriter;
 import fr.jcgay.notification.SendNotificationException;
@@ -45,7 +46,9 @@ public class AnyBarIconWriter implements IconFileWriter {
                     throw new SendNotificationException("Can't write notification icon: " + resizedIcon.getPath(), e);
                 } finally {
                     closeQuietly(input);
-                    closeQuietly(output);
+                    try {
+                        Closeables.close(output, true);
+                    } catch (IOException ignored) {}
                 }
             }
         }
