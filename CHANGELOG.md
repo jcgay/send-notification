@@ -1,3 +1,9 @@
+#0.10.2
+***
+
+- Replace Objects#toStringHelper() deprecated calls ([0dc3234](http://github.com/jcgay/send-notification/commit/0dc32340f289511c51b74bdc626f044c74fbea9a))
+- Fail when pushbullet credentials are not valid ([a62638f](http://github.com/jcgay/send-notification/commit/a62638f77adaa12c6a5be53e02ea22bf0880eead))
+
 #0.10.1
 ***
 
