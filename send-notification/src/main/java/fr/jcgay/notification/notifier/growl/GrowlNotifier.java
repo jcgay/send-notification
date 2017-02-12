@@ -5,6 +5,7 @@ import com.google.code.jgntp.GntpApplicationInfo;
 import com.google.code.jgntp.GntpClient;
 import com.google.code.jgntp.GntpNotification;
 import com.google.code.jgntp.GntpNotificationInfo;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import fr.jcgay.notification.Application;
 import fr.jcgay.notification.DiscoverableNotifier;
@@ -152,7 +153,7 @@ public class GrowlNotifier implements DiscoverableNotifier {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
             .add("application", application)
             .add("configuration", configuration)
             .add("logListener", logListener)

@@ -1,5 +1,6 @@
 package fr.jcgay.notification.notifier.systemtray;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import fr.jcgay.notification.Application;
 import fr.jcgay.notification.DiscoverableNotifier;
@@ -118,7 +119,7 @@ public class SystemTrayNotifier implements DiscoverableNotifier {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
             .add("application", application)
             .toString();
     }

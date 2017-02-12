@@ -1,5 +1,6 @@
 package fr.jcgay.notification.notifier.snarl;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.io.Closeables;
 import fr.jcgay.notification.Application;
@@ -124,7 +125,7 @@ public class SnarlNotifier implements DiscoverableNotifier {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
             .add("application", application)
             .add("configuration", configuration)
             .toString();

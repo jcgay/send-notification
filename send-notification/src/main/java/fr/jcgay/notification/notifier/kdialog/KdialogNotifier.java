@@ -1,5 +1,6 @@
 package fr.jcgay.notification.notifier.kdialog;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import fr.jcgay.notification.Application;
 import fr.jcgay.notification.DiscoverableNotifier;
@@ -101,7 +102,7 @@ public class KdialogNotifier implements DiscoverableNotifier {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
             .add("configuration", configuration)
             .add("application", application)
             .toString();

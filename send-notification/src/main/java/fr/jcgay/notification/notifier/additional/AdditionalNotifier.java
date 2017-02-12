@@ -1,5 +1,6 @@
 package fr.jcgay.notification.notifier.additional;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import fr.jcgay.notification.DiscoverableNotifier;
 import fr.jcgay.notification.MultipleSendNotificationException;
@@ -148,7 +149,7 @@ public class AdditionalNotifier implements DiscoverableNotifier {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
             .add("secondary", secondary)
             .add("primary", primary)
             .add("notifyWithSecondaryNotifiers", notifyWithSecondaryNotifiers)
