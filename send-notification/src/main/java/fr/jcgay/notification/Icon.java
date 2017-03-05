@@ -5,7 +5,7 @@ import com.google.common.io.ByteStreams;
 import com.google.common.io.Closeables;
 
 import javax.imageio.ImageIO;
-import java.awt.image.RenderedImage;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -33,7 +33,7 @@ public abstract class Icon {
      */
     public abstract URL content();
 
-    public RenderedImage toRenderedImage() {
+    public BufferedImage toImage() {
         try {
             return ImageIO.read(content());
         } catch (IOException e) {

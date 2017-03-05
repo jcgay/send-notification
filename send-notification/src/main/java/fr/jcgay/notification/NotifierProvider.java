@@ -16,6 +16,8 @@ import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifier;
 import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifierConfiguration;
 import fr.jcgay.notification.notifier.notifu.NotifuConfiguration;
 import fr.jcgay.notification.notifier.notifu.NotifuNotifier;
+import fr.jcgay.notification.notifier.notify.NotifyConfiguration;
+import fr.jcgay.notification.notifier.notify.NotifyNotifier;
 import fr.jcgay.notification.notifier.notifysend.NotifySendConfiguration;
 import fr.jcgay.notification.notifier.notifysend.NotifySendNotifier;
 import fr.jcgay.notification.notifier.pushbullet.PushbulletConfiguration;
@@ -47,6 +49,7 @@ class NotifierProvider {
     private static final ChosenNotifiers ANYBAR = ChosenNotifiers.from("anybar");
     private static final ChosenNotifiers SIMPLE_NOTIFICATION_CENTER = ChosenNotifiers.from("simplenc");
     private static final ChosenNotifiers TOASTER = ChosenNotifiers.from("toaster");
+    private static final ChosenNotifiers NOTIFY = ChosenNotifiers.from("notify");
 
     private final RuntimeExecutor executor = new RuntimeExecutor();
     private final OperatingSystem os;
@@ -101,6 +104,9 @@ class NotifierProvider {
         }
         if (TOASTER.equals(notifier)) {
             return new ToasterNotifier(ToasterConfiguration.create(properties), executor);
+        }
+        if (NOTIFY.equals(notifier)) {
+            return new NotifyNotifier(application, NotifyConfiguration.create(properties));
         }
 
         return DoNothingNotifier.doNothing();

@@ -46,7 +46,7 @@ public class GrowlNotifier implements DiscoverableNotifier {
 
         GntpApplicationInfo gApplication = Gntp.appInfo(application.name()).build();
         gNotification = Gntp.notificationInfo(gApplication, application.id())
-            .icon(application.icon().toRenderedImage())
+            .icon(application.icon().toImage())
             .build();
         Gntp clientBuilder = Gntp.client(gApplication)
             .onPort(configuration.port())
@@ -72,7 +72,7 @@ public class GrowlNotifier implements DiscoverableNotifier {
         if (isClientRegistered()) {
             GntpNotification success = Gntp.notification(gNotification, notification.title())
                     .text(notification.message())
-                    .icon(notification.icon().toRenderedImage())
+                    .icon(notification.icon().toImage())
                     .priority(toPriority(notification.level()))
                     .build();
             try {
