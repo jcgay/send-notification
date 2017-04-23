@@ -88,6 +88,7 @@ Go to [Wiki](https://github.com/jcgay/send-notification/wiki) to read full confi
 | **AnyBar** for [OS X](https://github.com/tonsky/AnyBar) and [Linux](https://github.com/limpbrains/somebar) | ![anybar](http://jeanchristophegay.com/images/notifier.anybar_maven.png) |
 | **[Toaster](https://github.com/nels-o/toaster)** for Windows 8 | ![toaster](http://jeanchristophegay.com/images/notifier.toaster.png) |
 | **[Notify](https://github.com/dorkbox/Notify)** since Java 6 | ![Notify](http://jeanchristophegay.com/images/notifier.notify.png) |
+| **[BurntToast](https://github.com/Windos/BurntToast)** for Windows 10 | ![BurntToast](http://jeanchristophegay.com/images/notifier.burnttoast.png) |
 
 # Build status
 

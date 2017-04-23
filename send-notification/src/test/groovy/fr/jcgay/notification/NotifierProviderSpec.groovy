@@ -2,6 +2,8 @@ package fr.jcgay.notification
 
 import fr.jcgay.notification.configuration.ChosenNotifiers
 import fr.jcgay.notification.configuration.OperatingSystem
+import fr.jcgay.notification.notifier.burnttoast.BurntToastNotifier
+import fr.jcgay.notification.notifier.burnttoast.BurntToastNotifierConfiguration
 import fr.jcgay.notification.notifier.executor.RuntimeExecutor
 import fr.jcgay.notification.notifier.growl.GrowlConfiguration
 import fr.jcgay.notification.notifier.growl.GrowlNotifier
@@ -53,6 +55,7 @@ class NotifierProviderSpec extends Specification {
             new SnarlNotifier(application, SnarlConfiguration.byDefault()),
             new GrowlNotifier(application, GrowlConfiguration.byDefault(), DEBUG),
             new ToasterNotifier(ToasterConfiguration.byDefault(), new RuntimeExecutor()),
+            new BurntToastNotifier(application, BurntToastNotifierConfiguration.byDefault()),
             new SystemTrayNotifier(application)
         )
     }

@@ -6,6 +6,8 @@ import fr.jcgay.notification.notifier.DoNothingNotifier;
 import fr.jcgay.notification.notifier.additional.AdditionalNotifier;
 import fr.jcgay.notification.notifier.anybar.AnyBarConfiguration;
 import fr.jcgay.notification.notifier.anybar.AnyBarNotifier;
+import fr.jcgay.notification.notifier.burnttoast.BurntToastNotifier;
+import fr.jcgay.notification.notifier.burnttoast.BurntToastNotifierConfiguration;
 import fr.jcgay.notification.notifier.executor.RuntimeExecutor;
 import fr.jcgay.notification.notifier.growl.GrowlConfiguration;
 import fr.jcgay.notification.notifier.growl.GrowlNotifier;
@@ -50,6 +52,7 @@ class NotifierProvider {
     private static final ChosenNotifiers SIMPLE_NOTIFICATION_CENTER = ChosenNotifiers.from("simplenc");
     private static final ChosenNotifiers TOASTER = ChosenNotifiers.from("toaster");
     private static final ChosenNotifiers NOTIFY = ChosenNotifiers.from("notify");
+    private static final ChosenNotifiers BURNT_TOAST = ChosenNotifiers.from("burnttoast");
 
     private final RuntimeExecutor executor = new RuntimeExecutor();
     private final OperatingSystem os;
@@ -108,6 +111,9 @@ class NotifierProvider {
         if (NOTIFY.equals(notifier)) {
             return new NotifyNotifier(application, NotifyConfiguration.create(properties));
         }
+        if (BURNT_TOAST.equals(notifier)) {
+            return new BurntToastNotifier(application, BurntToastNotifierConfiguration.create(properties));
+        }
 
         return DoNothingNotifier.doNothing();
     }
@@ -126,6 +132,7 @@ class NotifierProvider {
             winNotifiers.add(byName(SNARL, configuration, application));
             winNotifiers.add(new GrowlNotifier(application, GrowlConfiguration.create(configuration), DEBUG));
             winNotifiers.add(byName(TOASTER, configuration, application));
+            winNotifiers.add(byName(BURNT_TOAST, configuration, application));
             winNotifiers.add(byName(SYSTEM_TRAY,  configuration, application));
             return unmodifiableSet(winNotifiers);
         }
