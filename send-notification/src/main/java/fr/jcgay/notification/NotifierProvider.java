@@ -24,6 +24,8 @@ import fr.jcgay.notification.notifier.notifysend.NotifySendConfiguration;
 import fr.jcgay.notification.notifier.notifysend.NotifySendNotifier;
 import fr.jcgay.notification.notifier.pushbullet.PushbulletConfiguration;
 import fr.jcgay.notification.notifier.pushbullet.PushbulletNotifier;
+import fr.jcgay.notification.notifier.slack.SlackConfiguration;
+import fr.jcgay.notification.notifier.slack.SlackNotifier;
 import fr.jcgay.notification.notifier.snarl.SnarlConfiguration;
 import fr.jcgay.notification.notifier.snarl.SnarlNotifier;
 import fr.jcgay.notification.notifier.systemtray.SystemTrayNotifier;
@@ -53,6 +55,7 @@ class NotifierProvider {
     private static final ChosenNotifiers TOASTER = ChosenNotifiers.from("toaster");
     private static final ChosenNotifiers NOTIFY = ChosenNotifiers.from("notify");
     private static final ChosenNotifiers BURNT_TOAST = ChosenNotifiers.from("burnttoast");
+    private static final ChosenNotifiers SLACK = ChosenNotifiers.from("slack");
 
     private final RuntimeExecutor executor = new RuntimeExecutor();
     private final OperatingSystem os;
@@ -113,6 +116,9 @@ class NotifierProvider {
         }
         if (BURNT_TOAST.equals(notifier)) {
             return new BurntToastNotifier(application, BurntToastNotifierConfiguration.create(properties));
+        }
+        if (SLACK.equals(notifier)) {
+            return new SlackNotifier(application, SlackConfiguration.create(properties));
         }
 
         return DoNothingNotifier.doNothing();
