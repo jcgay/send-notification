@@ -1,3 +1,8 @@
+# 0.12.0
+***
+
+- Can set email when sending notification with Pushbullet ([0510467](http://github.com/jcgay/send-notification/commit/051046716fbef76873b6623a9b897a88a18aea96))
+
 # 0.11.0
 ***
 
