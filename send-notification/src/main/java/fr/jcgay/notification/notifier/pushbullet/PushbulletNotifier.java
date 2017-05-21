@@ -94,6 +94,9 @@ public class PushbulletNotifier implements DiscoverableNotifier {
         if (configuration.device() != null) {
             builder.add("device_iden", configuration.device());
         }
+        if (configuration.email() != null) {
+            builder.add("email", configuration.email());
+        }
         builder.add("type", "note")
                 .add("title", notification.title())
                 .add("body", notification.message());

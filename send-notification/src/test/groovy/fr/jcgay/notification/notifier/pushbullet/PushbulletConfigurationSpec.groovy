@@ -26,7 +26,8 @@ class PushbulletConfigurationSpec extends Specification {
         given:
         Properties properties = [
                 'notifier.pushbullet.apikey':'key',
-                'notifier.pushbullet.device':'12345'
+                'notifier.pushbullet.device':'12345',
+                'notifier.pushbullet.email':'jcgay@does-not-exist.com',
         ]
 
         when:
@@ -35,6 +36,7 @@ class PushbulletConfigurationSpec extends Specification {
         then:
         result.key() == 'key'
         result.device() == '12345'
+        result.email() == 'jcgay@does-not-exist.com'
     }
 
     def "should build user configuration without device"() {
@@ -46,5 +48,16 @@ class PushbulletConfigurationSpec extends Specification {
 
         then:
         result.device() == null
+    }
+
+    def "should build user configuration without email"() {
+        given:
+        Properties properties = ['notifier.pushbullet.apikey': 'key']
+
+        when:
+        def result = PushbulletConfiguration.create(properties)
+
+        then:
+        result.email() == null
     }
 }

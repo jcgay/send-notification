@@ -15,6 +15,9 @@ public abstract class PushbulletConfiguration {
     @Nullable
     public abstract String device();
 
+    @Nullable
+    public abstract String email();
+
     PushbulletConfiguration() {
         // prevent external subclasses
     }
@@ -24,7 +27,8 @@ public abstract class PushbulletConfiguration {
 
         return new AutoValue_PushbulletConfiguration(
                 properties.getProperty("notifier.pushbullet.apikey"),
-                properties.getProperty("notifier.pushbullet.device")
+                properties.getProperty("notifier.pushbullet.device"),
+                properties.getProperty("notifier.pushbullet.email")
         );
     }
 }
