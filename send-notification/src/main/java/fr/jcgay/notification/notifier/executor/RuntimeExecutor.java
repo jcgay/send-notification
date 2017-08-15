@@ -25,4 +25,16 @@ public class RuntimeExecutor implements Executor {
             throw Throwables.propagate(e);
         }
     }
+
+    @Override
+    public boolean tryExec(String[] command) {
+        try {
+            return exec(command).waitFor() == 0;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return false;
+        } catch (RuntimeException e) {
+            return false;
+        }
+    }
 }

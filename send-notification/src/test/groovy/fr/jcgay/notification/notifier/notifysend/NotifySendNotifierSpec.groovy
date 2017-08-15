@@ -14,8 +14,19 @@ class NotifySendNotifierSpec extends Specification {
     Application application
     Notification notification
 
-    Executor executor = { String[] command -> executedCommand = command; Stub(Process) }
     List<String> executedCommand
+    Executor executor = new Executor() {
+        @Override
+        Process exec(String[] command) {
+            executedCommand = command
+            null
+        }
+
+        @Override
+        boolean tryExec(String[] command) {
+            throw new IllegalStateException("This method should not be called!")
+        }
+    }
 
     @Subject
     NotifySendNotifier notifier
@@ -82,7 +93,7 @@ class NotifySendNotifierSpec extends Specification {
 
         then:
         !result
-        1 * executor.exec([NotifySendConfiguration.byDefault().bin(), '-v']) >> Stub(Process) { waitFor() >> 127 }
+        1 * executor.tryExec([NotifySendConfiguration.byDefault().bin(), '-v']) >> false
     }
 
     def "should return true when binary is available"() {
@@ -97,7 +108,7 @@ class NotifySendNotifierSpec extends Specification {
 
         then:
         result
-        1 * executor.exec([NotifySendConfiguration.byDefault().bin(), '-v']) >> Stub(Process) { waitFor() >> 0 }
+        1 * executor.tryExec([NotifySendConfiguration.byDefault().bin(), '-v']) >> true
     }
 
 }

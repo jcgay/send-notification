@@ -9,7 +9,18 @@ import spock.lang.Subject
 class SimpleNotificationCenterSpec extends Specification {
 
     List<String> executedCommand
-    Executor executor = { String[] command -> executedCommand = command; Stub(Process) }
+    Executor executor = new Executor() {
+        @Override
+        Process exec(String[] command) {
+            executedCommand = command
+            null
+        }
+
+        @Override
+        boolean tryExec(String[] command) {
+            throw new IllegalStateException("This method should not be called!")
+        }
+    }
 
     @Subject
     SimpleNotificationCenterNotifier notifier

@@ -14,7 +14,18 @@ class KdialogNotifierSpec extends Specification {
     Application application = Application.builder('id', 'name', TestIcon.ok()).build()
 
     List<String> executedCommand
-    Executor executor = { String[] command -> executedCommand = command; Stub(Process) }
+    Executor executor = new Executor() {
+        @Override
+        Process exec(String[] command) {
+            executedCommand = command
+            null
+        }
+
+        @Override
+        boolean tryExec(String[] command) {
+            throw new IllegalStateException("This method should not be called!")
+        }
+    }
 
     def "should build command line to call kdialog"() {
         given:
@@ -61,7 +72,7 @@ class KdialogNotifierSpec extends Specification {
 
         then:
         result
-        1 * executor.exec([KdialogConfiguration.byDefault().bin(), '-v']) >> Stub(Process) { waitFor() >> 0 }
+        1 * executor.tryExec([KdialogConfiguration.byDefault().bin(), '-v']) >> true
     }
 
     def "should return false if binary is not available"() {
@@ -76,6 +87,6 @@ class KdialogNotifierSpec extends Specification {
 
         then:
         !result
-        1 * executor.exec([KdialogConfiguration.byDefault().bin(), '-v']) >> Stub(Process) { waitFor() >> 127 }
+        1 * executor.tryExec([KdialogConfiguration.byDefault().bin(), '-v']) >> false
     }
 }

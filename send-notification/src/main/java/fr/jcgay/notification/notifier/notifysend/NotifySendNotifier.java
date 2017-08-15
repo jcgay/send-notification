@@ -75,14 +75,7 @@ public class NotifySendNotifier implements DiscoverableNotifier {
         commands.add(configuration.bin());
         commands.add("-v");
 
-        try {
-            return executor.exec(commands.toArray(new String[commands.size()])).waitFor() == 0;
-        } catch (RuntimeException e) {
-            return false;
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            return false;
-        }
+        return executor.tryExec(commands.toArray(new String[commands.size()]));
     }
 
     private static String toUrgency(Notification.Level level) {

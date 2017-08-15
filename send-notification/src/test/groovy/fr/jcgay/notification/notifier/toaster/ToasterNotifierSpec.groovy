@@ -2,6 +2,7 @@ package fr.jcgay.notification.notifier.toaster
 
 import fr.jcgay.notification.Notification
 import fr.jcgay.notification.TestIcon
+import fr.jcgay.notification.notifier.executor.Executor
 import fr.jcgay.notification.notifier.executor.RuntimeExecutor
 import spock.lang.Specification
 
@@ -9,7 +10,18 @@ import spock.lang.Specification
 class ToasterNotifierSpec extends Specification {
 
     List<String> executedCommand
-    ToasterNotifier notifier = new ToasterNotifier(ToasterConfiguration.byDefault(), { String[] command -> executedCommand = command; Stub(Process) })
+    ToasterNotifier notifier = new ToasterNotifier(ToasterConfiguration.byDefault(), new Executor() {
+        @Override
+        Process exec(String[] command) {
+            executedCommand = command
+            null
+        }
+
+        @Override
+        boolean tryExec(String[] command) {
+            throw new IllegalStateException("This method should not be called!")
+        }
+    })
     Notification notification = Notification.builder('title', 'message', TestIcon.ok()).build()
 
     def "should build command line to call notify-send"() {
@@ -40,7 +52,7 @@ class ToasterNotifierSpec extends Specification {
 
         then:
         !result
-        1 * executor.exec([ToasterConfiguration.byDefault().bin()]) >> Stub(Process) { waitFor() >> 127 }
+        1 * executor.tryExec([ToasterConfiguration.byDefault().bin()]) >> false
     }
 
     def "should return true when binary is not available"() {
@@ -55,6 +67,6 @@ class ToasterNotifierSpec extends Specification {
 
         then:
         result
-        1 * executor.exec([ToasterConfiguration.byDefault().bin()]) >> Stub(Process) { waitFor() >> 0 }
+        1 * executor.tryExec([ToasterConfiguration.byDefault().bin()]) >> true
     }
 }

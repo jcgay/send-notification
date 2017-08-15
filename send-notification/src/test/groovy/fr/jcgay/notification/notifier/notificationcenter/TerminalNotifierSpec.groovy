@@ -13,7 +13,18 @@ class TerminalNotifierSpec extends Specification {
     String temp = System.getProperty('java.io.tmpdir')
 
     List<String> executedCommand
-    Executor executor = { String[] command -> executedCommand = command; Stub(Process) }
+    Executor executor = new Executor() {
+        @Override
+        Process exec(String[] command) {
+            executedCommand = command
+            null
+        }
+
+        @Override
+        boolean tryExec(String[] command) {
+            throw new IllegalStateException("This method should not be called!")
+        }
+    }
 
     @Subject
     TerminalNotifier notifier
@@ -85,7 +96,7 @@ class TerminalNotifierSpec extends Specification {
 
         then:
         result
-        1 * executor.exec([TerminalNotifierConfiguration.byDefault().bin(), '-help']) >> Stub(Process) { waitFor() >> 0 }
+        1 * executor.tryExec([TerminalNotifierConfiguration.byDefault().bin(), '-help']) >> true
     }
 
     def "should return false when binary is not available"() {
@@ -100,6 +111,6 @@ class TerminalNotifierSpec extends Specification {
 
         then:
         !result
-        1 * executor.exec([TerminalNotifierConfiguration.byDefault().bin(), '-help']) >> Stub(Process) { waitFor() >> 127 }
+        1 * executor.tryExec([TerminalNotifierConfiguration.byDefault().bin(), '-help']) >> false
     }
 }

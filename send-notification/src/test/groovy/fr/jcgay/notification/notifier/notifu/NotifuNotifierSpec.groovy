@@ -1,7 +1,9 @@
 package fr.jcgay.notification.notifier.notifu
+
 import fr.jcgay.notification.Application
 import fr.jcgay.notification.Notification
 import fr.jcgay.notification.TestIcon
+import fr.jcgay.notification.notifier.executor.Executor
 import fr.jcgay.notification.notifier.executor.RuntimeExecutor
 import spock.lang.Specification
 import spock.lang.Subject
@@ -20,7 +22,18 @@ class NotifuNotifierSpec extends Specification {
     NotifuNotifier notifier
 
     def setup() {
-        notifier = new NotifuNotifier(application, NotifuConfiguration.byDefault(), { String[] command -> executedCommand = command; Stub(Process) })
+        notifier = new NotifuNotifier(application, NotifuConfiguration.byDefault(), new Executor() {
+            @Override
+            Process exec(String[] command) {
+                executedCommand = command
+                null
+            }
+
+            @Override
+            boolean tryExec(String[] command) {
+                throw new IllegalStateException("This method should not be called!")
+            }
+        })
     }
 
     def "should build command line to call notifu"() {
@@ -84,7 +97,7 @@ class NotifuNotifierSpec extends Specification {
 
         then:
         result
-        1 * executor.exec([NotifuConfiguration.byDefault().bin(), "/v"]) >> Stub(Process) { waitFor() >> 0 }
+        1 * executor.tryExec([NotifuConfiguration.byDefault().bin(), "/v"]) >> true
     }
 
     def "should return false when binary is available"() {
@@ -99,7 +112,7 @@ class NotifuNotifierSpec extends Specification {
 
         then:
         !result
-        1 * executor.exec([NotifuConfiguration.byDefault().bin(), "/v"]) >> Stub(Process) { waitFor() >> 127 }
+        1 * executor.tryExec([NotifuConfiguration.byDefault().bin(), "/v"]) >> false
     }
 
 }
