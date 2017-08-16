@@ -31,6 +31,7 @@ import fr.jcgay.notification.notifier.snarl.SnarlNotifier;
 import fr.jcgay.notification.notifier.systemtray.SystemTrayNotifier;
 import fr.jcgay.notification.notifier.toaster.ToasterConfiguration;
 import fr.jcgay.notification.notifier.toaster.ToasterNotifier;
+import org.slf4j.Logger;
 
 import java.util.LinkedHashSet;
 import java.util.Properties;
@@ -39,8 +40,11 @@ import java.util.Set;
 import static fr.jcgay.notification.notifier.growl.GntpSlf4jListener.DEBUG;
 import static fr.jcgay.notification.notifier.growl.GntpSlf4jListener.ERROR;
 import static java.util.Collections.unmodifiableSet;
+import static org.slf4j.LoggerFactory.getLogger;
 
 class NotifierProvider {
+
+    private static final Logger LOGGER = getLogger(NotifierProvider.class);
 
     private static final ChosenNotifiers GROWL = ChosenNotifiers.from("growl");
     private static final ChosenNotifiers NOTIFICATION_CENTER = ChosenNotifiers.from("notificationcenter");
@@ -120,6 +124,7 @@ class NotifierProvider {
             return new SlackNotifier(application, SlackConfiguration.create(properties));
         }
 
+        LOGGER.warn("Your configured notifier [{}] does not exist. Visit https://github.com/jcgay/send-notification/wiki#configuration to select an existing notifier.", notifier);
         return DoNothingNotifier.doNothing();
     }
 
