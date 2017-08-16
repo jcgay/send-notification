@@ -14,7 +14,7 @@ echo 'Installing Wget'
 choco install -y wget
 
 echo 'Installing Notifu'
-wget -O %TEMP%\notifu.zip http://www.paralint.com/projects/notifu/dl/notifu-1.7.zip
+wget -O %TEMP%\notifu.zip http://www.paralint.com/projects/notifu/dl/notifu-1.7.zip --no-check-certificate
 if exist c:\notifu rd /s /q c:\notifu
 mkdir c:\notifu
 7za x %TEMP%\notifu.zip -oc:\notifu -r
@@ -28,9 +28,9 @@ mkdir c:\toaster
 setx PATH "%PATH%;c:\toaster\toaster-master\toast\bin\Release"
 
 echo 'Installing Snarl'
-wget -O %TEMP%\melon.exe http://sourceforge.net/projects/snarlwin/files/Goodies/setup-minimal.exe/download
+wget -O %TEMP%\melon.exe http://sourceforge.net/projects/snarlwin/files/Goodies/setup-minimal.exe/download --no-check-certificate
 %TEMP%\melon.exe /S
-wget -O %TEMP%\snarl.exe http://sourceforge.net/projects/snarlwin/files/latest/download?source=files
+wget -O %TEMP%\snarl.exe http://sourceforge.net/projects/snarlwin/files/latest/download?source=files --no-check-certificate
 
 if NOT %ERRORLEVEL% == 0 exit /B %ERRORLEVEL%
 %TEMP%\snarl.exe /S
