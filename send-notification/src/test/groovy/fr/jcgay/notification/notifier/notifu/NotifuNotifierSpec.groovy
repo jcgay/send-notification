@@ -3,37 +3,24 @@ package fr.jcgay.notification.notifier.notifu
 import fr.jcgay.notification.Application
 import fr.jcgay.notification.Notification
 import fr.jcgay.notification.TestIcon
-import fr.jcgay.notification.notifier.executor.Executor
+import fr.jcgay.notification.executor.FakeExecutor
 import fr.jcgay.notification.notifier.executor.RuntimeExecutor
 import spock.lang.Specification
 import spock.lang.Subject
 
-import static fr.jcgay.notification.Notification.Level.ERROR
-import static fr.jcgay.notification.Notification.Level.INFO
-import static fr.jcgay.notification.Notification.Level.WARNING
+import static fr.jcgay.notification.Notification.Level.*
 
 class NotifuNotifierSpec extends Specification {
 
     Application application = Application.builder('id', 'name', TestIcon.ok()).timeout(3).build()
 
-    List<String> executedCommand
+    FakeExecutor executor = new FakeExecutor()
 
     @Subject
     NotifuNotifier notifier
 
     def setup() {
-        notifier = new NotifuNotifier(application, NotifuConfiguration.byDefault(), new Executor() {
-            @Override
-            Process exec(String[] command) {
-                executedCommand = command
-                null
-            }
-
-            @Override
-            boolean tryExec(String[] command) {
-                throw new IllegalStateException("This method should not be called!")
-            }
-        })
+        notifier = new NotifuNotifier(application, NotifuConfiguration.byDefault(), executor)
     }
 
     def "should build command line to call notifu"() {
@@ -44,7 +31,7 @@ class NotifuNotifierSpec extends Specification {
         notifier.send(notification)
 
         then:
-        executedCommand == [
+        executor.executedCommand == [
                 'notifu64',
                 '/p', notification.title(),
                 '/m', notification.message(),
@@ -62,8 +49,8 @@ class NotifuNotifierSpec extends Specification {
         notifier.send(notification)
 
         then:
-        executedCommand.contains('ti\\"tle')
-        executedCommand.contains('mes\\"sage')
+        executor.executedCommand.contains('ti\\"tle')
+        executor.executedCommand.contains('mes\\"sage')
     }
 
     def "should translate notification level to type"() {
@@ -76,7 +63,7 @@ class NotifuNotifierSpec extends Specification {
         notifier.send(notification)
 
         then:
-        executedCommand.contains(urgency)
+        executor.executedCommand.contains(urgency)
 
         where:
         level   || urgency

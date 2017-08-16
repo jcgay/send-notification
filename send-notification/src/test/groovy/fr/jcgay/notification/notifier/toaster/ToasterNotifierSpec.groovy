@@ -2,26 +2,14 @@ package fr.jcgay.notification.notifier.toaster
 
 import fr.jcgay.notification.Notification
 import fr.jcgay.notification.TestIcon
-import fr.jcgay.notification.notifier.executor.Executor
+import fr.jcgay.notification.executor.FakeExecutor
 import fr.jcgay.notification.notifier.executor.RuntimeExecutor
 import spock.lang.Specification
 
-
 class ToasterNotifierSpec extends Specification {
 
-    List<String> executedCommand
-    ToasterNotifier notifier = new ToasterNotifier(ToasterConfiguration.byDefault(), new Executor() {
-        @Override
-        Process exec(String[] command) {
-            executedCommand = command
-            null
-        }
-
-        @Override
-        boolean tryExec(String[] command) {
-            throw new IllegalStateException("This method should not be called!")
-        }
-    })
+    FakeExecutor executor = new FakeExecutor()
+    ToasterNotifier notifier = new ToasterNotifier(ToasterConfiguration.byDefault(), executor)
     Notification notification = Notification.builder('title', 'message', TestIcon.ok()).build()
 
     def "should build command line to call notify-send"() {
@@ -29,7 +17,7 @@ class ToasterNotifierSpec extends Specification {
         notifier.send(notification)
 
         then:
-        executedCommand == [
+        executor.executedCommand == [
             ToasterConfiguration.byDefault().bin(),
             '-t',
             /"${notification.title()}"/,

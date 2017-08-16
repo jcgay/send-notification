@@ -71,7 +71,7 @@ public class SimpleNotificationCenterNotifier implements DiscoverableNotifier {
 
     @Override
     public void close() {
-        // do nothing
+        executor.close();
     }
 
     @Override

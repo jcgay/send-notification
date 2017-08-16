@@ -61,7 +61,7 @@ public class NotifySendNotifier implements DiscoverableNotifier {
 
     @Override
     public void close() {
-        // do nothing
+        executor.close();
     }
 
     @Override

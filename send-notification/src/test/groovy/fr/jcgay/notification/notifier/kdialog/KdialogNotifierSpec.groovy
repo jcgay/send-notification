@@ -1,8 +1,9 @@
 package fr.jcgay.notification.notifier.kdialog
+
 import fr.jcgay.notification.Application
 import fr.jcgay.notification.Notification
 import fr.jcgay.notification.TestIcon
-import fr.jcgay.notification.notifier.executor.Executor
+import fr.jcgay.notification.executor.FakeExecutor
 import fr.jcgay.notification.notifier.executor.RuntimeExecutor
 import spock.lang.Specification
 
@@ -13,19 +14,7 @@ class KdialogNotifierSpec extends Specification {
     Notification notification = Notification.builder('title', 'message', TestIcon.ok()).build()
     Application application = Application.builder('id', 'name', TestIcon.ok()).build()
 
-    List<String> executedCommand
-    Executor executor = new Executor() {
-        @Override
-        Process exec(String[] command) {
-            executedCommand = command
-            null
-        }
-
-        @Override
-        boolean tryExec(String[] command) {
-            throw new IllegalStateException("This method should not be called!")
-        }
-    }
+    FakeExecutor executor = new FakeExecutor()
 
     def "should build command line to call kdialog"() {
         given:
@@ -36,7 +25,7 @@ class KdialogNotifierSpec extends Specification {
         notifier.send(notification)
 
         then:
-        executedCommand == [
+        executor.executedCommand == [
                 'kdialog',
                 '--passivepopup', notification.message(), '3',
                 '--title', notification.title(),
@@ -52,7 +41,7 @@ class KdialogNotifierSpec extends Specification {
         notifier.send(notification)
 
         then:
-        executedCommand == [
+        executor.executedCommand == [
                 'kdialog',
                 '--passivepopup', notification.message(),
                 '--title', notification.title(),

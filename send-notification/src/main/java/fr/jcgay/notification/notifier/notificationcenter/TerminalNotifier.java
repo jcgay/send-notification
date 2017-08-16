@@ -77,7 +77,7 @@ public class TerminalNotifier implements DiscoverableNotifier {
 
     @Override
     public void close() {
-        // do nothing
+        executor.close();
     }
 
     @Override

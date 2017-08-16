@@ -51,7 +51,7 @@ public class ToasterNotifier implements DiscoverableNotifier {
 
     @Override
     public void close() {
-        // do nothing
+        executor.close();
     }
 
     @Override

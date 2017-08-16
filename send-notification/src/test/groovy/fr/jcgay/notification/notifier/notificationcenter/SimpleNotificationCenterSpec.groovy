@@ -2,25 +2,13 @@ package fr.jcgay.notification.notifier.notificationcenter
 
 import fr.jcgay.notification.Notification
 import fr.jcgay.notification.TestIcon
-import fr.jcgay.notification.notifier.executor.Executor
+import fr.jcgay.notification.executor.FakeExecutor
 import spock.lang.Specification
 import spock.lang.Subject
 
 class SimpleNotificationCenterSpec extends Specification {
 
-    List<String> executedCommand
-    Executor executor = new Executor() {
-        @Override
-        Process exec(String[] command) {
-            executedCommand = command
-            null
-        }
-
-        @Override
-        boolean tryExec(String[] command) {
-            throw new IllegalStateException("This method should not be called!")
-        }
-    }
+    FakeExecutor executor = new FakeExecutor()
 
     @Subject
     SimpleNotificationCenterNotifier notifier
@@ -44,7 +32,7 @@ class SimpleNotificationCenterSpec extends Specification {
         notifier.send(notification)
 
         then:
-        executedCommand == [
+        executor.executedCommand == [
                 'osascript',
                 '-e',
                 /display notification "${notification.message()}" sound name "default" with title "${notification.title()}" subtitle "${notification.subtitle()}"/
@@ -59,7 +47,7 @@ class SimpleNotificationCenterSpec extends Specification {
         notifier.send(notification)
 
         then:
-        !executedCommand.any { it.contains('subtitle') }
+        !executor.executedCommand.any { it.contains('subtitle') }
     }
 
     def "should not set sound when configuration does not includes one"() {
@@ -71,7 +59,7 @@ class SimpleNotificationCenterSpec extends Specification {
         notifier.send(notification)
 
         then:
-        !executedCommand.any { it.contains('sound name') }
-        !executedCommand.any { it.contains('default') }
+        !executor.executedCommand.any { it.contains('sound name') }
+        !executor.executedCommand.any { it.contains('default') }
     }
 }

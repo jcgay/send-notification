@@ -1,8 +1,9 @@
 package fr.jcgay.notification.notifier.notifysend
+
 import fr.jcgay.notification.Application
 import fr.jcgay.notification.Notification
 import fr.jcgay.notification.TestIcon
-import fr.jcgay.notification.notifier.executor.Executor
+import fr.jcgay.notification.executor.FakeExecutor
 import fr.jcgay.notification.notifier.executor.RuntimeExecutor
 import spock.lang.Specification
 import spock.lang.Subject
@@ -14,19 +15,7 @@ class NotifySendNotifierSpec extends Specification {
     Application application
     Notification notification
 
-    List<String> executedCommand
-    Executor executor = new Executor() {
-        @Override
-        Process exec(String[] command) {
-            executedCommand = command
-            null
-        }
-
-        @Override
-        boolean tryExec(String[] command) {
-            throw new IllegalStateException("This method should not be called!")
-        }
-    }
+    FakeExecutor executor = new FakeExecutor()
 
     @Subject
     NotifySendNotifier notifier
@@ -42,7 +31,7 @@ class NotifySendNotifierSpec extends Specification {
         notifier.send(notification)
 
         then:
-        executedCommand == [
+        executor.executedCommand == [
                 'notify-send', 'title', 'message',
                 '-t', "${application.timeout()}",
                 '-i', new File("${System.getProperty('java.io.tmpdir')}/send-notifications-icons/ok.png").path,
@@ -59,7 +48,7 @@ class NotifySendNotifierSpec extends Specification {
         notifier.send(notification)
 
         then:
-        !executedCommand.contains('-t')
+        !executor.executedCommand.contains('-t')
     }
 
     def "should translate notification level to urgency"() {
@@ -72,7 +61,7 @@ class NotifySendNotifierSpec extends Specification {
         notifier.send(notification)
 
         then:
-        executedCommand.contains(urgency)
+        executor.executedCommand.contains(urgency)
 
         where:
         level   | urgency

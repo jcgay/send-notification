@@ -77,7 +77,7 @@ public class NotifuNotifier implements DiscoverableNotifier {
 
     @Override
     public void close() {
-        // do nothing
+        executor.close();
     }
 
     @Override

@@ -1,8 +1,9 @@
 package fr.jcgay.notification.notifier.notificationcenter
+
 import fr.jcgay.notification.Application
 import fr.jcgay.notification.Notification
 import fr.jcgay.notification.TestIcon
-import fr.jcgay.notification.notifier.executor.Executor
+import fr.jcgay.notification.executor.FakeExecutor
 import fr.jcgay.notification.notifier.executor.RuntimeExecutor
 import spock.lang.Specification
 import spock.lang.Subject
@@ -12,19 +13,7 @@ class TerminalNotifierSpec extends Specification {
     Application application = Application.builder('id', 'name', TestIcon.application()).build()
     String temp = System.getProperty('java.io.tmpdir')
 
-    List<String> executedCommand
-    Executor executor = new Executor() {
-        @Override
-        Process exec(String[] command) {
-            executedCommand = command
-            null
-        }
-
-        @Override
-        boolean tryExec(String[] command) {
-            throw new IllegalStateException("This method should not be called!")
-        }
-    }
+    FakeExecutor executor = new FakeExecutor()
 
     @Subject
     TerminalNotifier notifier
@@ -48,7 +37,7 @@ class TerminalNotifierSpec extends Specification {
         notifier.send(notification)
 
         then:
-        executedCommand == [
+        executor.executedCommand == [
                 'terminal-notifier',
                 '-title', 'name',
                 '-subtitle', 'subtitle',
@@ -69,7 +58,7 @@ class TerminalNotifierSpec extends Specification {
         notifier.send(notification)
 
         then:
-        !executedCommand.contains('-subtitle')
+        !executor.executedCommand.contains('-subtitle')
     }
 
     def "should not set sound when configuration does not includes one"() {
@@ -81,7 +70,7 @@ class TerminalNotifierSpec extends Specification {
         notifier.send(notification)
 
         then:
-        !executedCommand.contains('-sound')
+        !executor.executedCommand.contains('-sound')
     }
 
     def "should return true when binary is available"() {
