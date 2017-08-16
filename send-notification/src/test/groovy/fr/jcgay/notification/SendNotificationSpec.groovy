@@ -120,4 +120,24 @@ class SendNotificationSpec extends Specification {
         then:
         PushbulletNotifier.isInstance(result)
     }
+
+    def "should get a default Application when none is set"() {
+        when:
+        def result = sendNotification
+            .setChosenNotifier('systemtray')
+            .chooseNotifier()
+
+        then:
+        result.application.name == 'Send Notification (Default)'
+        result.application.id == 'application/x-vnd-jcgay.send-notification-default'
+        result.application.icon.id == 'send-notification'
+    }
+
+    def 'should fail when trying to set a null application'() {
+        when:
+        sendNotification.setApplication(null).chooseNotifier()
+
+        then:
+        thrown(NullPointerException)
+    }
 }

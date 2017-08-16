@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import java.util.Properties;
 import java.util.Set;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
@@ -38,9 +39,13 @@ public class SendNotification {
     private final NotifierProvider provider;
 
     private ConfigurationReader configuration;
-    private Application application;
     private ChosenNotifiers chosenNotifiers;
     private Properties additionalConfiguration;
+    private Application application = Application.builder()
+        .id("application/x-vnd-jcgay.send-notification-default")
+        .name("Send Notification (Default)")
+        .icon(Icon.create(SendNotification.class.getResource("/brochure5.png"), "send-notification"))
+        .build();
 
     SendNotification(ConfigurationReader configuration, OperatingSystem currentOs) {
         this(configuration, new NotifierProvider(currentOs));
@@ -87,7 +92,7 @@ public class SendNotification {
      * @return fluent builder.
      */
     public SendNotification setApplication(Application application) {
-        this.application = application;
+        this.application = checkNotNull(application);
         return this;
     }
 

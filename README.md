@@ -28,6 +28,8 @@ Get a notifier:
         .initNotifier();
 ```
 
+The `application` is not mandatory, you'll get a default one if it's not set.
+
 Then send notification:
 
 ```java
