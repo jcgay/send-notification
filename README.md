@@ -14,7 +14,7 @@ Example with *Maven*:
         <dependency>
             <groupId>fr.jcgay.send-notification</groupId>
             <artifactId>send-notification</artifactId>
-            <version>0.12.0</version>
+            <version>0.13.0</version>
         </dependency>
      [...]
     </dependencies>
@@ -42,7 +42,7 @@ Then send notification:
 
 ## CLI
 
-Download [bundle](https://bintray.com/artifact/download/jcgay/maven/fr/jcgay/send-notification/send-notification-cli/0.12.0/send-notification-cli-0.12.0-binaries.zip), extract it, add the `bin` directory to your `$PATH`.  
+Download [bundle](https://bintray.com/artifact/download/jcgay/maven/fr/jcgay/send-notification/send-notification-cli/0.13.0/send-notification-cli-0.13.0-binaries.zip), extract it, add the `bin` directory to your `$PATH`.  
 For OS X users, you can use a brew formula [here](https://github.com/jcgay/homebrew-jcgay).
 
     > send-notification -h

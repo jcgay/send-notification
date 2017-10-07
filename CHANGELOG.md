@@ -1,3 +1,12 @@
+# 0.13.0
+***
+
+- Provide a default Application ([8ee5e65](http://github.com/jcgay/send-notification/commit/8ee5e65c46907dae49190131656a798ee0d55331))
+- Log a warning when a configured notifier is not valid ([4e227b4](http://github.com/jcgay/send-notification/commit/4e227b440cd1c87518b35a41400892580e3afcb2))
+- Ignore unknown certificates when installing Windows notifiers ([c37e1d4](http://github.com/jcgay/send-notification/commit/c37e1d4a66bc847ff567cba278b235c461ca5243))
+- Fail when a command returns a code != 0 ([76e7f4f](http://github.com/jcgay/send-notification/commit/76e7f4fbf7a456c36dbd242a76d0400aa4652f20))
+- Remove duplicated code by introducing Executor#tryExec ([6b1faaf](http://github.com/jcgay/send-notification/commit/6b1faaf659254541d2ad53b094eb35dd18261247))
+
 # 0.12.0
 ***
 
