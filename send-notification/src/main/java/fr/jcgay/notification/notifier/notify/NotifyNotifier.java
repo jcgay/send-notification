@@ -46,7 +46,7 @@ public class NotifyNotifier implements DiscoverableNotifier {
         Notify notify = Notify.create()
             .title(notification.title())
             .text(notification.message())
-            .graphic(notification.icon().toImage())
+            .image(notification.icon().toImage())
             .position(configuration.position())
             .hideAfter((int) (application.timeout() == -1 ? SECONDS.toMillis(3) : application.timeout()));
 
