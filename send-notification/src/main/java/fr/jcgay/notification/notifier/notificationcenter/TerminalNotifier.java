@@ -57,8 +57,10 @@ public class TerminalNotifier implements DiscoverableNotifier {
         commands.add(notification.message());
         commands.add(CMD_GROUP);
         commands.add(application.id());
-        commands.add(CMD_ACTIVATE);
-        commands.add(configuration.activateApplication());
+        if (configuration.activateApplication() != null) {
+            commands.add(CMD_ACTIVATE);
+            commands.add(configuration.activateApplication());
+        }
         commands.add(CMD_CONTENT_IMAGE);
         commands.add(notification.icon().asPath());
         if (configuration.sound() != null) {

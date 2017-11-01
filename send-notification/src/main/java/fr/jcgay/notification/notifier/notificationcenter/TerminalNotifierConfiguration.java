@@ -9,11 +9,12 @@ import java.util.Properties;
 public abstract class TerminalNotifierConfiguration {
 
     private static final TerminalNotifierConfiguration DEFAULT = new AutoValue_TerminalNotifierConfiguration(
-            "terminal-notifier", "com.apple.Terminal", null
+            "terminal-notifier", null, null
     );
 
     public abstract String bin();
 
+    @Nullable
     public abstract String activateApplication();
 
     @Nullable

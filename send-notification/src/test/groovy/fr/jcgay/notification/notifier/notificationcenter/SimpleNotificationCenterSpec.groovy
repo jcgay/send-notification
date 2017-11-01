@@ -16,7 +16,6 @@ class SimpleNotificationCenterSpec extends Specification {
     def setup() {
         def configuration = TerminalNotifierConfiguration.create([
             'notifier.notification-center.path':TerminalNotifierConfiguration.byDefault().bin(),
-            'notifier.notification-center.activate':TerminalNotifierConfiguration.byDefault().activateApplication(),
             'notifier.notification-center.sound':'default'
         ] as Properties)
         notifier = new SimpleNotificationCenterNotifier(configuration, executor)

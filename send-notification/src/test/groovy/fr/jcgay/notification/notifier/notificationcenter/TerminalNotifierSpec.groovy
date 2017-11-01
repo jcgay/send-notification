@@ -21,7 +21,7 @@ class TerminalNotifierSpec extends Specification {
     def setup() {
         def configuration = TerminalNotifierConfiguration.create([
             'notifier.notification-center.path':TerminalNotifierConfiguration.byDefault().bin(),
-            'notifier.notification-center.activate':TerminalNotifierConfiguration.byDefault().activateApplication(),
+            'notifier.notification-center.activate':'com.apple.Terminal',
             'notifier.notification-center.sound':'default'
         ] as Properties)
         notifier = new TerminalNotifier(application, configuration, executor)
@@ -61,7 +61,7 @@ class TerminalNotifierSpec extends Specification {
         !executor.executedCommand.contains('-subtitle')
     }
 
-    def "should not set sound when configuration does not includes one"() {
+    def "should not set sound when configuration does not include one"() {
         given:
         def notifier = new TerminalNotifier(application, TerminalNotifierConfiguration.byDefault(), executor)
         def notification = Notification.builder('title', 'message', TestIcon.ok()).build()
@@ -71,6 +71,18 @@ class TerminalNotifierSpec extends Specification {
 
         then:
         !executor.executedCommand.contains('-sound')
+    }
+
+    def "should not set activation when configuration does not include one"() {
+        given:
+        def notifier = new TerminalNotifier(application, TerminalNotifierConfiguration.byDefault(), executor)
+        def notification = Notification.builder('title', 'message', TestIcon.ok()).build()
+
+        when:
+        notifier.send(notification)
+
+        then:
+        !executor.executedCommand.contains('-activate')
     }
 
     def "should return true when binary is available"() {
