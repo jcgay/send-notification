@@ -23,7 +23,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class RuntimeExecutor implements Executor {
 
     private static final Logger LOGGER = getLogger(RuntimeExecutor.class);
-    private static final int DEFAULT_WAIT_PROCESS_TIMEOUT = 200;
+    private static final int DEFAULT_WAIT_PROCESS_TIMEOUT = 500;
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private final long timeout;
