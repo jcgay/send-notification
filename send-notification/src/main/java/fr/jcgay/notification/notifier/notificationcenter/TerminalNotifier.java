@@ -17,15 +17,6 @@ public class TerminalNotifier implements DiscoverableNotifier {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TerminalNotifier.class);
 
-    private static final String CMD_MESSAGE = "-message";
-    private static final String CMD_TITLE = "-title";
-    private static final String CMD_SUBTITLE = "-subtitle";
-    private static final String CMD_GROUP = "-group";
-    private static final String CMD_ACTIVATE = "-activate";
-    private static final String CMD_CONTENT_IMAGE = "-contentImage";
-    private static final String CMD_SOUND = "-sound";
-    private static final String CMD_APP_ICON = "-appIcon";
-
     private final Application application;
     private final TerminalNotifierConfiguration configuration;
     private final Executor executor;
@@ -47,28 +38,32 @@ public class TerminalNotifier implements DiscoverableNotifier {
 
         List<String> commands = new ArrayList<String>();
         commands.add(configuration.bin());
-        commands.add(CMD_TITLE);
+        commands.add("-title");
         commands.add(application.name());
         if (notification.subtitle() != null) {
-            commands.add(CMD_SUBTITLE);
+            commands.add("-subtitle");
             commands.add(notification.subtitle());
         }
-        commands.add(CMD_MESSAGE);
+        commands.add("-message");
         commands.add(notification.message());
-        commands.add(CMD_GROUP);
+        commands.add("-group");
         commands.add(application.id());
         if (configuration.activateApplication() != null) {
-            commands.add(CMD_ACTIVATE);
+            commands.add("-activate");
             commands.add(configuration.activateApplication());
         }
-        commands.add(CMD_CONTENT_IMAGE);
+        commands.add("-contentImage");
         commands.add(notification.icon().asPath());
         if (configuration.sound() != null) {
-            commands.add(CMD_SOUND);
+            commands.add("-sound");
             commands.add(configuration.sound());
         }
-        commands.add(CMD_APP_ICON);
+        commands.add("-appIcon");
         commands.add(application.icon().asPath());
+        if (application.timeout() != -1) {
+            commands.add("-timeout");
+            commands.add(String.valueOf(Math.round(application.timeout() / 1000)));
+        }
 
         try {
             executor.exec(commands.toArray(new String[commands.size()]));
