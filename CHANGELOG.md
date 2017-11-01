@@ -1,3 +1,13 @@
+# 0.14.0
+***
+
+- Default RuntimeExecutor timeout is now 500 ms ([8d792b5](http://github.com/jcgay/send-notification/commit/8d792b5642264403b9072f61cd2c2d8d4e642598))
+- Revert "Set timeout parameter for terminal-notifier" ([0a26ad5](http://github.com/jcgay/send-notification/commit/0a26ad5c15940180dde75ae7bbd414463ee8849a))
+- Timeout in RuntimeExecutor is now set from Application configuration ([9d0fb02](http://github.com/jcgay/send-notification/commit/9d0fb0226df88cba08a9549f4ded2150052b3134))
+- Close notifier in *Example ([95a2a45](http://github.com/jcgay/send-notification/commit/95a2a45c2d3d467ea962bc988c5094e774df2022))
+- Set timeout parameter for terminal-notifier ([c5fcb9c](http://github.com/jcgay/send-notification/commit/c5fcb9c75c35cbc83f9a88349baaebd9745bcd5c))
+- Do not set a default app activation for terminal-notifier ([61f142f](http://github.com/jcgay/send-notification/commit/61f142f0940542117a3494e034bb723797337faf))
+
 # 0.13.0
 ***
 
