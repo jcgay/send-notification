@@ -32,5 +32,6 @@ class NotifySendExample {
             .build();
 
         notifier.send(notification);
+        notifier.close();
     }
 }

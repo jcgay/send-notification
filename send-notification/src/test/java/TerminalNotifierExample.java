@@ -31,5 +31,6 @@ class TerminalNotifierExample {
             .build();
 
         notifier.send(notification);
+        notifier.close();
     }
 }
