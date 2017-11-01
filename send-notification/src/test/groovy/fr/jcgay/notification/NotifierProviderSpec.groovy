@@ -38,7 +38,7 @@ class NotifierProviderSpec extends Specification {
         then:
         assertThat(result).containsExactly(
             new GrowlNotifier(application, GrowlConfiguration.byDefault(), DEBUG),
-            new TerminalNotifier(application, TerminalNotifierConfiguration.byDefault(), new RuntimeExecutor()),
+            new TerminalNotifier(application, TerminalNotifierConfiguration.byDefault(), new RuntimeExecutor(application.timeout())),
             new SystemTrayNotifier(application)
         )
     }
@@ -54,7 +54,7 @@ class NotifierProviderSpec extends Specification {
         assertThat(result).containsExactly(
             new SnarlNotifier(application, SnarlConfiguration.byDefault()),
             new GrowlNotifier(application, GrowlConfiguration.byDefault(), DEBUG),
-            new ToasterNotifier(ToasterConfiguration.byDefault(), new RuntimeExecutor()),
+            new ToasterNotifier(ToasterConfiguration.byDefault(), new RuntimeExecutor(application.timeout())),
             new BurntToastNotifier(application, BurntToastNotifierConfiguration.byDefault()),
             new SystemTrayNotifier(application)
         )
@@ -69,8 +69,8 @@ class NotifierProviderSpec extends Specification {
 
         then:
         assertThat(result).containsExactly(
-            new KdialogNotifier(application, KdialogConfiguration.byDefault(), new RuntimeExecutor()),
-            new NotifySendNotifier(application, NotifySendConfiguration.byDefault(), new RuntimeExecutor()),
+            new KdialogNotifier(application, KdialogConfiguration.byDefault(), new RuntimeExecutor(application.timeout())),
+            new NotifySendNotifier(application, NotifySendConfiguration.byDefault(), new RuntimeExecutor(application.timeout())),
             new SystemTrayNotifier(application)
         )
     }

@@ -23,14 +23,20 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class RuntimeExecutor implements Executor {
 
     private static final Logger LOGGER = getLogger(RuntimeExecutor.class);
+    private static final int DEFAULT_WAIT_PROCESS_TIMEOUT = 200;
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final long timeout;
+
+    public RuntimeExecutor(long timeout) {
+        this.timeout = timeout == -1 ? DEFAULT_WAIT_PROCESS_TIMEOUT : timeout;
+    }
 
     @Override
     public void exec(final String[] command) {
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Will execute command line: {}", logCommand(command));
+            LOGGER.debug("Will execute command line: {} (waiting at most: {} milliseconds)", logCommand(command), timeout);
         }
 
         Future<Integer> task = executor.submit(new Callable<Integer>() {
@@ -62,7 +68,7 @@ public class RuntimeExecutor implements Executor {
         });
 
         try {
-            task.get(200, MILLISECONDS);
+            task.get(timeout, MILLISECONDS);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw Throwables.propagate(e);

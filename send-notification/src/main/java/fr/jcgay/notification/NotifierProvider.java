@@ -85,10 +85,10 @@ class NotifierProvider {
             return new GrowlNotifier(application, GrowlConfiguration.create(properties), ERROR);
         }
         if (NOTIFICATION_CENTER.equals(notifier)) {
-            return new TerminalNotifier(application, TerminalNotifierConfiguration.create(properties), new RuntimeExecutor());
+            return new TerminalNotifier(application, TerminalNotifierConfiguration.create(properties), new RuntimeExecutor(application.timeout()));
         }
         if (NOTIFY_SEND.equals(notifier)) {
-            return new NotifySendNotifier(application, NotifySendConfiguration.create(properties), new RuntimeExecutor());
+            return new NotifySendNotifier(application, NotifySendConfiguration.create(properties), new RuntimeExecutor(application.timeout()));
         }
         if (PUSHBULLET.equals(notifier)) {
             return new PushbulletNotifier(application, PushbulletConfiguration.create(properties));
@@ -100,19 +100,19 @@ class NotifierProvider {
             return new SystemTrayNotifier(application);
         }
         if (NOTIFU.equals(notifier)) {
-            return new NotifuNotifier(application, NotifuConfiguration.create(properties), new RuntimeExecutor());
+            return new NotifuNotifier(application, NotifuConfiguration.create(properties), new RuntimeExecutor(application.timeout()));
         }
         if (KDIALOG.equals(notifier)) {
-            return new KdialogNotifier(application, KdialogConfiguration.create(properties), new RuntimeExecutor());
+            return new KdialogNotifier(application, KdialogConfiguration.create(properties), new RuntimeExecutor(application.timeout()));
         }
         if (ANYBAR.equals(notifier)) {
             return AnyBarNotifier.create(application, AnyBarConfiguration.create(properties));
         }
         if (SIMPLE_NOTIFICATION_CENTER.equals(notifier)) {
-            return new SimpleNotificationCenterNotifier(TerminalNotifierConfiguration.create(properties), new RuntimeExecutor());
+            return new SimpleNotificationCenterNotifier(TerminalNotifierConfiguration.create(properties), new RuntimeExecutor(application.timeout()));
         }
         if (TOASTER.equals(notifier)) {
-            return new ToasterNotifier(ToasterConfiguration.create(properties), new RuntimeExecutor());
+            return new ToasterNotifier(ToasterConfiguration.create(properties), new RuntimeExecutor(application.timeout()));
         }
         if (NOTIFY.equals(notifier)) {
             return new NotifyNotifier(application, NotifyConfiguration.create(properties));
