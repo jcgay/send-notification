@@ -60,10 +60,6 @@ public class TerminalNotifier implements DiscoverableNotifier {
         }
         commands.add("-appIcon");
         commands.add(application.icon().asPath());
-        if (application.timeout() != -1) {
-            commands.add("-timeout");
-            commands.add(String.valueOf(Math.round(application.timeout() / 1000)));
-        }
 
         try {
             executor.exec(commands.toArray(new String[commands.size()]));

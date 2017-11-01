@@ -20,9 +20,9 @@ class TerminalNotifierSpec extends Specification {
 
     def setup() {
         def configuration = TerminalNotifierConfiguration.create([
-            'notifier.notification-center.path'    : TerminalNotifierConfiguration.byDefault().bin(),
-            'notifier.notification-center.activate': 'com.apple.Terminal',
-            'notifier.notification-center.sound'   : 'default'
+            'notifier.notification-center.path':TerminalNotifierConfiguration.byDefault().bin(),
+            'notifier.notification-center.activate':'com.apple.Terminal',
+            'notifier.notification-center.sound':'default'
         ] as Properties)
         notifier = new TerminalNotifier(application, configuration, executor)
     }
@@ -113,19 +113,5 @@ class TerminalNotifierSpec extends Specification {
         then:
         !result
         1 * executor.tryExec([TerminalNotifierConfiguration.byDefault().bin(), '-help']) >> false
-    }
-
-    def "should set timeout when application includes one"() {
-        given:
-        def application = Application.builder('id', 'name', TestIcon.application()).timeout(1000).build()
-        def notifier = new TerminalNotifier(application, TerminalNotifierConfiguration.byDefault(), executor)
-        def notification = Notification.builder('title', 'message', TestIcon.ok()).build()
-
-        when:
-        notifier.send(notification)
-
-        then:
-        executor.executedCommand.join(' ').contains('-timeout 1')
-        !executor.executedCommand.join(' ').contains('-timeout 1000')
     }
 }
