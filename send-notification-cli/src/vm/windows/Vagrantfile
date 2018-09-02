@@ -6,7 +6,7 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  config.vm.box = "kensykora/windows_2012_r2_standard"
+  config.vm.box = "gusztavvargadr/w10e"
 
   # WinRM is more conventional to communicate with a Windows box, even if ssh is
   # available too.
@@ -21,7 +21,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.cpus = 2
   end
 
-  config.vm.provision :shell, :path => "setup-chocolatey.cmd"
   config.vm.provision :shell, :path => "install-notifiers.cmd"
   config.vm.provision :shell, :path => "install-tools.cmd"
 
