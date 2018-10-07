@@ -33,7 +33,7 @@ public class ToasterNotifier implements DiscoverableNotifier {
 
     @Override
     public void send(Notification notification) {
-        List<String> commands = new ArrayList<String>();
+        List<String> commands = new ArrayList<>();
         commands.add(configuration.bin());
         commands.add("-t");
         commands.add(DOUBLE_QUOTE + notification.title() + DOUBLE_QUOTE);
@@ -43,7 +43,7 @@ public class ToasterNotifier implements DiscoverableNotifier {
         commands.add(DOUBLE_QUOTE + notification.icon().asPath() + DOUBLE_QUOTE);
 
         try {
-            executor.exec(commands.toArray(new String[commands.size()]));
+            executor.exec(commands.toArray(new String[0]));
         } catch (RuntimeException e) {
             throw new ToasterNotificationException("Error while sending notification with toaster", e);
         }
@@ -61,10 +61,10 @@ public class ToasterNotifier implements DiscoverableNotifier {
 
     @Override
     public boolean tryInit() {
-        List<String> commands = new ArrayList<String>();
+        List<String> commands = new ArrayList<>();
         commands.add(configuration.bin());
 
-        return executor.tryExec(commands.toArray(new String[commands.size()]));
+        return executor.tryExec(commands.toArray(new String[0]));
     }
 
     @Override

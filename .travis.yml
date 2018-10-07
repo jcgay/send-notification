@@ -1,15 +1,13 @@
 sudo: false
 language: java
 before_install:
-  - jdk_switcher use openjdk6
-  - sed -i "s|\[JDK6\]|$JAVA_HOME|g" etc/toolchains.xml
   - jdk_switcher use oraclejdk8
 install:
-  - mvn install -DskipTests=true -B -V -t etc/toolchains.xml
+  - mvn install -DskipTests=true -B -V
 script:
-  - mvn verify -B -t etc/toolchains.xml
+  - mvn verify -B
 after_success:
-  - "[[ ${TRAVIS_PULL_REQUEST} == 'false' ]] && [[ ${TRAVIS_TAG} == '' ]] && mvn deploy -DskipTests -t etc/toolchains.xml --settings etc/deploy-settings.xml"
+  - "[[ ${TRAVIS_PULL_REQUEST} == 'false' ]] && [[ ${TRAVIS_TAG} == '' ]] && mvn deploy -DskipTests --settings etc/deploy-settings.xml"
   - mvn clean verify coveralls:report -Prun-coverage
 env:
   global:

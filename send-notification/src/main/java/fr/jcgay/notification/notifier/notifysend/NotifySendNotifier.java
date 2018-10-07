@@ -39,7 +39,7 @@ public class NotifySendNotifier implements DiscoverableNotifier {
 
     @Override
     public void send(Notification notification) {
-        List<String> commands = new ArrayList<String>();
+        List<String> commands = new ArrayList<>();
         commands.add(configuration.bin());
         commands.add(notification.title());
         commands.add(notification.message());
@@ -53,7 +53,7 @@ public class NotifySendNotifier implements DiscoverableNotifier {
         commands.add(toUrgency(notification.level()));
 
         try {
-            executor.exec(commands.toArray(new String[commands.size()]));
+            executor.exec(commands.toArray(new String[0]));
         } catch (RuntimeException e) {
             throw new NotifySendNotificationException("Error while sending notification to notify-send.", e.getCause());
         }
@@ -71,11 +71,11 @@ public class NotifySendNotifier implements DiscoverableNotifier {
 
     @Override
     public boolean tryInit() {
-        List<String> commands = new ArrayList<String>();
+        List<String> commands = new ArrayList<>();
         commands.add(configuration.bin());
         commands.add("-v");
 
-        return executor.tryExec(commands.toArray(new String[commands.size()]));
+        return executor.tryExec(commands.toArray(new String[0]));
     }
 
     private static String toUrgency(Notification.Level level) {

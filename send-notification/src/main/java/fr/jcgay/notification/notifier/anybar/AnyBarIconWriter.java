@@ -1,7 +1,6 @@
 package fr.jcgay.notification.notifier.anybar;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.io.Closeables;
 import fr.jcgay.notification.Icon;
 import fr.jcgay.notification.IconFileWriter;
 import fr.jcgay.notification.SendNotificationException;
@@ -11,9 +10,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-
-import static com.google.common.io.Closeables.closeQuietly;
 
 public class AnyBarIconWriter implements IconFileWriter {
 
@@ -36,19 +32,10 @@ public class AnyBarIconWriter implements IconFileWriter {
             if (!resizedIcon.exists()) {
                 new File(destination).mkdirs();
 
-                InputStream input = null;
-                OutputStream output = null;
-                try {
-                    input = icon.content().openStream();
-                    output = new FileOutputStream(resizedIcon);
+                try (InputStream input = icon.content().openStream(); FileOutputStream output = new FileOutputStream(resizedIcon)) {
                     Thumbnailator.createThumbnail(input, output, dimension.width, dimension.height);
                 } catch (IOException e) {
                     throw new SendNotificationException("Can't write notification icon: " + resizedIcon.getPath(), e);
-                } finally {
-                    closeQuietly(input);
-                    try {
-                        Closeables.close(output, true);
-                    } catch (IOException ignored) {}
                 }
             }
         }

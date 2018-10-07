@@ -24,7 +24,7 @@ public class KdialogNotifier implements DiscoverableNotifier {
     private final Executor executor;
 
     public KdialogNotifier(Application application, KdialogConfiguration configuration, Executor executor) {
-        LOGGER.debug("Configuring notifu for application {}: {}.", application, configuration);
+        LOGGER.debug("Configuring Kdialog for application {}: {}.", application, configuration);
         this.application = application;
         this.configuration = configuration;
         this.executor = executor;
@@ -37,7 +37,7 @@ public class KdialogNotifier implements DiscoverableNotifier {
 
     @Override
     public void send(Notification notification) {
-        List<String> commands = new ArrayList<String>();
+        List<String> commands = new ArrayList<>();
         commands.add(configuration.bin());
         commands.add("--passivepopup");
         commands.add(notification.message());
@@ -50,7 +50,7 @@ public class KdialogNotifier implements DiscoverableNotifier {
         commands.add(notification.icon().asPath());
 
         try {
-            executor.exec(commands.toArray(new String[commands.size()]));
+            executor.exec(commands.toArray(new String[0]));
         } catch (RuntimeException e) {
             throw new KdialogException("Error while sending notification with Kdialog.", e);
         }
@@ -68,11 +68,11 @@ public class KdialogNotifier implements DiscoverableNotifier {
 
     @Override
     public boolean tryInit() {
-        List<String> commands = new ArrayList<String>();
+        List<String> commands = new ArrayList<>();
         commands.add(configuration.bin());
         commands.add("-v");
 
-        return executor.tryExec(commands.toArray(new String[commands.size()]));
+        return executor.tryExec(commands.toArray(new String[0]));
     }
 
     @Override

@@ -33,7 +33,7 @@ public class AdditionalNotifier implements DiscoverableNotifier {
 
     @Override
     public Notifier init() {
-        List<Exception> errors = new ArrayList<Exception>();
+        List<Exception> errors = new ArrayList<>();
 
         safeInit(primary, errors);
 
@@ -55,7 +55,7 @@ public class AdditionalNotifier implements DiscoverableNotifier {
 
     @Override
     public void send(Notification notification) {
-        List<Exception> errors = new ArrayList<Exception>();
+        List<Exception> errors = new ArrayList<>();
 
         safeSend(primary, notification, errors);
 
@@ -70,7 +70,7 @@ public class AdditionalNotifier implements DiscoverableNotifier {
 
     @Override
     public void close() {
-        List<Exception> errors = new ArrayList<Exception>();
+        List<Exception> errors = new ArrayList<>();
 
         safeClose(primary, errors);
 

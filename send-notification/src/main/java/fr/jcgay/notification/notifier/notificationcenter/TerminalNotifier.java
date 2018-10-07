@@ -36,7 +36,7 @@ public class TerminalNotifier implements DiscoverableNotifier {
     @Override
     public void send(Notification notification) {
 
-        List<String> commands = new ArrayList<String>();
+        List<String> commands = new ArrayList<>();
         commands.add(configuration.bin());
         commands.add("-title");
         commands.add(application.name());
@@ -62,7 +62,7 @@ public class TerminalNotifier implements DiscoverableNotifier {
         commands.add(application.icon().asPath());
 
         try {
-            executor.exec(commands.toArray(new String[commands.size()]));
+            executor.exec(commands.toArray(new String[0]));
         } catch (RuntimeException e) {
             throw new TerminalNotifierNotificationException("Error while sending notification to terminal-notifier", e);
         }
@@ -80,11 +80,11 @@ public class TerminalNotifier implements DiscoverableNotifier {
 
     @Override
     public boolean tryInit() {
-        List<String> commands = new ArrayList<String>();
+        List<String> commands = new ArrayList<>();
         commands.add(configuration.bin());
         commands.add("-help");
 
-        return executor.tryExec(commands.toArray(new String[commands.size()]));
+        return executor.tryExec(commands.toArray(new String[0]));
     }
 
     @Override

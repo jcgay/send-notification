@@ -37,7 +37,7 @@ public class NotifuNotifier implements DiscoverableNotifier {
 
     @Override
     public void send(Notification notification) {
-        List<String> commands = new ArrayList<String>();
+        List<String> commands = new ArrayList<>();
         commands.add(configuration.bin());
         commands.add("/p");
         commands.add(escape(notification.title()));
@@ -54,7 +54,7 @@ public class NotifuNotifier implements DiscoverableNotifier {
         commands.add("/q");
 
         try {
-            executor.exec(commands.toArray(new String[commands.size()]));
+            executor.exec(commands.toArray(new String[0]));
         } catch (RuntimeException e) {
             throw new NotifuException("Error while sending notification to notifu.", e.getCause());
         }
@@ -87,11 +87,11 @@ public class NotifuNotifier implements DiscoverableNotifier {
 
     @Override
     public boolean tryInit() {
-        List<String> commands = new ArrayList<String>();
+        List<String> commands = new ArrayList<>();
         commands.add(configuration.bin());
         commands.add("/v");
 
-        return executor.tryExec(commands.toArray(new String[commands.size()]));
+        return executor.tryExec(commands.toArray(new String[0]));
     }
 
     @Override

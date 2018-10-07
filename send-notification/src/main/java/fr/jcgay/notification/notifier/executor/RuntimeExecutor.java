@@ -9,14 +9,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
 
-import static com.google.common.io.Closeables.closeQuietly;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -39,31 +37,28 @@ public class RuntimeExecutor implements Executor {
             LOGGER.debug("Will execute command line: {} (waiting at most: {} milliseconds)", logCommand(command), timeout);
         }
 
-        Future<Integer> task = executor.submit(new Callable<Integer>() {
-            @Override
-            public Integer call() {
-                try {
-                    Process execution = new ProcessBuilder(command)
-                        .redirectErrorStream(true)
-                        .start();
+        Future<Integer> task = executor.submit(() -> {
+            try {
+                Process execution = new ProcessBuilder(command)
+                    .redirectErrorStream(true)
+                    .start();
 
-                    int returnCode = execution.waitFor();
-                    if (returnCode != 0) {
-                        String message = "Command <[" + logCommand(command) + "]> returns code: " + returnCode + ".\n" + asString(execution.getInputStream());
-                        LOGGER.debug(message);
-                        throw new SendNotificationException(message);
-                    }
-
-                    LOGGER.debug("Command <[{}]> ends successfully.", logCommand(command));
-
-                    return returnCode;
-
-                } catch (IOException e) {
-                    throw Throwables.propagate(e);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    throw Throwables.propagate(e);
+                int returnCode = execution.waitFor();
+                if (returnCode != 0) {
+                    String message = "Command <[" + logCommand(command) + "]> returns code: " + returnCode + ".\n" + asString(execution.getInputStream());
+                    LOGGER.debug(message);
+                    throw new SendNotificationException(message);
                 }
+
+                LOGGER.debug("Command <[{}]> ends successfully.", logCommand(command));
+
+                return returnCode;
+
+            } catch (IOException e) {
+                throw Throwables.propagate(e);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw Throwables.propagate(e);
             }
         });
 
@@ -95,17 +90,13 @@ public class RuntimeExecutor implements Executor {
     }
 
     private static String asString(InputStream inputStream) throws IOException {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new InputStreamReader(inputStream));
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
             StringBuilder output = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
                 output.append(line).append("\n");
             }
             return output.toString();
-        } finally {
-            closeQuietly(reader);
         }
     }
 
