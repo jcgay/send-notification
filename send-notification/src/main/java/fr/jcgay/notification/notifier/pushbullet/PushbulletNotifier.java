@@ -47,7 +47,7 @@ public class PushbulletNotifier implements DiscoverableNotifier {
         client = new OkHttpClient();
         client.setAuthenticator(new Authenticator() {
             @Override
-            public Request authenticate(Proxy proxy, Response response) throws IOException {
+            public Request authenticate(Proxy proxy, Response response) {
                 String credentials = Credentials.basic(configuration.key(), "");
                 if (credentials.equals(response.request().header("Authorization"))) {
                     return null; // If we already failed with these credentials, don't retry.
@@ -56,7 +56,7 @@ public class PushbulletNotifier implements DiscoverableNotifier {
             }
 
             @Override
-            public Request authenticateProxy(Proxy proxy, Response response) throws IOException {
+            public Request authenticateProxy(Proxy proxy, Response response) {
                 return authenticate(proxy, response);
             }
         });

@@ -33,13 +33,13 @@ public class SimpleNotificationCenterNotifier implements DiscoverableNotifier {
 
     @Override
     public void send(Notification notification) {
-        List<String> commands = new ArrayList<String>();
+        List<String> commands = new ArrayList<>();
         commands.add("osascript");
         commands.add("-e");
         commands.add(buildAppleScript(notification));
 
         try {
-            executor.exec(commands.toArray(new String[commands.size()]));
+            executor.exec(commands.toArray(new String[0]));
         } catch (RuntimeException e) {
             throw new SimpleNotificationCenterException("Error while sending notification to terminal-notifier", e.getCause());
         }

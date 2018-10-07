@@ -30,6 +30,8 @@
     </issueManagement>
 
     <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <bintray.package>send-notification</bintray.package>
     </properties>
 
@@ -50,6 +52,13 @@
                     </sourceDirectories>
                 </configuration>
             </plugin>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -61,9 +70,9 @@
 
     <profiles>
         <profile>
-            <id>build-with-jdk-6</id>
+            <id>build-with-toolchains</id>
             <activation>
-                <jdk>[1.7,)</jdk>
+                <jdk>!1.8</jdk>
             </activation>
             <build>
                 <plugins>
@@ -79,7 +88,7 @@
                         <configuration>
                             <toolchains>
                                 <jdk>
-                                    <version>1.6</version>
+                                    <version>${maven.compiler.target}</version>
                                 </jdk>
                             </toolchains>
                         </configuration>

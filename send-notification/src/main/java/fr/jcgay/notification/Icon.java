@@ -2,7 +2,6 @@ package fr.jcgay.notification;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.io.ByteStreams;
-import com.google.common.io.Closeables;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -19,7 +18,7 @@ import java.net.URL;
 public abstract class Icon {
 
     /**
-     * A unique identifier. <br />
+     * A unique identifier. <br>
      * You should ensure that this id will be unique because it can be used to temporary write file on disk.
      *
      * @return unique identifier.
@@ -42,14 +41,10 @@ public abstract class Icon {
     }
 
     public byte[] toByteArray() {
-        InputStream is = null;
-        try {
-            is = content().openStream();
+        try (InputStream is = content().openStream()) {
             return ByteStreams.toByteArray(is);
         } catch (IOException e) {
             throw new SendNotificationException("Error while reading status icon.", e);
-        } finally {
-            Closeables.closeQuietly(is);
         }
     }
 
@@ -77,19 +72,12 @@ public abstract class Icon {
     }
 
     private void write(File destination) throws IOException {
-        InputStream input = content().openStream();
-        FileOutputStream output = new FileOutputStream(destination);
-        try {
+        try (InputStream input = content().openStream(); FileOutputStream output = new FileOutputStream(destination)) {
             byte[] buffer = new byte[1024 * 4];
             int n;
             while ((n = input.read(buffer)) != -1) {
                 output.write(buffer, 0, n);
             }
-        } finally {
-            try {
-                output.close();
-                input.close();
-            } catch (IOException ignored) {}
         }
     }
 }

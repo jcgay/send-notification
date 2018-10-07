@@ -32,7 +32,7 @@ public abstract class Notification {
     public abstract String title();
 
     /**
-     * Notification subtitle. <br />
+     * Notification subtitle. <br>
      * Not available for all notifier implementation.
      *
      * @return subtitle.

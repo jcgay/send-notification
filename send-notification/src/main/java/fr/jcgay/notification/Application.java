@@ -9,11 +9,11 @@ import com.google.auto.value.AutoValue;
 public abstract class Application {
 
     /**
-     * Uniquely identify an application. <br />
+     * Uniquely identify an application. <br>
      * In order to ensure your application's signature is unique, the recommendation is to follow the Internet Media
      * type (also known as MIME content type) format as defined in IETF <a href="http://tools.ietf.org/html/rfc2046">RFC 2046</a>
-     * which contains the application vendor's name - specifically: {@code application/x-vnd-some_vendor.some_app}. <br />
-     * The signature must not contain spaces. <br />
+     * which contains the application vendor's name - specifically: {@code application/x-vnd-some_vendor.some_app}. <br>
+     * The signature must not contain spaces. <br>
      * Some examples of acceptable signatures:
      * <ul>
      *     <li>{@code application/x-vnd-acme.hello_world}</li>
@@ -25,7 +25,7 @@ public abstract class Application {
     public abstract String id();
 
     /**
-     * A name that will identify the application for the user. <br />
+     * A name that will identify the application for the user. <br>
      * Examples:
      * <ul>
      *     <li>Maven</li>

@@ -56,15 +56,15 @@ public class SnarlNotifier implements DiscoverableNotifier {
             return;
         }
 
-        fr.jcgay.snp4j.request.Notification snarNotification = new fr.jcgay.snp4j.request.Notification();
-        snarNotification.setIcon(Icon.base64(notification.icon().toByteArray()));
-        snarNotification.setText(notification.message());
-        snarNotification.setTitle(notification.title());
-        snarNotification.setPriority(toPriority(notification.level()));
+        fr.jcgay.snp4j.request.Notification snarlNotification = new fr.jcgay.snp4j.request.Notification();
+        snarlNotification.setIcon(Icon.base64(notification.icon().toByteArray()));
+        snarlNotification.setText(notification.message());
+        snarlNotification.setTitle(notification.title());
+        snarlNotification.setPriority(toPriority(notification.level()));
 
         init();
         try {
-            snarl.send(snarNotification);
+            snarl.send(snarlNotification);
         } catch (SnpException e) {
             throw new SnarlNotificationException("Cannot send notification to Snarl.", e);
         }

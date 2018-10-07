@@ -1,7 +1,7 @@
 package fr.jcgay.notification;
 
 /**
- * Notifier can send notification(s). <br />
+ * Notifier can send notification(s). <br>
  * It must be closed to release resources when it is not needed anymore.
  *
  * <pre>{@code
@@ -25,7 +25,7 @@ public interface Notifier {
     void send(Notification notification);
 
     /**
-     * Close the notifier. <br />
+     * Close the notifier. <br>
      * This method must be called to release resources when the notifier is not needed anymore.
      */
     void close();

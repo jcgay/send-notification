@@ -70,7 +70,7 @@ class NotifierProvider {
     public DiscoverableNotifier byName(ChosenNotifiers notifier, Properties properties, Application application) {
 
         if (!notifier.secondary().isEmpty()) {
-            LinkedHashSet<DiscoverableNotifier> secondary = new LinkedHashSet<DiscoverableNotifier>(notifier.secondary().size());
+            LinkedHashSet<DiscoverableNotifier> secondary = new LinkedHashSet<>(notifier.secondary().size());
             for (String secondaryNotifier : notifier.secondary()) {
                 secondary.add(byName(ChosenNotifiers.from(secondaryNotifier), properties, application));
             }
@@ -130,7 +130,7 @@ class NotifierProvider {
 
     public Set<DiscoverableNotifier> available(Properties configuration, Application application) {
         if (os.isMac()) {
-            Set<DiscoverableNotifier> macNotifiers = new LinkedHashSet<DiscoverableNotifier>();
+            Set<DiscoverableNotifier> macNotifiers = new LinkedHashSet<>();
             macNotifiers.add(new GrowlNotifier(application, GrowlConfiguration.create(configuration), DEBUG));
             macNotifiers.add(byName(NOTIFICATION_CENTER, configuration, application));
             macNotifiers.add(byName(SYSTEM_TRAY,  configuration, application));
@@ -138,7 +138,7 @@ class NotifierProvider {
         }
 
         if (os.isWindows()) {
-            Set<DiscoverableNotifier> winNotifiers = new LinkedHashSet<DiscoverableNotifier>();
+            Set<DiscoverableNotifier> winNotifiers = new LinkedHashSet<>();
             winNotifiers.add(byName(SNARL, configuration, application));
             winNotifiers.add(new GrowlNotifier(application, GrowlConfiguration.create(configuration), DEBUG));
             winNotifiers.add(byName(TOASTER, configuration, application));
@@ -147,7 +147,7 @@ class NotifierProvider {
             return unmodifiableSet(winNotifiers);
         }
 
-        Set<DiscoverableNotifier> linuxNotifiers = new LinkedHashSet<DiscoverableNotifier>();
+        Set<DiscoverableNotifier> linuxNotifiers = new LinkedHashSet<>();
         linuxNotifiers.add(byName(KDIALOG, configuration, application));
         linuxNotifiers.add(byName(NOTIFY_SEND, configuration, application));
         linuxNotifiers.add(byName(SYSTEM_TRAY,  configuration, application));

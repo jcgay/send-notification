@@ -14,10 +14,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
- * Fluent builder to create a {@link fr.jcgay.notification.Notifier}. <br />
+ * Fluent builder to create a {@link fr.jcgay.notification.Notifier}. <br>
  *
  * You'll need a configuration file (by default: {@code {user.home}/.send-notification}
- * to select and configure a {@link fr.jcgay.notification.Notifier}. <br />
+ * to select and configure a {@link fr.jcgay.notification.Notifier}. <br>
  * This file must be property based (example):
  * <pre>{@code
  * notifier.implementation = pushbullet
@@ -110,7 +110,7 @@ public class SendNotification {
     }
 
     /**
-     * Change the path where the configuration will be read from. <br />
+     * Change the path where the configuration will be read from. <br>
      * Default one is: {@code {user.home}/.send-notification}
      *
      * @param configurationPath a file path for configuration file.

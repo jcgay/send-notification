@@ -7,6 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Arrays.asList;
 
 @AutoValue
 public abstract class ChosenNotifiers {
@@ -25,14 +26,11 @@ public abstract class ChosenNotifiers {
         checkNotNull(notifier);
 
         if (!notifier.contains(SEPARATOR)) {
-            return new AutoValue_ChosenNotifiers(notifier, Collections.<String>emptySet());
+            return new AutoValue_ChosenNotifiers(notifier, Collections.emptySet());
         }
 
         String[] notifiers = notifier.split(SEPARATOR);
-        LinkedHashSet<String> secondary = new LinkedHashSet<String>();
-        for (int i = 1; i < notifiers.length; i++) {
-            secondary.add(notifiers[i]);
-        }
+        Set<String> secondary = new LinkedHashSet<>(asList(notifiers).subList(1, notifiers.length));
         return new AutoValue_ChosenNotifiers(notifiers[0], secondary);
     }
 }

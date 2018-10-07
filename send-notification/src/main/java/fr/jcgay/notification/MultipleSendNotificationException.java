@@ -1,6 +1,5 @@
 package fr.jcgay.notification;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -9,7 +8,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class MultipleSendNotificationException extends SendNotificationException {
 
-    private List<Exception> errors = new ArrayList<Exception>();
+    private List<Exception> errors;
 
     public MultipleSendNotificationException(List<Exception> errors) {
         super(messages(checkNotNull(errors)));
