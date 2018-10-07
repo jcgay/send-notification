@@ -3,7 +3,7 @@
     <parent>
         <groupId>fr.jcgay.maven</groupId>
         <artifactId>jcgay-build-configuration</artifactId>
-        <version>1.14</version>
+        <version>1.16</version>
     </parent>
 
     <groupId>fr.jcgay.send-notification</groupId>
@@ -52,13 +52,6 @@
                     </sourceDirectories>
                 </configuration>
             </plugin>
-                <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <source>${maven.compiler.source}</source>
-                        <target>${maven.compiler.target}</target>
-                    </configuration>
-                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
