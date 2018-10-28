@@ -97,8 +97,8 @@ Go to [Wiki](https://github.com/jcgay/send-notification/wiki) to read full confi
 
 [![Build Status](https://travis-ci.org/jcgay/send-notification.svg?branch=master)](https://travis-ci.org/jcgay/send-notification)
 [![Coverage Status](https://coveralls.io/repos/jcgay/send-notification/badge.svg?branch=master)](https://coveralls.io/r/jcgay/send-notification?branch=master)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=fr.jcgay.send-notification%3Asend-notification-project&metric=alert_status)](https://sonarcloud.io/dashboard?id=fr.jcgay.send-notification%3Asend-notification-project)
 
 # Release
 
     mvn -B release:prepare release:perform
-    
