@@ -3,7 +3,7 @@
     <parent>
         <groupId>fr.jcgay.send-notification</groupId>
         <artifactId>send-notification-project</artifactId>
-        <version>0.15.0</version>
+        <version>0.15.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>send-notification-cli</artifactId>
