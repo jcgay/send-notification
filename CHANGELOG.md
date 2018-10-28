@@ -1,3 +1,10 @@
+# 0.15.0
+***
+
+- Use jPowerShell 3.0.1 [Fixes [#10](https://github.com/jcgay/send-notification/issues/10)] ([b67f9bd](http://github.com/jcgay/send-notification/commit/b67f9bda4e8290468328ab10b97fc3c5a1b1c37b))
+- Migrate to Java 8 ([c728c5e](http://github.com/jcgay/send-notification/commit/c728c5e9b8186155e5827cc7ae114945fdb923dc))
+- Move windows vm to gusztavvargadr/w10e ([a8ef16c](http://github.com/jcgay/send-notification/commit/a8ef16ca829d92feb35e612704797ec9a512b586))
+
 # 0.14.0
 ***
 
