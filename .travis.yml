@@ -1,11 +1,16 @@
 sudo: false
 language: java
+addons:
+  sonarcloud:
+    organization: "jcgay-github"
+    token:
+      secure: PguStZmv3ip95mvPr9L7eNzMs8sejFU8k1lxR4RaKgGPWlqvMPkfJdeQ/aRJpYzDEHLSkN7Y4924T6liNbcHUkEThGCODKcXv6UKYh4XhmLAROK4M52/DXBpcyc4TYKj4L+ID3KYHgb6jNHXkzSupdzfWZJG9pJQDv5XSW878pY=
 before_install:
   - jdk_switcher use oraclejdk8
 install:
   - mvn install -DskipTests=true -B -V
 script:
-  - mvn verify -B
+  - mvn verify sonar:sonar -Prun-coverage -B
 after_success:
   - "[[ ${TRAVIS_PULL_REQUEST} == 'false' ]] && [[ ${TRAVIS_TAG} == '' ]] && mvn deploy -DskipTests --settings etc/deploy-settings.xml"
   - mvn clean verify coveralls:report -Prun-coverage
@@ -13,3 +18,7 @@ env:
   global:
     - secure: XxK2hzBWO2Zvq1OEVvdFBydwQOPoRb7lXrsa+LvAFs+6UzwDzPKYmPwwFmKYQUQRl4QxhXWmIvrUSwRLc8n4cJeXOZlzG7fsn68fwcD07K1Znpb9uFa62rdvPeUjrLBNoNFjIojA4FEyzOXFFTHQ9YzA+BQQG1YPqQB5XD9LefU=
     - secure: do931S+S2IpcCyk5IkGrAQnGonCYvnCVhWM/MP5dxJovDuI/Va4LtZRPWmnnm1S8UwPlThvCiWxhsjBd6GRzk0fJ/PsfHhCER3EHvvwT6GWNsuX/HnEuNfn9LWNC1dgIi05xGq/QTjRB/WIs+ChLhyvO/9X3LuSpz5gCEqkU/CU=
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
