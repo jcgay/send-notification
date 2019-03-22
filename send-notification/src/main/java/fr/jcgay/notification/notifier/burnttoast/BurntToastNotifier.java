@@ -32,10 +32,7 @@ public class BurntToastNotifier implements DiscoverableNotifier {
             .append("', '")
             .append(notification.message())
             .append("' -AppLogo ")
-            .append(notification.icon().asPath())
-            .append(" -AppId '")
-            .append(application.id())
-            .append("'");
+            .append(notification.icon().asPath());
 
         if (configuration.sound() == null) {
             command.append(" -Silent");
