@@ -1,3 +1,8 @@
+# 0.15.1
+***
+
+- Removed no longer existing parameter for BurntNotificationToast '-AppId' [Fixes [#11](https://github.com/jcgay/send-notification/issues/11)] ([89c84e3](http://github.com/jcgay/send-notification/commit/89c84e3f0350c68163d8293c63134901df203d10)) by [@JD-CSTx](https://github.com/JD-CSTx)
+
 # 0.15.0
 ***
 
