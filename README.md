@@ -99,6 +99,14 @@ Go to [Wiki](https://github.com/jcgay/send-notification/wiki) to read full confi
 [![Coverage Status](https://coveralls.io/repos/jcgay/send-notification/badge.svg?branch=master)](https://coveralls.io/r/jcgay/send-notification?branch=master)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=fr.jcgay.send-notification%3Asend-notification-project&metric=alert_status)](https://sonarcloud.io/dashboard?id=fr.jcgay.send-notification%3Asend-notification-project)
 
+# Build
+
+You will need Maven and a JDK 8. If your default JDK is higher than 8, Maven will use a configured [toolchains](https://maven.apache.org/guides/mini/guide-using-toolchains.html).
+
+    mvn verify
+
+Multiple VMs are available in [vm](send-notification-cli/src/vm/) for [Windows](send-notification-cli/src/vm/windows), [Linux](send-notification-cli/src/vm/linux) and [macOS](send-notification-cli/src/vm/osx) to integrate with the various notifiers.
+
 # Release
 
     mvn -B release:prepare release:perform
