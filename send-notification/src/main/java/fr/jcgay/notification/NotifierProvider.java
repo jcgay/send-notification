@@ -142,7 +142,8 @@ class NotifierProvider {
             winNotifiers.add(byName(SNARL, configuration, application));
             winNotifiers.add(new GrowlNotifier(application, GrowlConfiguration.create(configuration), DEBUG));
             winNotifiers.add(byName(TOASTER, configuration, application));
-            winNotifiers.add(byName(BURNT_TOAST, configuration, application));
+            // BurntToastNotifier.tryInit is too slow to include by default
+            //winNotifiers.add(byName(BURNT_TOAST, configuration, application));
             winNotifiers.add(byName(SYSTEM_TRAY,  configuration, application));
             return unmodifiableSet(winNotifiers);
         }

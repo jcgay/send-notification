@@ -69,7 +69,7 @@ public class BurntToastNotifier implements DiscoverableNotifier {
 
     @Override
     public boolean tryInit() {
-        PowerShellResponse response = PowerShell.executeSingleCommand("Get-Module -ListAvailable | Format-Table Name");
+        PowerShellResponse response = PowerShell.executeSingleCommand("Get-Module -ListAvailable -Name BurntToast | Format-Table Name");
         return !response.isError() && response.getCommandOutput().toLowerCase().contains("burnttoast");
     }
 

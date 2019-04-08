@@ -43,7 +43,7 @@ class NotifierProviderSpec extends Specification {
         )
     }
 
-    def "should return all available notifiers for windows"() {
+    def "should return all automatically configured notifiers for windows"() {
         given:
         def provider = new NotifierProvider(new OperatingSystem('windows'))
 
@@ -55,7 +55,6 @@ class NotifierProviderSpec extends Specification {
             new SnarlNotifier(application, SnarlConfiguration.byDefault()),
             new GrowlNotifier(application, GrowlConfiguration.byDefault(), DEBUG),
             new ToasterNotifier(ToasterConfiguration.byDefault(), new RuntimeExecutor(application.timeout())),
-            new BurntToastNotifier(application, BurntToastNotifierConfiguration.byDefault()),
             new SystemTrayNotifier(application)
         )
     }
