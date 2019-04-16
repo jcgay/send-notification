@@ -1,3 +1,8 @@
+# 0.16.0
+***
+
+- Disable auto-detect for BurntToast ([03952d5](http://github.com/jcgay/send-notification/commit/03952d5d8fbbd776c10b4e5ecd2d4ed94d53456d)) by [Sean Flanigan](https://github.com/seanf)
+
 # 0.15.1
 ***
 
