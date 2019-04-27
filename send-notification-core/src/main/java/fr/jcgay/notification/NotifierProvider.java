@@ -4,62 +4,34 @@ import fr.jcgay.notification.configuration.ChosenNotifiers;
 import fr.jcgay.notification.configuration.OperatingSystem;
 import fr.jcgay.notification.notifier.DoNothingNotifier;
 import fr.jcgay.notification.notifier.additional.AdditionalNotifier;
-import fr.jcgay.notification.notifier.anybar.AnyBarConfiguration;
-import fr.jcgay.notification.notifier.anybar.AnyBarNotifier;
-import fr.jcgay.notification.notifier.burnttoast.BurntToastNotifier;
-import fr.jcgay.notification.notifier.burnttoast.BurntToastNotifierConfiguration;
-import fr.jcgay.notification.notifier.executor.RuntimeExecutor;
-import fr.jcgay.notification.notifier.growl.GrowlConfiguration;
-import fr.jcgay.notification.notifier.growl.GrowlNotifier;
-import fr.jcgay.notification.notifier.kdialog.KdialogConfiguration;
-import fr.jcgay.notification.notifier.kdialog.KdialogNotifier;
-import fr.jcgay.notification.notifier.notificationcenter.SimpleNotificationCenterNotifier;
-import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifier;
-import fr.jcgay.notification.notifier.notificationcenter.TerminalNotifierConfiguration;
-import fr.jcgay.notification.notifier.notifu.NotifuConfiguration;
-import fr.jcgay.notification.notifier.notifu.NotifuNotifier;
-import fr.jcgay.notification.notifier.notify.NotifyConfiguration;
-import fr.jcgay.notification.notifier.notify.NotifyNotifier;
-import fr.jcgay.notification.notifier.notifysend.NotifySendConfiguration;
-import fr.jcgay.notification.notifier.notifysend.NotifySendNotifier;
-import fr.jcgay.notification.notifier.pushbullet.PushbulletConfiguration;
-import fr.jcgay.notification.notifier.pushbullet.PushbulletNotifier;
-import fr.jcgay.notification.notifier.slack.SlackConfiguration;
-import fr.jcgay.notification.notifier.slack.SlackNotifier;
-import fr.jcgay.notification.notifier.snarl.SnarlConfiguration;
-import fr.jcgay.notification.notifier.snarl.SnarlNotifier;
-import fr.jcgay.notification.notifier.systemtray.SystemTrayNotifier;
-import fr.jcgay.notification.notifier.toaster.ToasterConfiguration;
-import fr.jcgay.notification.notifier.toaster.ToasterNotifier;
 import org.slf4j.Logger;
 
 import java.util.LinkedHashSet;
+import java.util.Optional;
 import java.util.Properties;
+import java.util.ServiceLoader;
 import java.util.Set;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
-import static fr.jcgay.notification.notifier.growl.GntpSlf4jListener.DEBUG;
-import static fr.jcgay.notification.notifier.growl.GntpSlf4jListener.ERROR;
 import static java.util.Collections.unmodifiableSet;
+import static java.util.Spliterator.ORDERED;
+import static java.util.Spliterators.spliteratorUnknownSize;
+import static java.util.stream.Collectors.toCollection;
 import static org.slf4j.LoggerFactory.getLogger;
 
 class NotifierProvider {
 
     private static final Logger LOGGER = getLogger(NotifierProvider.class);
 
-    private static final ChosenNotifiers GROWL = ChosenNotifiers.from("growl");
+    private final ServiceLoader<fr.jcgay.notification.spi.NotifierProvider> loader = ServiceLoader.load(fr.jcgay.notification.spi.NotifierProvider.class);
+
     private static final ChosenNotifiers NOTIFICATION_CENTER = ChosenNotifiers.from("notificationcenter");
     private static final ChosenNotifiers NOTIFY_SEND = ChosenNotifiers.from("notifysend");
-    private static final ChosenNotifiers PUSHBULLET = ChosenNotifiers.from("pushbullet");
     private static final ChosenNotifiers SNARL = ChosenNotifiers.from("snarl");
     private static final ChosenNotifiers SYSTEM_TRAY = ChosenNotifiers.from("systemtray");
-    private static final ChosenNotifiers NOTIFU = ChosenNotifiers.from("notifu");
     private static final ChosenNotifiers KDIALOG = ChosenNotifiers.from("kdialog");
-    private static final ChosenNotifiers ANYBAR = ChosenNotifiers.from("anybar");
-    private static final ChosenNotifiers SIMPLE_NOTIFICATION_CENTER = ChosenNotifiers.from("simplenc");
     private static final ChosenNotifiers TOASTER = ChosenNotifiers.from("toaster");
-    private static final ChosenNotifiers NOTIFY = ChosenNotifiers.from("notify");
-    private static final ChosenNotifiers BURNT_TOAST = ChosenNotifiers.from("burnttoast");
-    private static final ChosenNotifiers SLACK = ChosenNotifiers.from("slack");
 
     private final OperatingSystem os;
 
@@ -81,75 +53,56 @@ class NotifierProvider {
             );
         }
 
-        if (GROWL.equals(notifier)) {
-            return new GrowlNotifier(application, GrowlConfiguration.create(properties), ERROR);
-        }
-        if (NOTIFICATION_CENTER.equals(notifier)) {
-            return new TerminalNotifier(application, TerminalNotifierConfiguration.create(properties), new RuntimeExecutor(application.timeout()));
-        }
-        if (NOTIFY_SEND.equals(notifier)) {
-            return new NotifySendNotifier(application, NotifySendConfiguration.create(properties), new RuntimeExecutor(application.timeout()));
-        }
-        if (PUSHBULLET.equals(notifier)) {
-            return new PushbulletNotifier(application, PushbulletConfiguration.create(properties));
-        }
-        if (SNARL.equals(notifier)) {
-            return new SnarlNotifier(application, SnarlConfiguration.create(properties));
-        }
-        if (SYSTEM_TRAY.equals(notifier)) {
-            return new SystemTrayNotifier(application);
-        }
-        if (NOTIFU.equals(notifier)) {
-            return new NotifuNotifier(application, NotifuConfiguration.create(properties), new RuntimeExecutor(application.timeout()));
-        }
-        if (KDIALOG.equals(notifier)) {
-            return new KdialogNotifier(application, KdialogConfiguration.create(properties), new RuntimeExecutor(application.timeout()));
-        }
-        if (ANYBAR.equals(notifier)) {
-            return AnyBarNotifier.create(application, AnyBarConfiguration.create(properties));
-        }
-        if (SIMPLE_NOTIFICATION_CENTER.equals(notifier)) {
-            return new SimpleNotificationCenterNotifier(TerminalNotifierConfiguration.create(properties), new RuntimeExecutor(application.timeout()));
-        }
-        if (TOASTER.equals(notifier)) {
-            return new ToasterNotifier(ToasterConfiguration.create(properties), new RuntimeExecutor(application.timeout()));
-        }
-        if (NOTIFY.equals(notifier)) {
-            return new NotifyNotifier(application, NotifyConfiguration.create(properties));
-        }
-        if (BURNT_TOAST.equals(notifier)) {
-            return new BurntToastNotifier(application, BurntToastNotifierConfiguration.create(properties));
-        }
-        if (SLACK.equals(notifier)) {
-            return new SlackNotifier(application, SlackConfiguration.create(properties));
-        }
-
-        LOGGER.warn("Your configured notifier [{}] does not exist. Visit https://github.com/jcgay/send-notification/wiki#configuration to select an existing notifier.", notifier);
-        return DoNothingNotifier.doNothing();
+        return allNotifiers()
+            .filter(e -> notifier.primary().equalsIgnoreCase(e.id()))
+            .findFirst()
+            .map(e -> e.create(application, properties))
+            .orElseGet(() -> {
+                LOGGER.warn("Your configured notifier [{}] does not exist. Visit https://github.com/jcgay/send-notification/wiki#configuration to select an existing notifier.", notifier);
+                return DoNothingNotifier.doNothing();
+            });
     }
 
     public Set<DiscoverableNotifier> available(Properties configuration, Application application) {
         if (os.isMac()) {
-            Set<DiscoverableNotifier> macNotifiers = new LinkedHashSet<>();
-            macNotifiers.add(new GrowlNotifier(application, GrowlConfiguration.create(configuration), DEBUG));
-            macNotifiers.add(byName(NOTIFICATION_CENTER, configuration, application));
-            macNotifiers.add(byName(SYSTEM_TRAY,  configuration, application));
-            return unmodifiableSet(macNotifiers);
+            return Stream.of(
+                    byNameQuietly("growl", configuration, application),
+                    byNameQuietly(NOTIFICATION_CENTER.primary(), configuration, application),
+                    byNameQuietly(SYSTEM_TRAY.primary(), configuration, application))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(toCollection(LinkedHashSet::new));
         }
 
         if (os.isWindows()) {
-            Set<DiscoverableNotifier> winNotifiers = new LinkedHashSet<>();
-            winNotifiers.add(byName(SNARL, configuration, application));
-            winNotifiers.add(new GrowlNotifier(application, GrowlConfiguration.create(configuration), DEBUG));
-            winNotifiers.add(byName(TOASTER, configuration, application));
-            winNotifiers.add(byName(SYSTEM_TRAY,  configuration, application));
-            return unmodifiableSet(winNotifiers);
+            return Stream.of(
+                    byNameQuietly(SNARL.primary(), configuration, application),
+                    byNameQuietly("growl", configuration, application),
+                    byNameQuietly(TOASTER.primary(), configuration, application),
+                    byNameQuietly(SYSTEM_TRAY.primary(), configuration, application))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(toCollection(LinkedHashSet::new));
+
         }
 
-        Set<DiscoverableNotifier> linuxNotifiers = new LinkedHashSet<>();
-        linuxNotifiers.add(byName(KDIALOG, configuration, application));
-        linuxNotifiers.add(byName(NOTIFY_SEND, configuration, application));
-        linuxNotifiers.add(byName(SYSTEM_TRAY,  configuration, application));
-        return unmodifiableSet(linuxNotifiers);
+        return Stream.of(
+                byNameQuietly(KDIALOG.primary(), configuration, application),
+                byNameQuietly(NOTIFY_SEND.primary(), configuration, application),
+                byNameQuietly(SYSTEM_TRAY.primary(), configuration, application))
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .collect(toCollection(LinkedHashSet::new));
+    }
+
+    private Optional<DiscoverableNotifier> byNameQuietly(String notifierId, Properties properties, Application application) {
+        return allNotifiers()
+            .filter(e -> notifierId.equalsIgnoreCase(e.id()))
+            .findFirst()
+            .map(e -> e.createQuietly(application, properties));
+    }
+
+    private Stream<fr.jcgay.notification.spi.NotifierProvider> allNotifiers() {
+        return StreamSupport.stream(spliteratorUnknownSize(loader.iterator(), ORDERED), false);
     }
 }

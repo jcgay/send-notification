@@ -1,0 +1,14 @@
+fr.jcgay.notification.notifier.anybar.AnyBarProvider
+fr.jcgay.notification.notifier.burnttoast.BurntToastProvider
+fr.jcgay.notification.notifier.growl.GrowlProvider
+fr.jcgay.notification.notifier.kdialog.KdialogProvider
+fr.jcgay.notification.notifier.notificationcenter.SimpleNotificationProvider
+fr.jcgay.notification.notifier.notificationcenter.TerminalNotifierProvider
+fr.jcgay.notification.notifier.notifu.NotifuProvider
+fr.jcgay.notification.notifier.notify.NotifyProvider
+fr.jcgay.notification.notifier.notifysend.NotifySendProvider
+fr.jcgay.notification.notifier.pushbullet.PushbulletProvider
+fr.jcgay.notification.notifier.slack.SlackProvider
+fr.jcgay.notification.notifier.snarl.SnarlProvider
+fr.jcgay.notification.notifier.systemtray.SystemTrayProvider
+fr.jcgay.notification.notifier.toaster.ToasterProvider
