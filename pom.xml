@@ -38,7 +38,7 @@
     </properties>
 
     <modules>
-        <module>send-notification</module>
+        <module>send-notification-core</module>
         <module>send-notification-cli</module>
     </modules>
 
