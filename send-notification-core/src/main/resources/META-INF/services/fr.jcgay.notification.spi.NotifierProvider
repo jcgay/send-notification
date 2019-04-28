@@ -1,4 +1,3 @@
-fr.jcgay.notification.notifier.anybar.AnyBarProvider
 fr.jcgay.notification.notifier.burnttoast.BurntToastProvider
 fr.jcgay.notification.notifier.growl.GrowlProvider
 fr.jcgay.notification.notifier.kdialog.KdialogProvider
