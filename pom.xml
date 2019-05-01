@@ -45,6 +45,7 @@
         <module>anybar</module>
         <module>burnttoast</module>
         <module>growl</module>
+        <module>kdialog</module>
     </modules>
 
     <dependencyManagement>

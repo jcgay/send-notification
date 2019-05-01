@@ -1,4 +1,3 @@
-fr.jcgay.notification.notifier.kdialog.KdialogProvider
 fr.jcgay.notification.notifier.notificationcenter.SimpleNotificationProvider
 fr.jcgay.notification.notifier.notificationcenter.TerminalNotifierProvider
 fr.jcgay.notification.notifier.notifu.NotifuProvider
