@@ -6,25 +6,19 @@
         <version>0.16.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>send-notification-integration</artifactId>
+    <artifactId>growl</artifactId>
+    <name>Growl</name>
+    <description>http://growl.info</description>
 
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>send-notification-core</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>anybar</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>growl</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
+            <groupId>com.google.auto.value</groupId>
+            <artifactId>auto-value</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>

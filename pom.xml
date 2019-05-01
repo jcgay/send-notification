@@ -44,6 +44,7 @@
         <module>send-notification-integration</module>
         <module>anybar</module>
         <module>burnttoast</module>
+        <module>growl</module>
     </modules>
 
     <dependencyManagement>
