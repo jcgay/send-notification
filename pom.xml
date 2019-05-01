@@ -43,6 +43,7 @@
         <module>send-notification-testing</module>
         <module>send-notification-integration</module>
         <module>anybar</module>
+        <module>burnttoast</module>
     </modules>
 
     <dependencyManagement>
