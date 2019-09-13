@@ -80,7 +80,7 @@
         <dependency>
             <groupId>com.profesorfalken</groupId>
             <artifactId>jPowerShell</artifactId>
-            <version>3.0.4</version>
+            <version>3.1.1</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
