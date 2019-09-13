@@ -3,8 +3,8 @@ language: java
 addons:
   sonarcloud:
     organization: "jcgay-github"
-before_install:
-  - jdk_switcher use oraclejdk8
+jdk:
+  - openjdk8
 install: true
 script:
   - mvn verify sonar:sonar -Prun-coverage -B
