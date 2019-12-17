@@ -10,7 +10,7 @@
     <name>Send Notification</name>
 
     <properties>
-        <slf4j.version>1.7.25</slf4j.version>
+        <slf4j.version>1.7.30</slf4j.version>
         <auto-value.version>1.6.6</auto-value.version>
     </properties>
 
