@@ -38,15 +38,15 @@ Then send notification:
     } finally {
         notifier.close;
     }
-```    
+```
 
 ## CLI
 
-Download [bundle](https://bintray.com/artifact/download/jcgay/maven/fr/jcgay/send-notification/send-notification-cli/0.16.0/send-notification-cli-0.16.0-binaries.zip), extract it, add the `bin` directory to your `$PATH`.  
+Download [bundle](https://bintray.com/artifact/download/jcgay/maven/fr/jcgay/send-notification/send-notification-cli/0.16.0/send-notification-cli-0.16.0-binaries.zip), extract it, add the `bin` directory to your `$PATH`.
 For OS X users, you can use a brew formula [here](https://github.com/jcgay/homebrew-jcgay).
 
     > send-notification -h
-    
+
     Usage: <main class> [options] notifier(s)
       Options:
         -h, --help
@@ -71,7 +71,7 @@ For OS X users, you can use a brew formula [here](https://github.com/jcgay/homeb
 Example:
 
     send-notification notifysend -m "Build success !" -t "maven-notifier" -i "success.png"
-    
+
 # Available notifiers
 
 Go to [Wiki](https://github.com/jcgay/send-notification/wiki) to read full configuration guide for each notifier.
@@ -95,7 +95,7 @@ Go to [Wiki](https://github.com/jcgay/send-notification/wiki) to read full confi
 
 # Build status
 
-[![Build Status](https://travis-ci.org/jcgay/send-notification.svg?branch=master)](https://travis-ci.org/jcgay/send-notification)
+[![Build Status](https://github.com/jcgay/send-notification/actions/workflows/maven.yml/badge.svg)](https://github.com/jcgay/send-notification/actions/workflows/maven.yml)
 [![Coverage Status](https://coveralls.io/repos/jcgay/send-notification/badge.svg?branch=master)](https://coveralls.io/r/jcgay/send-notification?branch=master)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=fr.jcgay.send-notification%3Asend-notification-project&metric=alert_status)](https://sonarcloud.io/dashboard?id=fr.jcgay.send-notification%3Asend-notification-project)
 
